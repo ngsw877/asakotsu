@@ -1,6 +1,6 @@
 @extends('app')
 
-@section('title', '投稿一覧 | asakotsu')
+@section('title', '投稿一覧 | AsaKotsu')
 
 @section('content')
 
