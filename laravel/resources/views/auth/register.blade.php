@@ -6,9 +6,9 @@
 
   @include('nav')
 
-  <div class="container">
+  <div class="container mt-5">
     <div class="row">
-      <div class="mx-auto col col-12 col-sm-11 col-md-9 col-lg-7 col-xl-6 mt-5">
+      <div class="mx-auto col col-12 col-sm-11 col-md-9 col-lg-7 col-xl-6">
         <h1 class="text-center"><a class="text-dark" href="/">AsaKotsu</a></h1>
         <div class="card mt-3">
           <div class="card-body text-center">
