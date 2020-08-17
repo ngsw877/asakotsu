@@ -8,6 +8,12 @@ use Illuminate\Http\Request;
 
 class ArticleController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(Article::class, 'article');
+        // ①Article::class　　→　　'App\Article'という文字列を返す
+        // ②'article'　　モデルのIDがセットされる、ルーティングのパラメータ名　→　{article}
+    }
     /**
      * Display a listing of the resource.
      *
@@ -43,16 +49,18 @@ class ArticleController extends Controller
         return redirect()->route('articles.index');
     }
 
+
     /**
      * Display the specified resource.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Article $article)
     {
-        //
+        return view('articles.show', ['article' => $article]);
     }
+
 
     /**
      * Show the form for editing the specified resource.
@@ -60,9 +68,9 @@ class ArticleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Article $article)
     {
-        //
+        return view('articles.edit', ['article' => $article]);
     }
 
     /**
@@ -72,9 +80,10 @@ class ArticleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(ArticleRequest $request, Article $article)
     {
-        //
+        $article->fill($request->all())->save();
+        return redirect()->route('articles.index');
     }
 
     /**
@@ -83,8 +92,20 @@ class ArticleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Article $article)
     {
-        //
+        $article->delete();
+        return redirect()->route('articles.index');
+    }
+
+        /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show(Article $article)
+    {
+        return view('articles.show', ['article' => $article]);
     }
 }
