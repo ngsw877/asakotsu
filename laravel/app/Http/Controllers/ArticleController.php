@@ -8,6 +8,12 @@ use Illuminate\Http\Request;
 
 class ArticleController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(Article::class, 'article');
+        // ①Article::class　　→　　'App\Article'という文字列を返す
+        // ②'article'　　モデルのIDがセットされる、ルーティングのパラメータ名　→　{article}
+    }
     /**
      * Display a listing of the resource.
      *
@@ -43,16 +49,7 @@ class ArticleController extends Controller
         return redirect()->route('articles.index');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Article $article)
-    {
-        return view('articles.show', ['article' => $article]);
-    }
+
 
     /**
      * Show the form for editing the specified resource.
@@ -88,5 +85,16 @@ class ArticleController extends Controller
     {
         $article->delete();
         return redirect()->route('articles.index');
+    }
+
+        /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show(Article $article)
+    {
+        return view('articles.show', ['article' => $article]);
     }
 }
