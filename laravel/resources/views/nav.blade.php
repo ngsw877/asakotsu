@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand navbar-dark blue-gradient">
+<nav class="navbar navbar-expand navbar-dark sunny-morning-gradient sticky-top">
 
   <a class="navbar-brand" href="/"><i class="fas fa-sun mr-1"></i>Asakotsu</a>
 
