@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand navbar-dark blue-gradient">
+<nav class="navbar navbar-expand navbar-dark sunny-morning-gradient sticky-top">
 
   <a class="navbar-brand" href="/"><i class="fas fa-sun mr-1"></i>Asakotsu</a>
 
@@ -31,7 +31,7 @@
       </a>
       <div class="dropdown-menu dropdown-menu-right dropdown-primary" aria-labelledby="navbarDropdownMenuLink">
         <button class="dropdown-item" type="button"
-                onclick="location.href=''">
+                onclick="location.href='{{ route("users.show", ["name" => Auth::user()->name]) }}'">
           マイページ
         </button>
         <div class="dropdown-divider"></div>
