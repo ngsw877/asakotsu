@@ -24,15 +24,16 @@
                   <input class="form-control" type="text" id="name" name="name" required value="{{ old('name') }}">
                   <small>英数字3〜16文字(登録後の変更はできません)</small>
                 </div>
-                <div class="md-form">
+                <div class="md-form  mb-5">
                   <label for="email">メールアドレス</label>
                   <input class="form-control" type="text" id="email" name="email" required value="{{ old('email') }}">
                 </div>
                 <div class="md-form">
                   <label for="password">パスワード</label>
                   <input class="form-control" type="password" id="password" name="password" required>
+                  <small>8文字以上で入力してください</small>
                 </div>
-                <div class="md-form">
+                <div class="md-form mb-5">
                   <label for="password_confirmation">パスワード(確認)</label>
                   <input class="form-control" type="password" id="password_confirmation" name="password_confirmation" required>
                 </div>
