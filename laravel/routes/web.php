@@ -29,3 +29,11 @@ Route::prefix('users')->name('users.')->group(function () {
     Route::delete('/{name}/follow', 'UserController@unfollow')->name('unfollow');
   });
 });
+
+// QiitaAPIテスト
+Route::get('/post', 'PostController@index');
+
+//ZoomAPIテスト
+
+Route::get('/dd', 'TestController@callSendPost');
+// Route::get('/dd/{path1}', 'TestController@callSendPost');
