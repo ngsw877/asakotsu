@@ -9,10 +9,11 @@ class testController extends Controller
 {
     use ZoomJWT;
 
-    public function callSendPost(){
+    public function show($data){
+        $data =   list();
+        $data = json_decode($data);
+        view('test', $data['start_time']);
 
-
-        $this->sendPost();
     }
 
 

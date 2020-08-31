@@ -16,9 +16,12 @@ class MeetingController extends Controller
     // const MEETING_TYPE_RECURRING = 3;
     // const MEETING_TYPE_FIXED_RECURRING_FIXED = 8;
 
-    function list(Request $request) {
+    // function list(Request $request) {
+    function list() {
         $path = 'users/' . env('ZOOM_ACCOUNT_EMAIL', '') . '/meetings';
+        // dd($path);
         $response = $this->zoomGet($path);
+        // dd($response);
 
         $data = json_decode($response->getBody(), true);
         $data['meetings'] = array_map(function (&$m) {
@@ -30,6 +33,8 @@ class MeetingController extends Controller
             'success' => 'ok',
             'data' => $data,
         ];
+
+
     }
 
     public function create(Request $request)
@@ -57,11 +62,27 @@ class MeetingController extends Controller
             'timezone' => "Asia/Tokyo",
         ];
         $response = $this->zoomPost($path, $body);
+        $body = $response->getBody();
 
-        dd($response);
+        // $body = json_decode($body);
+        $body = json_decode($body, true);
+        // dd($body);
+
+
+        // dd($body['join_url']);
+
+
+        // dd($response);
+        // $result = app()->make('App\Http\Controllers\Zoom\GetIndexController');
+        // $result->getIndex($request);
+        // $result->getIndex($response);
+
+        return redirect('api/meetings');
+
         return [
-            'success' => $response->status() === 201,
-            'data' => json_decode($response, true),
+            'success' => $response->getStatusCode() === 201,
+            'data' => $response,
+            // 'data' => json_decode($response, true),
         ];
     }
 

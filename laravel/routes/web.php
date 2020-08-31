@@ -33,7 +33,4 @@ Route::prefix('users')->name('users.')->group(function () {
 // QiitaAPIテスト
 Route::get('/post', 'PostController@index');
 
-//ZoomAPIテスト
 
-Route::get('/dd', 'TestController@callSendPost');
-// Route::get('/dd/{path1}', 'TestController@callSendPost');

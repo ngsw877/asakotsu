@@ -17,22 +17,22 @@ trait ZoomJWT
         return \Firebase\JWT\JWT::encode($payload, $secret, 'HS256');
     }
 
-    private function getUsers()
-    {
-        $jwt = $this->generateZoomToken();
-        $client = new \GuzzleHttp\Client([
-            'base_uri' => env('ZOOM_API_URL', ''),
-        ]);
-        $res = $client->request('GET', 'users',
-            [
-                'headers' => [
-                    'authorization' => 'Bearer ' . $jwt,
-                ],
-            ]);
+    // private function getUsers()
+    // {
+    //     $jwt = $this->generateZoomToken();
+    //     $client = new \GuzzleHttp\Client([
+    //         'base_uri' => env('ZOOM_API_URL', ''),
+    //     ]);
+    //     $res = $client->request('GET', 'users',
+    //         [
+    //             'headers' => [
+    //                 'authorization' => 'Bearer ' . $jwt,
+    //             ],
+    //         ]);
 
-        $response_body = (string) $res->getBody();
-        return $response_body;
-    }
+    //     $response_body = (string) $res->getBody();
+    //     return $response_body;
+    // }
 
     private function zoomRequest(string $method, string $path, array $query, array $body)
     {
