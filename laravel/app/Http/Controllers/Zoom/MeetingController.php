@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Traits\ZoomJWT;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use App\Http\Requests\MeetingRequest;
 
 class MeetingController extends Controller
 {
@@ -37,28 +38,33 @@ class MeetingController extends Controller
 
     }
 
-    public function create(Request $request)
+    public function showCreateForm()
     {
-        $validator = Validator::make($request->all(), [
-            'topic' => 'required|string',
-            'start_time' => 'required|date',
-            'type' => 'required|integer',
-            'agenda' => 'string|nullable',
-        ]);
+        return view('meeting.create');
+    }
 
-        if ($validator->fails()) {
-            return [
-                'success' => false,
-                'data' => $validator->errors(),
-            ];
-        }
-        $data = $validator->validated();
+    public function create(MeetingRequest $request)
+    {
+        // $validator = Validator::make($request->all(), [
+        //     'topic' => 'required|string',
+        //     'start_time' => 'required|date',
+        //     'type' => 'required|integer',
+        //     'agenda' => 'string|nullable',
+        // ]);
+
+        // if ($validator->fails()) {
+        //     return [
+        //         'success' => false,
+        //         'data' => $validator->errors(),
+        //     ];
+        // }
+        // $data = $validator->validated();
 
         $path = 'users/' . env('ZOOM_ACCOUNT_EMAIL', '') . '/meetings';
         $body = [
-            'topic' => $data['topic'],
-            'type' => $data['type'],
-            'start_time' => $this->toZoomTimeFormat($data['start_time']),
+            'topic' => $request['topic'],
+            'type' => $request['type'],
+            'start_time' => $this->toZoomTimeFormat($request['start_time']),
             'timezone' => "Asia/Tokyo",
         ];
         $response = $this->zoomPost($path, $body);
@@ -66,7 +72,7 @@ class MeetingController extends Controller
 
         // $body = json_decode($body);
         $body = json_decode($body, true);
-        // dd($body);
+        dd($body);
 
 
         // dd($body['join_url']);

@@ -9,12 +9,16 @@ Route::get('/', function () {
     ];
 });
 
-// Get list of meetings.
-Route::get('/meetings', 'Zoom\getIndexController@index');
-// Route::get('/meetings', 'Zoom\MeetingController@list');
+Route::middleware('web','auth')->group(function(){
+    // Get list of meetings.
+    Route::get('/meetings', 'Zoom\getIndexController@index');
+    // Route::get('/meetings', 'Zoom\MeetingController@list');
 
-// Create meeting room using topic, agenda, start_time.
-Route::post('/meetings', 'Zoom\MeetingController@create');
+    // Create meeting room using topic, agenda, start_time.
+    Route::post('/meetings/create', 'Zoom\MeetingController@create')->name('meetings.create');
+
+    Route::get('/meetings/create', 'Zoom\MeetingController@showCreateForm')->name('meetings.form');
+});
 
 
 
