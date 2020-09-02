@@ -68,10 +68,10 @@ trait ZoomJWT
     //     return $this->zoomRequest('PATCH', $path, $query = [], $body);
     // }
 
-    // public function zoomDelete(string $path, array $body = [])
-    // {
-    //     return $this->zoomRequest('DELETE', $path, $query = [], $body);
-    // }
+    public function zoomDelete(string $path, array $body = [])
+    {
+        return $this->zoomRequest('DELETE', $path, $query = [], $body);
+    }
 
     public function toZoomTimeFormat(string $dateTime)
     {

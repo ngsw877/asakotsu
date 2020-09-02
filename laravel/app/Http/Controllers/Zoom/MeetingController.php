@@ -22,9 +22,11 @@ class MeetingController extends Controller
         $path = 'users/' . env('ZOOM_ACCOUNT_EMAIL', '') . '/meetings';
         // dd($path);
         $response = $this->zoomGet($path);
+        // $response = json_decode($response, true);
         // dd($response);
 
         $data = json_decode($response->getBody(), true);
+        dd($data);
         $data['meetings'] = array_map(function (&$m) {
             $m['start_at'] = $this->toUnixTimeStamp($m['start_time'], $m['timezone']);
             return $m;
@@ -144,14 +146,14 @@ class MeetingController extends Controller
     //     ];
     // }
 
-    // public function delete(Request $request, string $id)
-    // {
-    //     $path = 'meetings/' . $id;
-    //     $response = $this->zoomDelete($path);
+    public function delete(Request $request, string $id)
+    {
+        $path = 'meetings/' . $id;
+        $response = $this->zoomDelete($path);
 
-    //     return [
-    //         'success' => $response->status() === 204,
-    //         'data' => json_decode($response->body(), true),
-    //     ];
-    // }
+        return [
+            'success' => $response->getStatusCode() === 204,
+            'data' => json_decode($response->getBody(), true),
+        ];
+    }
 }
