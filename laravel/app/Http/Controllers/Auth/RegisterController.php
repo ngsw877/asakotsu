@@ -50,9 +50,10 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => ['required', 'string', 'alpha_num', 'min:3', 'max:16', 'unique:users'],
+            'name' => ['required', 'string', 'min:2', 'max:16', 'unique:users'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'profile_image' => ['file','mimes:jpeg,png,jpg,bmb','max:2048'],
         ]);
     }
 
@@ -64,10 +65,35 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+        // $file = $data['profile_image'];
+        // dd($file);
+        if(!isset($data['profile_image'])) {
+            $fileName = 'default.png';
+            // $file_path = "/images/profile_image/etc.png";
+        } else {
+            $file = $data['profile_image'];
+            $fileName = time() . '.' . $file->getClientOriginalName();
+            $target_path = public_path('/images/profile/');
+            $file->move($target_path,$fileName);
+        }
+
+
+        // if($file = $data['profile_image']) {
+        //     $fileName = time() . '.' . $file->getClientOriginalName();
+        // } else {
+        //     $fileName = 'default.png';
+        // }
+
+        // $target_path = public_path('/images/profile/');
+        // $file->move($target_path,$fileName);
+
+        // dd($fileName);
+
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
+            'profile_image' => $fileName,
         ]);
     }
 }
