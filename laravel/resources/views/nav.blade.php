@@ -17,6 +17,13 @@
     @endguest
 
     @auth
+
+    <li class="nav-item">
+      <a class="nav-link" href="{{ route('meetings.form') }}"><i class="fas fa-pen mr-1"></i>Zoom朝活</a>
+    </li>
+    @endauth
+
+    @auth
     <li class="nav-item">
       <a class="nav-link" href="{{ route('articles.create') }}"><i class="fas fa-pen mr-1"></i>投稿する</a>
     </li>

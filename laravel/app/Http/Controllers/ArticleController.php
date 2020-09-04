@@ -93,7 +93,7 @@ class ArticleController extends Controller
     public function like(Request $request, Article $article)
     {
         $article->likes()->detach($request->user()->id);
-        $article->likes()->attach($request->user()->id);
+        $article->likes()->attacarh($request->user()->id);
 
         return [
             'id' => $article->id,
