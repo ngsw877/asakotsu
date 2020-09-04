@@ -29,3 +29,13 @@ Route::prefix('users')->name('users.')->group(function () {
     Route::delete('/{name}/follow', 'UserController@unfollow')->name('unfollow');
   });
 });
+
+// QiitaAPIテスト
+Route::get('/post', 'PostController@index');
+
+// Zoomミーティング作成画面の表示
+// Route::get('/meetings/create', 'Zoom\MeetingController@showCreateForm')->name('meetings.form');
+
+// Route::get('/meetings/create', 'Zoom\MeetingController@showCreateForm')->name('meetings.form')->middleware('auth');
+
+

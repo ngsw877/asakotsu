@@ -1,0 +1,159 @@
+<?php
+
+namespace App\Http\Controllers\Zoom;
+
+use App\Http\Controllers\Controller;
+use App\Traits\ZoomJWT;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use App\Http\Requests\MeetingRequest;
+
+class MeetingController extends Controller
+{
+    use ZoomJWT;
+
+    // const MEETING_TYPE_INSTANT = 1;
+    // const MEETING_TYPE_SCHEDULE = 2;
+    // const MEETING_TYPE_RECURRING = 3;
+    // const MEETING_TYPE_FIXED_RECURRING_FIXED = 8;
+
+    // function list(Request $request) {
+    function list() {
+        $path = 'users/' . env('ZOOM_ACCOUNT_EMAIL', '') . '/meetings';
+        // dd($path);
+        $response = $this->zoomGet($path);
+        // $response = json_decode($response, true);
+        // dd($response);
+
+        $data = json_decode($response->getBody(), true);
+        dd($data);
+        $data['meetings'] = array_map(function (&$m) {
+            $m['start_at'] = $this->toUnixTimeStamp($m['start_time'], $m['timezone']);
+            return $m;
+        }, $data['meetings']);
+
+        return [
+            'success' => 'ok',
+            'data' => $data,
+        ];
+
+
+    }
+
+    public function showCreateForm()
+    {
+        return view('meeting.create');
+    }
+
+    public function create(MeetingRequest $request)
+    {
+        // $validator = Validator::make($request->all(), [
+        //     'topic' => 'required|string',
+        //     'start_time' => 'required|date',
+        //     'type' => 'required|integer',
+        //     'agenda' => 'string|nullable',
+        // ]);
+
+        // if ($validator->fails()) {
+        //     return [
+        //         'success' => false,
+        //         'data' => $validator->errors(),
+        //     ];
+        // }
+        // $data = $validator->validated();
+
+        $path = 'users/' . env('ZOOM_ACCOUNT_EMAIL', '') . '/meetings';
+        $body = [
+            'topic' => $request['topic'],
+            'type' => $request['type'],
+            'start_time' => $this->toZoomTimeFormat($request['start_time']),
+            'timezone' => "Asia/Tokyo",
+        ];
+        $response = $this->zoomPost($path, $body);
+        $body = $response->getBody();
+
+        // $body = json_decode($body);
+        $body = json_decode($body, true);
+        dd($body);
+
+
+        // dd($body['join_url']);
+
+
+        // dd($response);
+        // $result = app()->make('App\Http\Controllers\Zoom\GetIndexController');
+        // $result->getIndex($request);
+        // $result->getIndex($response);
+
+        return redirect('api/meetings');
+
+        return [
+            'success' => $response->getStatusCode() === 201,
+            'data' => $response,
+            // 'data' => json_decode($response, true),
+        ];
+    }
+
+    // public function get(Request $request, string $id)
+    // {
+    //     $path = 'meetings/' . $id;
+    //     $response = $this->zoomGet($path);
+
+    //     $data = json_decode($response->body(), true);
+    //     if ($response->ok()) {
+    //         $data['start_at'] = $this->toUnixTimeStamp($data['start_time'], $data['timezone']);
+    //     }
+
+    //     return [
+    //         'success' => $response->ok(),
+    //         'data' => $data,
+    //     ];
+    // }
+
+    // public function update(Request $request, string $id)
+    // {
+    //     $validator = Validator::make($request->all(), [
+    //         'topic' => 'required|string',
+    //         'start_time' => 'required|date',
+    //         'agenda' => 'string|nullable',
+    //     ]);
+
+    //     if ($validator->fails()) {
+    //         return [
+    //             'success' => false,
+    //             'data' => $validator->errors(),
+    //         ];
+    //     }
+    //     $data = $validator->validated();
+
+    //     $path = 'meetings/' . $id;
+    //     $response = $this->zoomPatch($path, [
+    //         'topic' => $data['topic'],
+    //         'type' => self::MEETING_TYPE_SCHEDULE,
+    //         'start_time' => (new \DateTime($data['start_time']))->format('Y-m-d\TH:i:s'),
+    //         'duration' => 30,
+    //         'agenda' => $data['agenda'],
+    //         'settings' => [
+    //             'host_video' => false,
+    //             'participant_video' => false,
+    //             'waiting_room' => true,
+    //         ],
+    //     ]);
+
+    //     return [
+    //         'success' => $response->status() === 204,
+    //         'data' => json_decode($response->body(), true),
+    //     ];
+    // }
+
+    public function delete(Request $request, string $id)
+    {
+        $path = 'meetings/' . $id;
+        $response = $this->zoomDelete($path);
+
+        return [
+            'success' => $response->getStatusCode() === 204,
+            'data' => json_decode($response->getBody(), true),
+        ];
+    }
+}
