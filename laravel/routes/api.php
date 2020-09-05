@@ -9,10 +9,10 @@ Route::get('/', function () {
     ];
 });
 
-// Route::middleware('web')->group(function(){
-Route::middleware('web','auth')->group(function(){
+Route::middleware('web')->group(function(){
+// Route::middleware('web','auth')->group(function(){
     // Get list of meetings.
-    // Route::get('/meetings', 'Zoom\getIndexController@index');
+    Route::get('/meetings/index', 'Zoom\getIndexController@index');
     Route::get('/meetings', 'Zoom\MeetingController@list');
 
     // Create meeting room using topic, agenda, start_time.
