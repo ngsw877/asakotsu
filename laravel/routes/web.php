@@ -36,6 +36,9 @@ Route::get('/post', 'PostController@index');
 // Zoomミーティング作成画面の表示
 // Route::get('/meetings/create', 'Zoom\MeetingController@showCreateForm')->name('meetings.form');
 
-// Route::get('/meetings/create', 'Zoom\MeetingController@showCreateForm')->name('meetings.form')->middleware('auth');
+// Route::get('/meetings/create', 'Zoom\MeetingController@showCreateForm')->name('meetings.form');
+Route::get('/meetings/create', 'Zoom\MeetingController@showCreateForm')->name('meetings.form')->middleware('auth');
+
+
 
 
