@@ -1,11 +1,13 @@
 FROM php:7.4-fpm
 
-#composerのインストール (マルチステージビルド)
+# composerのインストール (マルチステージビルド)
 COPY --from=composer:1.10 /usr/bin/composer /usr/bin/composer
 
-#npmのインストール (マルチステージビルド)
+# npmのインストール (マルチステージビルド)
 COPY --from=node:10.22 /usr/local/bin /usr/local/bin
 COPY --from=node:10.22 /usr/local/lib /usr/local/lib
+
+# ホストのエイリアスコマンドの共有
 
 #パッケージ管理ツールapt-getの更新と必要パッケージのインストール
 RUN apt-get update \
@@ -15,4 +17,4 @@ zip \
 unzip \
 && docker-php-ext-install pdo_mysql bcmath
 
-WORKDIR /var/www/html
+WORKDIR /var/www/html/laravel

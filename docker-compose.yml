@@ -22,6 +22,8 @@ services:
     build: ./docker/php
     volumes:
       - .:/var/www/html
+      # ホストのエイリアスコマンドを共有
+      - ~/.bashrc:/root/.bashrc
     depends_on:
       - db
     links:
