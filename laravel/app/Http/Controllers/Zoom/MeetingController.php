@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Zoom;
 use App\Http\Controllers\Controller;
 use App\Traits\ZoomJWT;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\MeetingRequest;
 
 class MeetingController extends Controller
@@ -20,13 +19,12 @@ class MeetingController extends Controller
     // function list(Request $request) {
     function list() {
         $path = 'users/' . env('ZOOM_ACCOUNT_EMAIL', '') . '/meetings';
-        // dd($path);
         $response = $this->zoomGet($path);
         // $response = json_decode($response, true);
         // dd($response);
 
         $data = json_decode($response->getBody(), true);
-        dd($data);
+        // dd($data);
         $data['meetings'] = array_map(function (&$m) {
             $m['start_at'] = $this->toUnixTimeStamp($m['start_time'], $m['timezone']);
             return $m;
@@ -36,8 +34,6 @@ class MeetingController extends Controller
             'success' => 'ok',
             'data' => $data,
         ];
-
-
     }
 
     public function showCreateForm()
@@ -47,21 +43,6 @@ class MeetingController extends Controller
 
     public function create(MeetingRequest $request)
     {
-        // $validator = Validator::make($request->all(), [
-        //     'topic' => 'required|string',
-        //     'start_time' => 'required|date',
-        //     'type' => 'required|integer',
-        //     'agenda' => 'string|nullable',
-        // ]);
-
-        // if ($validator->fails()) {
-        //     return [
-        //         'success' => false,
-        //         'data' => $validator->errors(),
-        //     ];
-        // }
-        // $data = $validator->validated();
-
         $path = 'users/' . env('ZOOM_ACCOUNT_EMAIL', '') . '/meetings';
         $body = [
             'topic' => $request['topic'],
@@ -73,24 +54,26 @@ class MeetingController extends Controller
         $body = $response->getBody();
 
         // $body = json_decode($body);
-        $body = json_decode($body, true);
-        dd($body);
+        // $body = json_decode($body, true);
+        // dd($body);
 
-
-        // dd($body['join_url']);
-
-
-        // dd($response);
-        // $result = app()->make('App\Http\Controllers\Zoom\GetIndexController');
-        // $result->getIndex($request);
-        // $result->getIndex($response);
-
-        return redirect('api/meetings');
+        // return redirect('api/meetings');
 
         return [
             'success' => $response->getStatusCode() === 201,
             'data' => $response,
             // 'data' => json_decode($response, true),
+        ];
+    }
+
+    public function delete(Request $request, string $id)
+    {
+        $path = 'meetings/' . $id;
+        $response = $this->zoomDelete($path);
+
+        return [
+            'success' => $response->getStatusCode() === 204,
+            'data' => json_decode($response->getBody(), true),
         ];
     }
 
@@ -146,14 +129,5 @@ class MeetingController extends Controller
     //     ];
     // }
 
-    public function delete(Request $request, string $id)
-    {
-        $path = 'meetings/' . $id;
-        $response = $this->zoomDelete($path);
 
-        return [
-            'success' => $response->getStatusCode() === 204,
-            'data' => json_decode($response->getBody(), true),
-        ];
-    }
 }
