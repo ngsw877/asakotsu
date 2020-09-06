@@ -3,7 +3,7 @@
 namespace App\Policies;
 
 use App\Models\Article;
-use App\User;
+use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class ArticlePolicy
@@ -13,7 +13,7 @@ class ArticlePolicy
     /**
      * Determine whether the user can view any articles.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @return mixed
      */
     public function viewAny(?User $user)
@@ -24,7 +24,7 @@ class ArticlePolicy
     /**
      * Determine whether the user can view the article.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @param  \App\Models\Article  $article
      * @return mixed
      */
@@ -36,7 +36,7 @@ class ArticlePolicy
     /**
      * Determine whether the user can create articles.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @return mixed
      */
     public function create(User $user)
@@ -47,7 +47,7 @@ class ArticlePolicy
     /**
      * Determine whether the user can update the article.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @param  \App\Models\Article  $article
      * @return mixed
      */
@@ -59,7 +59,7 @@ class ArticlePolicy
     /**
      * Determine whether the user can delete the article.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @param  \App\Models\Article  $article
      * @return mixed
      */
@@ -71,7 +71,7 @@ class ArticlePolicy
     /**
      * Determine whether the user can restore the article.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @param  \App\Models\Article  $article
      * @return mixed
      */
@@ -83,7 +83,7 @@ class ArticlePolicy
     /**
      * Determine whether the user can permanently delete the article.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @param  \App\Models\Article  $article
      * @return mixed
      */
