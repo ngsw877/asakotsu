@@ -9,8 +9,8 @@ Route::get('/', function () {
     ];
 });
 
-Route::middleware('web')->group(function(){
-// Route::middleware('web','auth')->group(function(){
+// Route::middleware('web')->group(function(){
+Route::middleware('web','auth')->group(function(){
     // Get list of meetings.
     Route::get('/meetings/index', 'Zoom\getIndexController@index');
     Route::get('/meetings', 'Zoom\MeetingController@list');
@@ -18,7 +18,7 @@ Route::middleware('web')->group(function(){
     // Create meeting room using topic, agenda, start_time.
     Route::post('/meetings/create', 'Zoom\MeetingController@create')->name('meetings.create');
 
-    Route::get('/meetings/create', 'Zoom\MeetingController@showCreateForm')->name('meetings.form');
+    // Route::get('/meetings/create', 'Zoom\MeetingController@showCreateForm')->name('meetings.form');
 });
 
 

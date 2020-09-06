@@ -17,7 +17,7 @@ class MeetingController extends Controller
     // const MEETING_TYPE_FIXED_RECURRING_FIXED = 8;
 
     // function list(Request $request) {
-    function list() {
+    public function list() {
         $path = 'users/' . env('ZOOM_ACCOUNT_EMAIL', '') . '/meetings';
         $response = $this->zoomGet($path);
         // $response = json_decode($response, true);
@@ -54,8 +54,8 @@ class MeetingController extends Controller
         $body = $response->getBody();
 
         // $body = json_decode($body);
-        // $body = json_decode($body, true);
-        // dd($body);
+        $body = json_decode($body, true);
+        dd($body);
 
         // return redirect('api/meetings');
 

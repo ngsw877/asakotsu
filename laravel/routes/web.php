@@ -10,7 +10,12 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+// ユーザー新規登録、ログイン、ログアウト
 Auth::routes();
+// ゲストユーザーログイン
+Route::get('guest', 'Auth\LoginController@guestLogin')->name('login.guest');
+
 Route::get('/', 'ArticleController@index')->name('articles.index');
 Route::resource('/articles', 'ArticleController')->except(['index', 'show'])->middleware('auth');
 Route::resource('/articles', 'ArticleController')->only(['show']);
@@ -36,6 +41,9 @@ Route::get('/post', 'PostController@index');
 // Zoomミーティング作成画面の表示
 // Route::get('/meetings/create', 'Zoom\MeetingController@showCreateForm')->name('meetings.form');
 
-// Route::get('/meetings/create', 'Zoom\MeetingController@showCreateForm')->name('meetings.form')->middleware('auth');
+// Route::get('/meetings/create', 'Zoom\MeetingController@showCreateForm')->name('meetings.form');
+Route::get('/meetings/create', 'Zoom\MeetingController@showCreateForm')->name('meetings.form')->middleware('auth');
+
+
 
 
