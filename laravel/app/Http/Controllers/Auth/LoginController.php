@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\User;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
@@ -37,4 +39,16 @@ class LoginController extends Controller
     {
         $this->middleware('guest')->except('logout');
     }
+
+    // ゲストユーザーログイン
+    private const GUEST_USER_EMAIL = 'guest@guest.com';
+
+    public function guestLogin()
+    {
+    $user = User::where('email', self::GUEST_USER_EMAIL)->first();
+    if ($user && Auth::login($user)) {
+        return redirect('/');
+    }
+    return back();
+}
 }
