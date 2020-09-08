@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Traits;
+namespace App\Client;
 
 use GuzzleHttp\Client;
 
-trait ZoomJWT
+class ZoomClient
 {
     private function generateZoomToken()
     {
