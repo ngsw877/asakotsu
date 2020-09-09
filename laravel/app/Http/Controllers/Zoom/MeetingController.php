@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Zoom;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\MeetingRequest;
-use App\Client\ZoomClient;
+use App\Client\ZoomJwtClient;
 
 class MeetingController extends Controller
 {
@@ -17,7 +17,7 @@ class MeetingController extends Controller
 
     private $client;
 
-    public function __construct(ZoomClient $client) {
+    public function __construct(ZoomJwtClient $client) {
         $this->client = $client;
     }
 

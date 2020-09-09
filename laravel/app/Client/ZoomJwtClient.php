@@ -4,7 +4,7 @@ namespace App\Client;
 
 use GuzzleHttp\Client;
 
-class ZoomClient
+class ZoomJwtClient
 {
     private function generateZoomToken()
     {
