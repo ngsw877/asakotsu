@@ -38,7 +38,11 @@ Route::prefix('users')->name('users.')->group(function () {
 // QiitaAPIテスト
 Route::get('/post', 'PostController@index');
 
-// Zoomミーティング作成画面の表示
+// ZoomAPI関連
+Route::middleware('auth')->group(function () {
+  Route::get('/meetings', 'Zoom\MeetingController@index')->name('meetings.index');
+});
+
 // Route::get('/meetings/create', 'Zoom\MeetingController@showCreateForm')->name('meetings.form');
 
 // Route::get('/meetings/create', 'Zoom\MeetingController@showCreateForm')->name('meetings.form');

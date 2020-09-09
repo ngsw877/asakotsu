@@ -7,9 +7,9 @@
   @include('nav')
 
   <div class="container">
-    @foreach($articles as $article)
+    @foreach($meetings as $meeting)
 
-      @include('articles.card')
+      @include('meetings.card')
 
     @endforeach
   </div>

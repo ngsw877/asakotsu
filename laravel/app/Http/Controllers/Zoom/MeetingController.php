@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Zoom;
 
+use App\Models\Meeting;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\MeetingRequest;
@@ -39,6 +40,12 @@ class MeetingController extends Controller
             'success' => 'ok',
             'data' => $data,
         ];
+    }
+
+    public function index()
+    {
+        $meetings = Meeting::all()->sortByDesc('created_at');
+        return view('meeting.index', ['meetings' => $meetings]);
     }
 
     public function showCreateForm()
