@@ -23,7 +23,7 @@ class MeetingController extends Controller
 
     // function list(Request $request) {
     public function list() {
-        $path = 'users/' . env('ZOOM_ACCOUNT_EMAIL', '') . '/meetings';
+        $path = 'users/' . config('zoom.zoom_account_email') . '/meetings';
         $response = $this->client->zoomGet($path);
         // $response = json_decode($response, true);
         // dd($response);
@@ -48,7 +48,8 @@ class MeetingController extends Controller
 
     public function create(MeetingRequest $request)
     {
-        $path = 'users/' . env('ZOOM_ACCOUNT_EMAIL', '') . '/meetings';
+        $path = 'users/' . config('zoom.zoom_account_email') . '/meetings';
+        // dd($path);
         $body = [
             'topic' => $request['topic'],
             'type' => $request['type'],
