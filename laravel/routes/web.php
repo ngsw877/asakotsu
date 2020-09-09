@@ -44,6 +44,9 @@ Route::get('/post', 'PostController@index');
 // Route::get('/meetings/create', 'Zoom\MeetingController@showCreateForm')->name('meetings.form');
 Route::get('/meetings/create', 'Zoom\MeetingController@showCreateForm')->name('meetings.form')->middleware('auth');
 
-
+// テスト用ルーティング
+Route::get('/test', function() {
+  return view('test');
+});
 
 
