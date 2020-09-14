@@ -41,12 +41,12 @@ Route::get('/post', 'PostController@index');
 // ZoomAPI関連
 Route::middleware('auth')->group(function () {
   Route::get('/meetings', 'Zoom\MeetingController@index')->name('meetings.index');
+  Route::get('/meetings/create', 'Zoom\MeetingController@create')->name('meetings.create');
 });
 
 // Route::get('/meetings/create', 'Zoom\MeetingController@showCreateForm')->name('meetings.form');
 
 // Route::get('/meetings/create', 'Zoom\MeetingController@showCreateForm')->name('meetings.form');
-Route::get('/meetings/create', 'Zoom\MeetingController@showCreateForm')->name('meetings.form')->middleware('auth');
 
 // テスト用ルーティング
 Route::get('/test', function() {
