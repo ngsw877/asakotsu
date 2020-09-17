@@ -16,7 +16,7 @@ Route::middleware('web','auth')->group(function(){
     Route::get('/meetings', 'Zoom\MeetingController@list');
 
     // Create meeting room using topic, agenda, start_time.
-    Route::post('/meetings/create', 'Zoom\MeetingController@create')->name('meetings.create');
+    Route::post('/meetings/store', 'Zoom\MeetingController@store')->name('meetings.store');
 
     // Route::get('/meetings/create', 'Zoom\MeetingController@showCreateForm')->name('meetings.form');
 });

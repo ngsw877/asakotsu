@@ -53,31 +53,41 @@ class MeetingController extends Controller
         return view('meeting.create');
     }
 
-    // public function create(MeetingRequest $request)
-    // {
-    //     $path = 'users/' . config('zoom.zoom_account_email') . '/meetings';
-    //     // dd($path);
-    //     $body = [
-    //         'topic' => $request['topic'],
-    //         'type' => $request['type'],
-    //         'start_time' => $this->client->toZoomTimeFormat($request['start_time']),
-    //         'timezone' => "Asia/Tokyo",
-    //     ];
-    //     $response = $this->client->zoomPost($path, $body);
-    //     $body = $response->getBody();
+    public function store(MeetingRequest $request, Meeting $meeting)
+    {
+        // ZoomAPIにミーティング作成のリクエスト
+        $path = 'users/' . config('zoom.zoom_account_email') . '/meetings';
+        $body = [
+            'topic' => $request['topic'],
+            'type' => $request['type'],
+            'start_time' => $this->client->toZoomTimeFormat($request['start_time']),
+            'agenda' => $request['agenda'],
+            'timezone' => "Asia/Tokyo",
+        ];
+        $response = $this->client->zoomPost($path, $body);
+        $body = $response->getBody();
 
-    //     // $body = json_decode($body);
-    //     $body = json_decode($body, true);
-    //     dd($body);
+        $body = json_decode($body, true);
+        // dd($body);
 
-    //     // return redirect('api/meetings');
+        // 作成したミーティング情報をDBに保存
+        if($response->getStatusCode() === 201) {
+            $meeting->topic = $body['topic'];
+            $meeting->agenda = $body['agenda'];
+            $meeting->start_time = $body['start_time'];
+            $meeting->start_url = $body['start_url'];
+            $meeting->join_url = $body['join_url'];
+            $meeting->user_id = $request->user()->id;
+            $meeting->save();
+            return redirect()->route('meetings.index');
+        }
 
-    //     return [
-    //         'success' => $response->getStatusCode() === 201,
-    //         'data' => $response,
-    //         // 'data' => json_decode($response, true),
-    //     ];
-    // }
+        return [
+            'success' => $response->getStatusCode() === 201,
+            'data' => $response,
+            // 'data' => json_decode($response, true),
+        ];
+    }
 
     public function delete(Request $request, string $id)
     {
