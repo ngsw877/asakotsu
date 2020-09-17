@@ -43,3 +43,15 @@ services:
       TZ: ${TZ}
     volumes:
       - docker-volume:/var/lib/mysql
+
+  # phpMyAdmin
+  phpmyadmin:
+    container_name: phpmyadmin
+    image: phpmyadmin/phpmyadmin
+    environment:
+    - PMA_ARBITRARY=1
+    - PMA_HOSTS=db
+    - PMA_USER=${DB_USERNAME}
+    - PMA_PASSWORD=${DB_PASSWORD}
+    ports:
+    - 8080:80
