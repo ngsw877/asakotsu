@@ -9,7 +9,7 @@
   </div>
   <div class="card-body d-flex flex-row">
       <div class="font-weight-lighter">
-        {{ $meeting->start_time->format('Y/m/d H:i') }}
+        {{ $meeting->start_time }}
       </div>
 
     @if( Auth::id() === $meeting->user_id )
@@ -20,7 +20,7 @@
             <i class="fas fa-ellipsis-v"></i>
           </a>
           <div class="dropdown-menu dropdown-menu-right">
-            <a class="dropdown-item" href="{{ route('meetings.edit', ['meeting' => $meeting]) }}">
+            <a class="dropdown-item" href="">
               <i class="fas fa-pen mr-1"></i>ミーティングを更新する
             </a>
             <div class="dropdown-divider"></div>
@@ -41,7 +41,7 @@
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
-            <form method="POST" action="{{ route('meetings.destroy', ['meeting' => $meeting]) }}">
+            <form method="POST" action="">
               @csrf
               @method('DELETE')
               <div class="modal-body">
@@ -61,7 +61,7 @@
   </div>
   <div class="card-body pt-0">
     <h3 class="h4 card-title">
-      <a class="text-dark" href="{{ route('meetings.show', ['meeting' => $meeting]) }}">
+      <a class="text-dark" href="">
         {{ $meeting->topic }}
       </a>
     </h3>
@@ -69,10 +69,12 @@
     {{ $meeting->agenda }}
     </div>
     <div class="card-text">
-    {{ $start->join_url }}
+    {{ $meeting->start_time }}
     </div>
     <div class="card-text">
-    {{ $meeting->join_url }}
+      <a href="{{ $meeting->join_url }}">
+        {{ $meeting->join_url }}
+      </a>
     </div>
   </div>
 </div>

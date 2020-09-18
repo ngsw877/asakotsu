@@ -45,12 +45,12 @@ class MeetingController extends Controller
     public function index()
     {
         $meetings = Meeting::all()->sortByDesc('created_at');
-        return view('meeting.index', ['meetings' => $meetings]);
+        return view('meetings.index', ['meetings' => $meetings]);
     }
 
     public function create()
     {
-        return view('meeting.create');
+        return view('meetings.create');
     }
 
     public function store(MeetingRequest $request, Meeting $meeting)
