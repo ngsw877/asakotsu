@@ -68,9 +68,13 @@
     <div class="card-text">
     {{ $meeting->agenda }}
     </div>
+    @if( Auth::id() === $meeting->user_id )
     <div class="card-text">
-    {{ $meeting->start_time }}
+      <a href="{{ $meeting->start_url }}">
+        {{ $meeting->start_url }}
+      </a>
     </div>
+    @endif
     <div class="card-text">
       <a href="{{ $meeting->join_url }}">
         {{ $meeting->join_url }}
