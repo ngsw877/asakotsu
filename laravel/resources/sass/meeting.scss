@@ -1,0 +1,35 @@
+$btn-size: 160px;
+$btn-position: 35px;
+$btn-collor:#FCA482;
+
+.new-post-btn {
+  width: $btn-size;
+  height: $btn-size;
+  position: fixed;
+  bottom: $btn-position;
+  right: $btn-position;
+  z-index: 9999;
+  background-color: $btn-collor;
+  color: #fff;
+  border-radius: 50%;
+  text-align: center;
+
+  p {
+    margin-top: 30px;
+    font-size: 15px;
+  }
+
+  i.fa-plus {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 48px;
+  }
+
+  &:hover {
+    transition: all 0.6s ease;
+    color: #fff;
+    opacity: 0.8;
+  }
+}
