@@ -30,8 +30,7 @@
                 </div>
                 <div class="form-group h5">
                   <label for="start_time">開始日時</label>
-                  <input class="form-control" type="start_time" id="start_time" name="start_time" required>
-                </div>
+                  <input type="datetime-local" id="start_time" name="start_time" value="2020-09-21T18:30" required>
 
                 <!-- 次回から自動でログインする(remember meトークン) -->
                 <input type="hidden" name="remember" id="remember" value="on">

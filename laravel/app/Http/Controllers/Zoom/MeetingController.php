@@ -15,6 +15,7 @@ class MeetingController extends Controller
     // const MEETING_TYPE_SCHEDULE = 2;
     // const MEETING_TYPE_RECURRING = 3;
     // const MEETING_TYPE_FIXED_RECURRING_FIXED = 8;
+    
 
     private $client;
 
@@ -32,10 +33,12 @@ class MeetingController extends Controller
         $data = json_decode($response->getBody(), true);
         // dd($data);
         $data['meetings'] = array_map(function (&$m) {
-            $m['start_at'] = $this->toUnixTimeStamp($m['start_time'], $m['timezone']);
+            $m['start_time'] = $this->client->toUnixTimeStamp($m['start_time'], $m['timezone']);
+            $m['start_time'] = date('Y/m/d H時i分', $m['start_at']);
             return $m;
         }, $data['meetings']);
 
+        // dd($data['meetings']);
         return [
             'success' => 'ok',
             'data' => $data,
@@ -64,10 +67,14 @@ class MeetingController extends Controller
             'agenda' => $request['agenda'],
             'timezone' => "Asia/Tokyo",
         ];
-        $response = $this->client->zoomPost($path, $body);
-        $body = $response->getBody();
 
-        $body = json_decode($body, true);
+        $response = $this->client->zoomPost($path, $body);
+
+        // ミーティング開始日時を、日本時刻に変換
+        $body = json_decode($response->getBody(), true);
+        // dd($body['start_time']);
+            $body['start_time'] = $this->client->toUnixTimeStamp($body['start_time'], $body['timezone']);
+            $body['start_time'] = date('Y/m/d　H時i分', $body['start_time']);
         // dd($body);
 
         // 作成したミーティング情報をDBに保存
@@ -85,7 +92,6 @@ class MeetingController extends Controller
         return [
             'success' => $response->getStatusCode() === 201,
             'data' => $response,
-            // 'data' => json_decode($response, true),
         ];
     }
 

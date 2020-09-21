@@ -13,7 +13,7 @@ Route::get('/', function () {
 Route::middleware('web','auth')->group(function(){
     // Get list of meetings.
     Route::get('/meetings/index', 'Zoom\getIndexController@index');
-    Route::get('/meetings', 'Zoom\MeetingController@list');
+    Route::get('/meetings/list', 'Zoom\MeetingController@list');
 
     // Create meeting room using topic, agenda, start_time.
     Route::post('/meetings/store', 'Zoom\MeetingController@store')->name('meetings.store');
