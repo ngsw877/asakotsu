@@ -26,7 +26,6 @@ class MeetingRequest extends FormRequest
         return [
             'topic' => 'required|string|max:20',
             'start_time' => 'required|date|after_or_equal:now',
-            'type' => 'required|integer',
             'agenda' => 'string|max:20|nullable',
         ];
     }

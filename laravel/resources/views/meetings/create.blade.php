@@ -19,7 +19,6 @@
               <form method="POST" action="{{ route('meetings.store') }}">
                 @csrf
 
-                <input type="hidden" name="type" value="2">
                 <div class="form-group h5">
                   <label for="topic">ミーティング名</label>
                   <input class="form-control" type="text" id="topic" name="topic" required value="{{ old('topic') }}">
@@ -30,7 +29,8 @@
                 </div>
                 <div class="form-group h5">
                   <label for="start_time">開始日時</label>
-                  <input type="datetime-local" id="start_time" name="start_time" value="2020-09-21T18:30" required>
+                  <input class="form-control" type="datetime-local" id="start_time" name="start_time" value="2020-09-21T18:30" required>
+                </div>
 
                 <!-- 次回から自動でログインする(remember meトークン) -->
                 <input type="hidden" name="remember" id="remember" value="on">

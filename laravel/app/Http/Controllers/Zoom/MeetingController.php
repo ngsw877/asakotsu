@@ -15,7 +15,9 @@ class MeetingController extends Controller
     // const MEETING_TYPE_SCHEDULE = 2;
     // const MEETING_TYPE_RECURRING = 3;
     // const MEETING_TYPE_FIXED_RECURRING_FIXED = 8;
-    
+
+    const MEETING_TYPE = 2;
+
 
     private $client;
 
@@ -61,8 +63,8 @@ class MeetingController extends Controller
         // ZoomAPIにミーティング作成のリクエスト
         $path = 'users/' . config('zoom.zoom_account_email') . '/meetings';
         $body = [
+            'type' => self::MEETING_TYPE,
             'topic' => $request['topic'],
-            'type' => $request['type'],
             'start_time' => $this->client->toZoomTimeFormat($request['start_time']),
             'agenda' => $request['agenda'],
             'timezone' => "Asia/Tokyo",
