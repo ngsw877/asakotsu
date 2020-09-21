@@ -2,24 +2,30 @@
 
 namespace App\Http\Controllers\Zoom;
 
+use App\Models\Meeting;
 use App\Http\Controllers\Controller;
-use App\Traits\ZoomJWT;
 use Illuminate\Http\Request;
 use App\Http\Requests\MeetingRequest;
+use App\Client\ZoomJwtClient;
 
 class MeetingController extends Controller
 {
-    use ZoomJWT;
 
     // const MEETING_TYPE_INSTANT = 1;
     // const MEETING_TYPE_SCHEDULE = 2;
     // const MEETING_TYPE_RECURRING = 3;
     // const MEETING_TYPE_FIXED_RECURRING_FIXED = 8;
 
+    private $client;
+
+    public function __construct(ZoomJwtClient $client) {
+        $this->client = $client;
+    }
+
     // function list(Request $request) {
     public function list() {
-        $path = 'users/' . env('ZOOM_ACCOUNT_EMAIL', '') . '/meetings';
-        $response = $this->zoomGet($path);
+        $path = 'users/' . config('zoom.zoom_account_email') . '/meetings';
+        $response = $this->client->zoomGet($path);
         // $response = json_decode($response, true);
         // dd($response);
 
@@ -36,28 +42,45 @@ class MeetingController extends Controller
         ];
     }
 
-    public function showCreateForm()
+    public function index()
     {
-        return view('meeting.create');
+        $meetings = Meeting::all()->sortByDesc('created_at');
+        return view('meetings.index', ['meetings' => $meetings]);
     }
 
-    public function create(MeetingRequest $request)
+    public function create()
     {
-        $path = 'users/' . env('ZOOM_ACCOUNT_EMAIL', '') . '/meetings';
+        return view('meetings.create');
+    }
+
+    public function store(MeetingRequest $request, Meeting $meeting)
+    {
+        // ZoomAPIにミーティング作成のリクエスト
+        $path = 'users/' . config('zoom.zoom_account_email') . '/meetings';
         $body = [
             'topic' => $request['topic'],
             'type' => $request['type'],
-            'start_time' => $this->toZoomTimeFormat($request['start_time']),
+            'start_time' => $this->client->toZoomTimeFormat($request['start_time']),
+            'agenda' => $request['agenda'],
             'timezone' => "Asia/Tokyo",
         ];
-        $response = $this->zoomPost($path, $body);
+        $response = $this->client->zoomPost($path, $body);
         $body = $response->getBody();
 
-        // $body = json_decode($body);
         $body = json_decode($body, true);
-        dd($body);
+        // dd($body);
 
-        // return redirect('api/meetings');
+        // 作成したミーティング情報をDBに保存
+        if($response->getStatusCode() === 201) {
+            $meeting->topic = $body['topic'];
+            $meeting->agenda = $body['agenda'];
+            $meeting->start_time = $body['start_time'];
+            $meeting->start_url = $body['start_url'];
+            $meeting->join_url = $body['join_url'];
+            $meeting->user_id = $request->user()->id;
+            $meeting->save();
+            return redirect()->route('meetings.index');
+        }
 
         return [
             'success' => $response->getStatusCode() === 201,
@@ -69,7 +92,7 @@ class MeetingController extends Controller
     public function delete(Request $request, string $id)
     {
         $path = 'meetings/' . $id;
-        $response = $this->zoomDelete($path);
+        $response = $this->client->zoomDelete($path);
 
         return [
             'success' => $response->getStatusCode() === 204,
@@ -80,11 +103,11 @@ class MeetingController extends Controller
     // public function get(Request $request, string $id)
     // {
     //     $path = 'meetings/' . $id;
-    //     $response = $this->zoomGet($path);
+    //     $response = $this->client->zoomGet($path);
 
     //     $data = json_decode($response->body(), true);
     //     if ($response->ok()) {
-    //         $data['start_at'] = $this->toUnixTimeStamp($data['start_time'], $data['timezone']);
+    //         $data['start_at'] = $this->client->toUnixTimeStamp($data['start_time'], $data['timezone']);
     //     }
 
     //     return [
@@ -110,7 +133,7 @@ class MeetingController extends Controller
     //     $data = $validator->validated();
 
     //     $path = 'meetings/' . $id;
-    //     $response = $this->zoomPatch($path, [
+    //     $response = $this->client->zoomPatch($path, [
     //         'topic' => $data['topic'],
     //         'type' => self::MEETING_TYPE_SCHEDULE,
     //         'start_time' => (new \DateTime($data['start_time']))->format('Y-m-d\TH:i:s'),

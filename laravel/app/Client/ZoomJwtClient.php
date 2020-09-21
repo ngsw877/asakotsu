@@ -1,15 +1,17 @@
 <?php
 
-namespace App\Traits;
+namespace App\Client;
 
 use GuzzleHttp\Client;
 
-trait ZoomJWT
+class ZoomJwtClient
 {
     private function generateZoomToken()
     {
-        $key = env('ZOOM_API_KEY', '');
-        $secret = env('ZOOM_API_SECRET', '');
+        $key = config('zoom.zoom_api_key');
+        $secret = config('zoom.zoom_api_secret');
+        // dd($key);
+        // dd($secret);
         $payload = [
             'iss' => $key,
             'exp' => strtotime('+1 minute'),
@@ -21,9 +23,10 @@ trait ZoomJWT
     private function zoomRequest(string $method, string $path, array $query, array $body)
     {
         $jwt = $this->generateZoomToken();
-        $client = new \GuzzleHttp\Client([
-            'base_uri' => env('ZOOM_API_URL', ''),
+        $client = new Client([
+            'base_uri' => config('zoom.zoom_api_url'),
         ]);
+        // dd(config('zoom.zoom_account_email'));
 
         $response = $client->request($method, $path,
             [

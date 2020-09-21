@@ -25,7 +25,7 @@
     @auth
 
     <li class="nav-item">
-      <a class="nav-link" href="{{ route('meetings.form') }}"><i class="fas fa-pen mr-1"></i>Zoom朝活</a>
+      <a class="nav-link" href="{{ route('meetings.index') }}"><i class="fas fa-video"></i>Zoom朝活</a>
     </li>
     @endauth
 

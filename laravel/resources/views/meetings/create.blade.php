@@ -16,7 +16,7 @@
             @include('error_card_list')
 
             <div class="card-text mt-5">
-              <form method="POST" action="{{ route('meetings.create') }}">
+              <form method="POST" action="{{ route('meetings.store') }}">
                 @csrf
 
                 <input type="hidden" name="type" value="2">
