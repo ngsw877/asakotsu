@@ -36,7 +36,7 @@
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
-            <form method="POST" action="">
+            <form method="POST" action="{{ route('meetings.destroy', ['meeting' => $meeting]) }}">
               @csrf
               @method('DELETE')
               <div class="modal-body">

@@ -60,7 +60,7 @@ class MeetingController extends Controller
 
     public function store(MeetingRequest $request, Meeting $meeting)
     {
-        // ZoomAPIにミーティング作成のリクエスト
+        // ZoomAPIへ、ミーティング作成のリクエスト
         $path = 'users/' . config('zoom.zoom_account_email') . '/meetings';
         $body = [
             'type' => self::MEETING_TYPE,
@@ -80,7 +80,7 @@ class MeetingController extends Controller
         // dd($body);
 
         // 作成したミーティング情報をDBに保存
-        if($response->getStatusCode() === 201) {
+        if($response->getStatusCode() === 201) {  // 201：ミーティング作成成功のHTTPステータスコード
             if(isset($body['agenda'])) {
                 $meeting->agenda = $body['agenda'];
             }
@@ -93,22 +93,20 @@ class MeetingController extends Controller
             $meeting->save();
             return redirect()->route('meetings.index');
         }
-
-        return [
-            'success' => $response->getStatusCode() === 201,
-            'data' => $response,
-        ];
     }
 
-    public function delete(Request $request, string $id)
+    public function destroy(Meeting $meeting)
     {
+        // ZoomAPIにミーティング削除のリクエスト
+        $id = $meeting->meeting_id;
         $path = 'meetings/' . $id;
         $response = $this->client->zoomDelete($path);
 
-        return [
-            'success' => $response->getStatusCode() === 204,
-            'data' => json_decode($response->getBody(), true),
-        ];
+        // DBからもミーティングを削除
+        if($response->getStatusCode() === 204) {  // 204：ミーティング削除成功のHTTPステータスコード
+            $meeting->delete();
+            return redirect()->route('meetings.index');
+        }
     }
 
     // public function get(Request $request, string $id)
