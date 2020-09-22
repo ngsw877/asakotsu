@@ -16,6 +16,9 @@ class MeetingController extends Controller
     // const MEETING_TYPE_RECURRING = 3;
     // const MEETING_TYPE_FIXED_RECURRING_FIXED = 8;
 
+    const MEETING_TYPE = 2;
+
+
     private $client;
 
     public function __construct(ZoomJwtClient $client) {
@@ -30,12 +33,14 @@ class MeetingController extends Controller
         // dd($response);
 
         $data = json_decode($response->getBody(), true);
-        // dd($data);
+        dd($data);
         $data['meetings'] = array_map(function (&$m) {
-            $m['start_at'] = $this->toUnixTimeStamp($m['start_time'], $m['timezone']);
+            $m['start_time'] = $this->client->toUnixTimeStamp($m['start_time'], $m['timezone']);
+            $m['start_time'] = date('Y/m/d H時i分', $m['start_at']);
             return $m;
         }, $data['meetings']);
 
+        // dd($data['meetings']);
         return [
             'success' => 'ok',
             'data' => $data,
@@ -55,25 +60,32 @@ class MeetingController extends Controller
 
     public function store(MeetingRequest $request, Meeting $meeting)
     {
-        // ZoomAPIにミーティング作成のリクエスト
+        // ZoomAPIへ、ミーティング作成のリクエスト
         $path = 'users/' . config('zoom.zoom_account_email') . '/meetings';
         $body = [
+            'type' => self::MEETING_TYPE,
             'topic' => $request['topic'],
-            'type' => $request['type'],
             'start_time' => $this->client->toZoomTimeFormat($request['start_time']),
             'agenda' => $request['agenda'],
             'timezone' => "Asia/Tokyo",
         ];
-        $response = $this->client->zoomPost($path, $body);
-        $body = $response->getBody();
 
-        $body = json_decode($body, true);
+        $response = $this->client->zoomPost($path, $body);
+
+        // ミーティング開始日時を、日本時刻に変換
+        $body = json_decode($response->getBody(), true);
+        // dd($body['start_time']);
+            $body['start_time'] = $this->client->toUnixTimeStamp($body['start_time'], $body['timezone']);
+            $body['start_time'] = date('Y/m/d　H時i分', $body['start_time']);
         // dd($body);
 
         // 作成したミーティング情報をDBに保存
-        if($response->getStatusCode() === 201) {
+        if($response->getStatusCode() === 201) {  // 201：ミーティング作成成功のHTTPステータスコード
+            if(isset($body['agenda'])) {
+                $meeting->agenda = $body['agenda'];
+            }
+            $meeting->meeting_id = $body['id'];
             $meeting->topic = $body['topic'];
-            $meeting->agenda = $body['agenda'];
             $meeting->start_time = $body['start_time'];
             $meeting->start_url = $body['start_url'];
             $meeting->join_url = $body['join_url'];
@@ -81,23 +93,20 @@ class MeetingController extends Controller
             $meeting->save();
             return redirect()->route('meetings.index');
         }
-
-        return [
-            'success' => $response->getStatusCode() === 201,
-            'data' => $response,
-            // 'data' => json_decode($response, true),
-        ];
     }
 
-    public function delete(Request $request, string $id)
+    public function destroy(Meeting $meeting)
     {
+        // ZoomAPIにミーティング削除のリクエスト
+        $id = $meeting->meeting_id;
         $path = 'meetings/' . $id;
         $response = $this->client->zoomDelete($path);
 
-        return [
-            'success' => $response->getStatusCode() === 204,
-            'data' => json_decode($response->getBody(), true),
-        ];
+        // DBからもミーティングを削除
+        if($response->getStatusCode() === 204) {  // 204：ミーティング削除成功のHTTPステータスコード
+            $meeting->delete();
+            return redirect()->route('meetings.index');
+        }
     }
 
     // public function get(Request $request, string $id)
@@ -150,6 +159,11 @@ class MeetingController extends Controller
     //         'success' => $response->status() === 204,
     //         'data' => json_decode($response->body(), true),
     //     ];
+    // }
+
+    // public function edit(Meeting $meeting)
+    // {
+    //     return view('meetings.edit', ['meeting' => $meeting]);
     // }
 
 

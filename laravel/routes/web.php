@@ -47,10 +47,11 @@ Route::prefix('users')->name('users.')->group(function () {
 Route::get('/post', 'PostController@index');
 
 // Zoomミーティング関連機能(CRUD)
-Route::middleware('auth')->group(function () {
-  Route::get('/meetings', 'Zoom\MeetingController@index')->name('meetings.index');
-  Route::get('/meetings/create', 'Zoom\MeetingController@create')->name('meetings.create');
-});
+// Route::middleware('auth')->group(function () {
+//   Route::get('/meetings', 'Zoom\MeetingController@index')->name('meetings.index');
+//   Route::get('/meetings/create', 'Zoom\MeetingController@create')->name('meetings.create');
+// });
+Route::resource('/meetings', 'Zoom\MeetingController');
 
 // Route::get('/meetings/create', 'Zoom\MeetingController@showCreateForm')->name('meetings.form');
 

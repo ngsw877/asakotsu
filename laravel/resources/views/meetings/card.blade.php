@@ -1,18 +1,13 @@
-<div class="card mt-3">
-  <div class="card-header">
-    <a href="{{ route('users.show', ['name' => $meeting->user->name]) }}" class="text-dark">
-      <i class="fas fa-user-circle fa-3x mr-1"></i>
+<div class="card mt-4">
+  <div class="card-header d-flex flex-row align-items-center">
+    <a href="{{ route('users.show', ['name' => $meeting->user->name]) }}" class="text-dark m">
+      <i class="fas fa-user-circle fa-3x mr-3"></i>
     </a>
     <a href="{{ route('users.show', ['name' => $meeting->user->name]) }}" class="text-dark">
-        {{ $meeting->user->name }}
+      <strong>{{ $meeting->user->name }}</strong> &nbsp;さんのミーティング
     </a>
-  </div>
-  <div class="card-body d-flex flex-row">
-      <div class="font-weight-lighter">
-        {{ $meeting->start_time }}
-      </div>
 
-    @if( Auth::id() === $meeting->user_id )
+     @if( Auth::id() === $meeting->user_id )
       <!-- dropdown -->
       <div class="ml-auto card-text">
         <div class="dropdown">
@@ -41,7 +36,7 @@
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
-            <form method="POST" action="">
+            <form method="POST" action="{{ route('meetings.destroy', ['meeting' => $meeting]) }}">
               @csrf
               @method('DELETE')
               <div class="modal-body">
@@ -57,28 +52,45 @@
       </div>
       <!-- modal -->
     @endif
-
   </div>
   <div class="card-body pt-0">
-    <h3 class="h4 card-title">
-      <a class="text-dark" href="">
-        {{ $meeting->topic }}
-      </a>
-    </h3>
-    <div class="card-text">
-    {{ $meeting->agenda }}
-    </div>
-    @if( Auth::id() === $meeting->user_id )
-    <div class="card-text">
-      <a href="{{ $meeting->start_url }}">
-        {{ $meeting->start_url }}
-      </a>
-    </div>
-    @endif
-    <div class="card-text">
-      <a href="{{ $meeting->join_url }}">
-        {{ $meeting->join_url }}
-      </a>
-    </div>
+    <table class="table">
+      <tbody class="container">
+        <tr class="row">
+          <th scope="row" class="col-3">ミーティング名</th>
+          <td class="col-9"> {{ $meeting->topic }}</th>
+        </tr>
+        <tr class="row">
+          <th scope="row" class="col-3" scope="">テーマ</th>
+          <td class="col-9">{{ $meeting->agenda }}</td>
+        </tr>
+        <tr class="row">
+          <th scope="row" class="col-3" scope="">開始日時</th>
+          <td class="col-9">{{ $meeting->start_time }}&nbsp;〜</td>
+        </tr>
+        @if( Auth::id() === $meeting->user_id )
+          <tr class="row">
+            <th scope="row" class="col-3" scope="">
+              開始URL
+            </th>
+            <td class="col-9 ">
+                <a class="text-primary" href="{{ $meeting->start_url }}">
+                  {{ substr($meeting->start_url, 0, 75) }} ...
+                </a>
+                <br>
+                <small>（※ミーティングのホストにだけ見えています）</small>
+            </td>
+          </tr>
+        @endif
+        <tr class="row">
+          <th scope="row" class="col-3" scope="">参加URL</th>
+          <td class="col-9">
+            <a class="text-primary" href="{{ $meeting->join_url }}">
+              {{ $meeting->join_url }}
+            </a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </div>

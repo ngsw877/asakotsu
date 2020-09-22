@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class ChangeMeetingsTable extends Migration
+class AddMeetingIdToMeetingsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,8 +14,7 @@ class ChangeMeetingsTable extends Migration
     public function up()
     {
         Schema::table('meetings', function (Blueprint $table) {
-            $table->text('start_url')->change();
-            $table->text('join_url')->change();
+            $table->bigInteger('meeting_id')->after('id');
         });
     }
 
@@ -27,8 +26,7 @@ class ChangeMeetingsTable extends Migration
     public function down()
     {
         Schema::table('meetings', function (Blueprint $table) {
-            $table->string('start_url')->change();
-            $table->string('join_url')->change();
+            $table->dropColumn('meeting_id');
         });
     }
 }
