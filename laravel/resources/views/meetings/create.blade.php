@@ -30,7 +30,7 @@
                 <div class="row">
                   <div class="form-group h5 col-xs-2 mx-auto">
                     <label for="start_time">開始日時</label>
-                    <input class="form-control" type="datetime-local" id="start_time" name="start_time" value="2020-09-21T18:30" required>
+                    <input class="form-control" type="datetime-local" id="start_time" name="start_time" value="{{ date('Y-m-d\Th:i') }}" required>
                   </div>
                 </div>
                 <button class="btn btn-block peach-gradient mt-2 mb-2" type="submit" text-while>
