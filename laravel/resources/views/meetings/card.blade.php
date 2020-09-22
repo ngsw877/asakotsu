@@ -72,12 +72,13 @@
           <tr class="row">
             <th scope="row" class="col-3" scope="">
               開始URL
-              <br>
-              <small>（ミーティングのホストにだけ見えています）</small></th>
+            </th>
             <td class="col-9 ">
                 <a class="text-primary" href="{{ $meeting->start_url }}">
                   {{ substr($meeting->start_url, 0, 75) }} ...
                 </a>
+                <br>
+                <small>（※ミーティングのホストにだけ見えています）</small>
             </td>
           </tr>
         @endif

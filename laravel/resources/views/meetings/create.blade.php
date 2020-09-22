@@ -27,19 +27,16 @@
                   <label for="agenda">テーマ</label>
                   <input class="form-control" type="text" id="agenda" name="agenda" value="{{ old('agenda') }}">
                 </div>
-                <div class="form-group h5">
-                  <label for="start_time">開始日時</label>
-                  <input class="form-control" type="datetime-local" id="start_time" name="start_time" value="2020-09-21T18:30" required>
+                <div class="row">
+                  <div class="form-group h5 col-xs-2 mx-auto">
+                    <label for="start_time">開始日時</label>
+                    <input class="form-control" type="datetime-local" id="start_time" name="start_time" value="2020-09-21T18:30" required>
+                  </div>
                 </div>
-
-                <!-- 次回から自動でログインする(remember meトークン) -->
-                <input type="hidden" name="remember" id="remember" value="on">
-
-                <button class="btn btn-block peach-gradient mt-2 mb-2" type="submit" text-while>ミーティングを作成！</button>
-
+                <button class="btn btn-block peach-gradient mt-2 mb-2" type="submit" text-while>
+                  <span class="h5">ミーティングを作成する</span>
+                </button>
               </form>
-
-
             </div>
           </div>
         </div>
