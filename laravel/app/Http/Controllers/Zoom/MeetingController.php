@@ -81,8 +81,10 @@ class MeetingController extends Controller
 
         // 作成したミーティング情報をDBに保存
         if($response->getStatusCode() === 201) {
+            if(isset($body['agenda'])) {
+                $meeting->agenda = $body['agenda'];
+            }
             $meeting->topic = $body['topic'];
-            $meeting->agenda = $body['agenda'];
             $meeting->start_time = $body['start_time'];
             $meeting->start_url = $body['start_url'];
             $meeting->join_url = $body['join_url'];
