@@ -162,5 +162,10 @@ class MeetingController extends Controller
     //     ];
     // }
 
+    // public function edit(Meeting $meeting)
+    // {
+    //     return view('meetings.edit', ['meeting' => $meeting]);
+    // }
+
 
 }
