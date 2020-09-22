@@ -33,7 +33,7 @@ class MeetingController extends Controller
         // dd($response);
 
         $data = json_decode($response->getBody(), true);
-        // dd($data);
+        dd($data);
         $data['meetings'] = array_map(function (&$m) {
             $m['start_time'] = $this->client->toUnixTimeStamp($m['start_time'], $m['timezone']);
             $m['start_time'] = date('Y/m/d H時i分', $m['start_at']);
@@ -84,6 +84,7 @@ class MeetingController extends Controller
             if(isset($body['agenda'])) {
                 $meeting->agenda = $body['agenda'];
             }
+            $meeting->meeting_id = $body['id'];
             $meeting->topic = $body['topic'];
             $meeting->start_time = $body['start_time'];
             $meeting->start_url = $body['start_url'];
