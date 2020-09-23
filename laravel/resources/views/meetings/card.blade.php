@@ -15,7 +15,7 @@
             <i class="fas fa-ellipsis-v"></i>
           </a>
           <div class="dropdown-menu dropdown-menu-right">
-            <a class="dropdown-item" href="">
+            <a class="dropdown-item" href="{{ route('meetings.edit', ['meeting' => $meeting]) }}">
               <i class="fas fa-pen mr-1"></i>ミーティングを更新する
             </a>
             <div class="dropdown-divider"></div>
