@@ -26,7 +26,6 @@ class ZoomJwtClient
         $client = new Client([
             'base_uri' => config('zoom.zoom_api_url'),
         ]);
-        // dd(config('zoom.zoom_account_email'));
 
         $response = $client->request($method, $path,
             [
@@ -50,10 +49,10 @@ class ZoomJwtClient
         return $this->zoomRequest('POST', $path, $query = [], $body);
     }
 
-    // public function zoomPatch(string $path, array $body = [])
-    // {
-    //     return $this->zoomRequest('PATCH', $path, $query = [], $body);
-    // }
+    public function zoomPatch(string $path, array $body = [])
+    {
+        return $this->zoomRequest('PATCH', $path, $query = [], $body);
+    }
 
     public function zoomDelete(string $path, array $body = [])
     {
