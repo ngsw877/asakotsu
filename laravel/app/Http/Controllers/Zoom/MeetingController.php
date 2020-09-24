@@ -20,6 +20,8 @@ class MeetingController extends Controller
 
     public function __construct(ZoomJwtClient $client) {
         $this->client = $client;
+
+        $this->authorizeResource(Meeting::class, 'meeting');
     }
 
     // function list(Request $request) {
