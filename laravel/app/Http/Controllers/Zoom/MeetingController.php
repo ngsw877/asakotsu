@@ -72,8 +72,8 @@ class MeetingController extends Controller
         // ミーティング開始日時を、日本時刻に変換
         $body = json_decode($response->getBody(), true);
         $body['start_time'] = $this->client->toUnixTimeStamp($body['start_time'], $body['timezone']);
-        dd($body['start_time']);
-        $body['start_time'] = date('Y/m/d　H時i分', $body['start_time']);
+        $body['start_time'] = date('Y-m-d\TH:i:s', $body['start_time']);
+        // dd($body['start_time']);
         // dd($body);
 
         // 作成したミーティング情報をDBに保存

@@ -12,7 +12,7 @@
     <label for="start_time">開始日時</label>
     <input class="form-control" type="datetime-local" id="start_time" name="start_time" value="{{
       isset($meeting) ?
-      DateTime::createFromFormat('Y/m/d　H時i分', $meeting->start_time)->format('Y-m-d\Th:i')
+      $meeting->start_time
       : old('start_time')
        }}" required>
   </div>

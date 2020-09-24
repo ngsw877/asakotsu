@@ -66,7 +66,7 @@
         </tr>
         <tr class="row">
           <th scope="row" class="col-3" scope="">開始日時</th>
-          <td class="col-9">{{ $meeting->start_time }}&nbsp;〜</td>
+          <td class="col-9">{{ date('Y/m/d　H時i分', strtotime($meeting->start_time)) }}&nbsp;〜</td>
         </tr>
         @if( Auth::id() === $meeting->user_id )
           <tr class="row">
