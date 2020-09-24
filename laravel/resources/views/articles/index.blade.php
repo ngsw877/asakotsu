@@ -13,5 +13,11 @@
 
     @endforeach
   </div>
+  <div class="new-post">
+    <a class="new-post-btn" href="{{ route('articles.create') }}">
+      <p>新規投稿</p>
+      <i class="fas fa-plus"></i>
+    </a>
+  </div>
 
 @endsection
