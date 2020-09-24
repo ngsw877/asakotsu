@@ -62,8 +62,8 @@ class MeetingController extends Controller
         $body = [
             'type' => self::MEETING_TYPE_SCHEDULE,
             'topic' => $request['topic'],
-            'start_time' => $this->client->toZoomTimeFormat($request['start_time']),
             'agenda' => $request['agenda'],
+            'start_time' => $this->client->toZoomTimeFormat($request['start_time']),
             'timezone' => "Asia/Tokyo",
         ];
 
@@ -71,9 +71,9 @@ class MeetingController extends Controller
 
         // ミーティング開始日時を、日本時刻に変換
         $body = json_decode($response->getBody(), true);
-        // dd($body['start_time']);
-            $body['start_time'] = $this->client->toUnixTimeStamp($body['start_time'], $body['timezone']);
-            $body['start_time'] = date('Y/m/d　H時i分', $body['start_time']);
+        $body['start_time'] = $this->client->toUnixTimeStamp($body['start_time'], $body['timezone']);
+        dd($body['start_time']);
+        $body['start_time'] = date('Y/m/d　H時i分', $body['start_time']);
         // dd($body);
 
         // 作成したミーティング情報をDBに保存
@@ -123,20 +123,14 @@ class MeetingController extends Controller
             'start_time' => $this->client->toZoomTimeFormat($request['start_time']),
             'agenda' => $request['agenda'],
             'timezone' => "Asia/Tokyo",
-            // 'duration' => 30,
-            // 'settings' => [
-            //     'host_video' => false,
-            //     'participant_video' => false,
-            //     'waiting_room' => true,
-            // ],
         ]);
-        // $body = json_decode($response->getBody(), true);
-        dd($response);
+        // dd($response);
 
-        return [
-            'success' => $response->getStatusCode() === 204,
-            'data' => json_decode($response->getBody(), true),
-        ];
+         // DBに更新後のミーティングを保存
+         if($response->getStatusCode() === 204) {  // 204：ミーティング更新成功のHTTPステータスコード
+            $meeting->fill($request->all())->save();
+            return redirect()->route('meetings.index');
+        }
     }
 
     // public function get(Request $request, string $id)
