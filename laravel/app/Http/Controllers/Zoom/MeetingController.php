@@ -12,12 +12,9 @@ class MeetingController extends Controller
 {
 
     // const MEETING_TYPE_INSTANT = 1;
-    // const MEETING_TYPE_SCHEDULE = 2;
+    const MEETING_TYPE_SCHEDULE = 2;
     // const MEETING_TYPE_RECURRING = 3;
     // const MEETING_TYPE_FIXED_RECURRING_FIXED = 8;
-
-    const MEETING_TYPE = 2;
-
 
     private $client;
 
@@ -63,10 +60,10 @@ class MeetingController extends Controller
         // ZoomAPIへ、ミーティング作成のリクエスト
         $path = 'users/' . config('zoom.zoom_account_email') . '/meetings';
         $body = [
-            'type' => self::MEETING_TYPE,
+            'type' => self::MEETING_TYPE_SCHEDULE,
             'topic' => $request['topic'],
-            'start_time' => $this->client->toZoomTimeFormat($request['start_time']),
             'agenda' => $request['agenda'],
+            'start_time' => $this->client->toZoomTimeFormat($request['start_time']),
             'timezone' => "Asia/Tokyo",
         ];
 
@@ -74,9 +71,9 @@ class MeetingController extends Controller
 
         // ミーティング開始日時を、日本時刻に変換
         $body = json_decode($response->getBody(), true);
+        $body['start_time'] = $this->client->toUnixTimeStamp($body['start_time'], $body['timezone']);
+        $body['start_time'] = date('Y-m-d\TH:i:s', $body['start_time']);
         // dd($body['start_time']);
-            $body['start_time'] = $this->client->toUnixTimeStamp($body['start_time'], $body['timezone']);
-            $body['start_time'] = date('Y/m/d　H時i分', $body['start_time']);
         // dd($body);
 
         // 作成したミーティング情報をDBに保存
@@ -109,6 +106,33 @@ class MeetingController extends Controller
         }
     }
 
+    public function edit(Meeting $meeting)
+    {
+        return view('meetings.edit', ['meeting' => $meeting]);
+    }
+
+        public function update(MeetingRequest $request, Meeting $meeting)
+    {
+        // ZoomAPIにミーティング更新のリクエスト
+        $id = $meeting->meeting_id;
+        $path = 'meetings/' . $id;
+        // dd($id);
+        $response = $this->client->zoomPatch($path, [
+            'type' => self::MEETING_TYPE_SCHEDULE,
+            'topic' => $request['topic'],
+            'start_time' => $this->client->toZoomTimeFormat($request['start_time']),
+            'agenda' => $request['agenda'],
+            'timezone' => "Asia/Tokyo",
+        ]);
+        // dd($response);
+
+         // DBに更新後のミーティングを保存
+         if($response->getStatusCode() === 204) {  // 204：ミーティング更新成功のHTTPステータスコード
+            $meeting->fill($request->all())->save();
+            return redirect()->route('meetings.index');
+        }
+    }
+
     // public function get(Request $request, string $id)
     // {
     //     $path = 'meetings/' . $id;
@@ -125,46 +149,7 @@ class MeetingController extends Controller
     //     ];
     // }
 
-    // public function update(Request $request, string $id)
-    // {
-    //     $validator = Validator::make($request->all(), [
-    //         'topic' => 'required|string',
-    //         'start_time' => 'required|date',
-    //         'agenda' => 'string|nullable',
-    //     ]);
 
-    //     if ($validator->fails()) {
-    //         return [
-    //             'success' => false,
-    //             'data' => $validator->errors(),
-    //         ];
-    //     }
-    //     $data = $validator->validated();
-
-    //     $path = 'meetings/' . $id;
-    //     $response = $this->client->zoomPatch($path, [
-    //         'topic' => $data['topic'],
-    //         'type' => self::MEETING_TYPE_SCHEDULE,
-    //         'start_time' => (new \DateTime($data['start_time']))->format('Y-m-d\TH:i:s'),
-    //         'duration' => 30,
-    //         'agenda' => $data['agenda'],
-    //         'settings' => [
-    //             'host_video' => false,
-    //             'participant_video' => false,
-    //             'waiting_room' => true,
-    //         ],
-    //     ]);
-
-    //     return [
-    //         'success' => $response->status() === 204,
-    //         'data' => json_decode($response->body(), true),
-    //     ];
-    // }
-
-    // public function edit(Meeting $meeting)
-    // {
-    //     return view('meetings.edit', ['meeting' => $meeting]);
-    // }
 
 
 }

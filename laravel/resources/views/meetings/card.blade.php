@@ -15,7 +15,7 @@
             <i class="fas fa-ellipsis-v"></i>
           </a>
           <div class="dropdown-menu dropdown-menu-right">
-            <a class="dropdown-item" href="">
+            <a class="dropdown-item" href="{{ route('meetings.edit', ['meeting' => $meeting]) }}">
               <i class="fas fa-pen mr-1"></i>ミーティングを更新する
             </a>
             <div class="dropdown-divider"></div>
@@ -66,7 +66,7 @@
         </tr>
         <tr class="row">
           <th scope="row" class="col-3" scope="">開始日時</th>
-          <td class="col-9">{{ $meeting->start_time }}&nbsp;〜</td>
+          <td class="col-9">{{ date('Y/m/d　H時i分', strtotime($meeting->start_time)) }}&nbsp;〜</td>
         </tr>
         @if( Auth::id() === $meeting->user_id )
           <tr class="row">
