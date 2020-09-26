@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Article;
 use App\Models\Tag;
 use App\Http\Requests\ArticleRequest;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
 class ArticleController extends Controller
@@ -12,13 +13,13 @@ class ArticleController extends Controller
     public function __construct()
     {
         $this->authorizeResource(Article::class, 'article');
-        // ①Article::class　　→　　'App\Article'という文字列を返す
+        // ①Article::class　　→　　'App\Models\Article'という文字列を返す
         // ②'article'　　モデルのIDがセットされる、ルーティングのパラメータ名　→　{article}
     }
 
     public function index()
     {
-        $articles = Article::all()->sortByDesc('created_at');
+        $articles = Article::all()->sortByDesc('created_at')->load(['user', 'likes', 'tags']);
 
         return view('articles.index', ['articles' => $articles]);
     }
@@ -93,7 +94,7 @@ class ArticleController extends Controller
     public function like(Request $request, Article $article)
     {
         $article->likes()->detach($request->user()->id);
-        $article->likes()->attacarh($request->user()->id);
+        $article->likes()->attach($request->user()->id);
 
         return [
             'id' => $article->id,
