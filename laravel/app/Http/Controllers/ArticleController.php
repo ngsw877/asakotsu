@@ -12,13 +12,13 @@ class ArticleController extends Controller
     public function __construct()
     {
         $this->authorizeResource(Article::class, 'article');
-        // ①Article::class　　→　　'App\Article'という文字列を返す
+        // ①Article::class　　→　　'App\Models\Article'という文字列を返す
         // ②'article'　　モデルのIDがセットされる、ルーティングのパラメータ名　→　{article}
     }
 
     public function index()
     {
-        $articles = Article::all()->sortByDesc('created_at');
+        $articles = Article::all()->sortByDesc('created_at')->load(['user', 'likes', 'tags']);
 
         return view('articles.index', ['articles' => $articles]);
     }
