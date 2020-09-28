@@ -2,7 +2,7 @@
       <div class="card-body">
         <div class="d-flex flex-row">
           <a href="{{ route('users.show', ['name' => $user->name]) }}" class="text-dark">
-            <img src="/images/profile/{{ $user->profile_image }}" alt="">
+            <img class="profile-icon rounded-circle" src="/images/profile/{{ $user->profile_image }}" alt="">
           </a>
           @if(Auth::id() !== $user->id)
             <follow-button
