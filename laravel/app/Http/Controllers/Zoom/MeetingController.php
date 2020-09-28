@@ -61,17 +61,9 @@ class MeetingController extends Controller
     {
         // ZoomAPIへ、ミーティング作成のリクエスト
         $path = 'users/' . config('zoom.zoom_account_email') . '/meetings';
-        $body = [
-            'type' => self::MEETING_TYPE_SCHEDULE,
-            'topic' => $request['topic'],
-            'agenda' => $request['agenda'],
-            'start_time' => $this->client->toZoomTimeFormat($request['start_time']),
-            'timezone' => "Asia/Tokyo",
-        ];
+        $response = $this->client->zoomPost($path, $request->zoomParams());
 
-        $response = $this->client->zoomPost($path, $body);
-
-        // ミーティング開始日時を、日本時刻に変換
+        // レスポンスのミーティング開始日時を、日本時刻に変換
         $body = json_decode($response->getBody(), true);
         $body['start_time'] = $this->client->toUnixTimeStamp($body['start_time'], $body['timezone']);
         $body['start_time'] = date('Y-m-d\TH:i:s', $body['start_time']);
@@ -80,16 +72,9 @@ class MeetingController extends Controller
 
         // 作成したミーティング情報をDBに保存
         if($response->getStatusCode() === 201) {  // 201：ミーティング作成成功のHTTPステータスコード
-            if(isset($body['agenda'])) {
-                $meeting->agenda = $body['agenda'];
-            }
-            $meeting->meeting_id = $body['id'];
-            $meeting->topic = $body['topic'];
-            $meeting->start_time = $body['start_time'];
-            $meeting->start_url = $body['start_url'];
-            $meeting->join_url = $body['join_url'];
-            $meeting->user_id = $request->user()->id;
-            $meeting->save();
+            $meeting
+                ->fill($body + [ 'meeting_id' => $body['id'], 'user_id' => $request->user()->id ])
+                ->save();
             return redirect()->route('meetings.index');
         }
     }
@@ -119,18 +104,12 @@ class MeetingController extends Controller
         $id = $meeting->meeting_id;
         $path = 'meetings/' . $id;
         // dd($id);
-        $response = $this->client->zoomPatch($path, [
-            'type' => self::MEETING_TYPE_SCHEDULE,
-            'topic' => $request['topic'],
-            'start_time' => $this->client->toZoomTimeFormat($request['start_time']),
-            'agenda' => $request['agenda'],
-            'timezone' => "Asia/Tokyo",
-        ]);
+        $response = $this->client->zoomPatch($path, $request->zoomParams());
         // dd($response);
 
          // DBに更新後のミーティングを保存
          if($response->getStatusCode() === 204) {  // 204：ミーティング更新成功のHTTPステータスコード
-            $meeting->fill($request->all())->save();
+            $meeting->fill($request->validated())->save();
             return redirect()->route('meetings.index');
         }
     }
