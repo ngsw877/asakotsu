@@ -1,7 +1,7 @@
 <div class="card mt-4">
   <div class="card-header d-flex flex-row align-items-center">
     <a href="{{ route('users.show', ['name' => $meeting->user->name]) }}" class="text-dark m">
-      <i class="fas fa-user-circle fa-3x mr-3"></i>
+      <img class="user-icon rounded-circle mr-3" src="/images/profile/{{ $meeting->user->profile_image }}">
     </a>
     <a href="{{ route('users.show', ['name' => $meeting->user->name]) }}" class="text-dark">
       <strong>{{ $meeting->user->name }}</strong> &nbsp;さんのミーティング
