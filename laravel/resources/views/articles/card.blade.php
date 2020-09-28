@@ -1,7 +1,7 @@
 <div class="card mt-3">
   <div class="card-body d-flex flex-row">
     <a href="{{ route('users.show', ['name' => $article->user->name]) }}" class="text-dark">
-      <i class="fas fa-user-circle fa-3x mr-1"></i>
+      <img class="user-icon rounded-circle mr-3" src="/images/profile/{{ $article->user->profile_image }}">
     </a>
     <div>
       <div class="font-weight-bold">
