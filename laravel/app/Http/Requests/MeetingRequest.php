@@ -3,9 +3,19 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use App\Client\ZoomJwtClient;
 
 class MeetingRequest extends FormRequest
 {
+
+    const MEETING_TYPE_SCHEDULE = 2;
+
+    private $client;
+
+    public function __construct(ZoomJwtClient $client) {
+        $this->client = $client;
+    }
+
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -39,6 +49,14 @@ class MeetingRequest extends FormRequest
             'now' => '現在',
         ];
     }
+
+    public function zoomParams()
+    {
+        $validated = parent::validated();
+        $validated['type'] = self::MEETING_TYPE_SCHEDULE;
+        $validated['timezone'] = config('app.timezone');
+        $validated['start_time'] = $this->client->toZoomTimeFormat($validated['start_time']);
+        return $validated;
+    }
+
 }
-
-
