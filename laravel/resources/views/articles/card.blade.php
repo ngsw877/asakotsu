@@ -1,11 +1,12 @@
-<div class="card mt-3">
+<div class="card mt-3 article-card">
+  <a href="{{ route('articles.show', ['article' => $article]) }}" class="full-range-link"></a> <!-- このリンククリック範囲が親<div>全体まで広がる -->
   <div class="card-body d-flex flex-row">
-    <a href="{{ route('users.show', ['name' => $article->user->name]) }}" class="text-dark">
+    <a href="{{ route('users.show', ['name' => $article->user->name]) }}" class="in-link text-dark">
       <img class="user-icon rounded-circle mr-3" src="/images/profile/{{ $article->user->profile_image }}">
     </a>
     <div>
       <div class="font-weight-bold">
-        <a href="{{ route('users.show', ['name' => $article->user->name]) }}" class="text-dark">
+        <a href="{{ route('users.show', ['name' => $article->user->name]) }}" class="in-link text-dark">
           {{ $article->user->name }}
         </a>
       </div>
@@ -61,12 +62,7 @@
     @endif
 
   </div>
-  <div class="card-body pt-0">
-    <h3 class="h4 card-title">
-      <a class="text-dark" href="{{ route('articles.show', ['article' => $article]) }}">
-        {{ $article->title }}
-      </a>
-    </h3>
+  <div class="card-body pt-0 pb-2">
     <div class="card-text">
       {!! nl2br(e( $article->body )) !!}
     </div>
