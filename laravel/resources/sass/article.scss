@@ -1,6 +1,29 @@
 @import "component.scss";
 
 .new-post-btn {
-  @include new-post-btn
+  @include new-post-btn;
+}
+
+.article-card {
+  position: relative;
+  z-index: 1; /* 必要であればリンク要素の重なりのベース順序指定 */
+}
+
+.full-range-link {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  text-indent:-999px;
+  z-index: 2;
+}
+
+.in-link {
+  position: relative; /* ユーザーページへのリンクは普通に配置するため */
+  z-index: 3; /* リンク要素の重なり順を上にするため */
+    &:hover {
+      @include link-hover;
+  }
 }
 

@@ -1,3 +1,8 @@
+@mixin link-hover {
+  transition: all 0.6s ease;
+  opacity: 0.8;
+}
+
 @mixin new-post-btn {
 
   $btn-size: 160px;
@@ -29,8 +34,7 @@
   }
 
   &:hover {
-    transition: all 0.6s ease;
+    @include link-hover;
     color: #fff;
-    opacity: 0.8;
   }
 }
