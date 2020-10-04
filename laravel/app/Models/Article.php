@@ -37,11 +37,17 @@ class Article extends Model
 
     public function tags(): BelongsToMany
     {
-        return $this->belongsToMany(Tags::class)->withTimestamps();
+        return $this->belongsToMany(Tag::class)->withTimestamps();
     }
 
     public function comments()
     {
         return $this->hasMany(Comment::class);
+    }
+
+    // 詳細画面
+    public function getArticle(Int $article_id)
+    {
+        return $this->with('user')->where('id', $article_id)->first();
     }
 }

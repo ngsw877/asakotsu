@@ -46,6 +46,9 @@ Route::prefix('users')->name('users.')->group(function () {
   });
 });
 
+// コメント機能
+Route::resource('/comments', 'CommentController')->only(['store'])->middleware('auth');
+
 // QiitaAPIテスト
 Route::get('/post', 'PostController@index');
 
