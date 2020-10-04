@@ -46,7 +46,6 @@ class UsersTableSeeder extends Seeder
 
         for($i=4; $i <= 10; $i++) {
             DB::table('users')->insert([
-                [
                 'name' => 'test_user' . $i,
                 'email' => 'test' .$i .'@test.com',
                 'password' => Hash::make(config('12345678')),
@@ -54,7 +53,6 @@ class UsersTableSeeder extends Seeder
                 'remember_token' => Str::random(10),
                 'created_at' => now(),
                 'updated_at' => now(),
-                ],
             ]);
         }
 
