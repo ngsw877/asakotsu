@@ -33,11 +33,13 @@ Route::get('/tags/{name}', 'TagController@show')->name('tags.show');
 Route::prefix('users')->name('users.')->group(function () {
   // ユーザー詳細表示
   Route::get('/{name}', 'UserController@show')->name('show');
-  // いいね機能
+  // いいねした投稿一覧を表示
   Route::get('/{name}/likes', 'UserController@likes')->name('likes');
-  // フォロー・フォロワー機能
+  // フォロー中のユーザー一覧を表示
   Route::get('/{name}/followings', 'UserController@followings')->name('followings');
+  // フォロワー一覧を表示
   Route::get('/{name}/followers', 'UserController@followers')->name('followers');
+  // フォロー機能
   Route::middleware('auth')->group(function () {
     Route::put('/{name}/follow', 'UserController@follow')->name('follow');
     Route::delete('/{name}/follow', 'UserController@unfollow')->name('unfollow');
