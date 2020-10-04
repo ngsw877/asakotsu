@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Article;
+use App\Models\Comment;
 use App\Models\Tag;
 use App\Http\Requests\ArticleRequest;
 use Illuminate\Support\Facades\Auth;
@@ -86,9 +87,16 @@ class ArticleController extends Controller
         return redirect()->route('articles.index');
     }
 
-    public function show(Article $article)
+    public function show(Article $article, Comment $comment)
     {
-        return view('articles.show', ['article' => $article]);
+        $user = auth()->user();
+        $article = $article->getArticle($article->id);
+        $comments = $comment->getComments($article->id);
+        return view('articles.show', [
+            'user' => $user,
+            'article' => $article,
+            'comments' => $comments
+            ]);
     }
 
     public function like(Request $request, Article $article)

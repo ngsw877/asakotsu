@@ -10,18 +10,17 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 class Article extends Model
 {
     protected $fillable = [
-        'title',
         'body',
     ];
 
     public function user(): BelongsTo
     {
-        return $this->belongsTo('App\Models\User');
+        return $this->belongsTo(User::class);
     }
 
     public function likes(): BelongsToMany
     {
-        return $this->belongsToMany('App\Models\User', 'likes')->withTimestamps();
+        return $this->belongsToMany(User::class, 'likes')->withTimestamps();
     }
 
     public function isLikedBy(?User $user): bool
@@ -38,6 +37,17 @@ class Article extends Model
 
     public function tags(): BelongsToMany
     {
-        return $this->belongsToMany('App\Models\Tag')->withTimestamps();
+        return $this->belongsToMany(Tag::class)->withTimestamps();
+    }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
+
+    // 詳細画面
+    public function getArticle(Int $article_id)
+    {
+        return $this->with('user')->where('id', $article_id)->first();
     }
 }
