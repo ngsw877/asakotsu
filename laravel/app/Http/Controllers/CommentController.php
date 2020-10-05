@@ -4,29 +4,17 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Comment;
-use Illuminate\Support\Facades\Validator;
+use App\Http\Requests\CommentRequest;
 
 class CommentController extends Controller
 {
 
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request, Comment $comment)
+    public function store(CommentRequest $request, Comment $comment)
     {
         $user = auth()->user();
-        $data = $request->all();
-        $validator = Validator::make($data, [
-            'tweet_id' =>['required', 'integer'],
-            'text'     => ['required', 'string', 'max:140']
-        ]);
-
-        $validator->validate();
-        $comment->commentStore($user->id, $data);
+        $comment->fill($request->all());
+        $comment->user_id = $user->id;
+        $comment->save();
 
         return back();
     }

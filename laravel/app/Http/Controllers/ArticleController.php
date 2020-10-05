@@ -89,11 +89,9 @@ class ArticleController extends Controller
 
     public function show(Article $article, Comment $comment)
     {
-        $user = auth()->user();
         $article = $article->getArticle($article->id);
         $comments = $comment->getComments($article->id);
         return view('articles.show', [
-            'user' => $user,
             'article' => $article,
             'comments' => $comments
             ]);
