@@ -1,6 +1,7 @@
 @mixin link-hover {
   transition: all 0.6s ease;
   opacity: 0.8;
+  cursor : pointer;
 }
 
 @mixin new-post-btn {

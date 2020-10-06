@@ -6,42 +6,56 @@
 
   @include('nav')
 
-  <div class="container mt-5">
+  <div class="container my-5">
     <div class="row">
-      <div class="mx-auto col col-12 col-sm-11 col-md-9 col-lg-7 col-xl-6">
-        <h1 class="text-center"><a class="text-dark" href="/">AsaKotsu</a></h1>
-        <div class="card mt-3">
-          <div class="card-body text-center">
-            <h2 class="h3 card-title text-center mt-2">ユーザー登録</h2>
+      <div class="mx-auto col-md-8 ">
+        <div class="card">
+          <h2 class="h4 card-header text-center">ユーザー登録</h2>
+          <div class="card-body">
 
             @include('error_card_list')
 
-            <div class="card-text">
+            <div class="user-form my-4">
               <form method="POST" action="{{ route('register') }} " enctype="multipart/form-data">
                 @csrf
-                <div class="md-form">
-                  <label for="name">ユーザー名</label>
-                  <input class="form-control" type="text" id="name" name="name" required value="{{ old('name') }}">
-                  <small>2〜16文字(登録後の変更はできません)</small>
+                <div class="form-group">
+                  <label for="name">
+                    ユーザー名
+                    <small class="text-danger">（必須）</small>
+                  </label>
+                  <input class="form-control" type="text" id="name" name="name" value="{{ old('name') }}" placeholder="※15文字以内">
                 </div>
-                <div class="md-form  mb-5">
-                  <label for="email">メールアドレス</label>
-                  <input class="form-control" type="text" id="email" name="email" required value="{{ old('email') }}">
+                <div class="form-group">
+                  <label for="email">
+                    メールアドレス
+                    <small class="text-danger">（必須）</small>
+                  </label>
+                  <input class="form-control" type="text" id="email" name="email" value="{{ old('email') }}">
                 </div>
-                <div class="md-form">
-                  <label for="password">パスワード</label>
-                  <input class="form-control" type="password" id="password" name="password" required>
-                  <small>8文字以上で入力してください</small>
+                <div class="form-group">
+                  <label for="password">
+                    パスワード
+                    <small class="text-danger">（必須）</small>
+                  </label>
+                  <input class="form-control" type="password" id="password" name="password" placeholder="※8文字以上">
                 </div>
-                <div class="md-form mb-5">
-                  <label for="password_confirmation">パスワード(確認)</label>
-                  <input class="form-control" type="password" id="password_confirmation" name="password_confirmation" required>
+                <div class="form-group">
+                  <label for="password_confirmation">
+                    パスワード
+                    <small class="text-danger">（確認）</small>
+                  </label>
+                  <input class="form-control" type="password" id="password_confirmation" name="password_confirmation">
                 </div>
-                <div>
-                  <label for="profile_image">プロフィール画像</label>
+                <div class="form-group">
+                  <label for="profile_image">
+                    プロフィール画像
+                    <small class="blue-grey-text">（任意）</small>
+                  </label>
                   <input  type="file" id="profile_image" name="profile_image" accept="image/*">
                 </div>
-                <button class="btn btn-block peach-gradient mt-2 mb-2" type="submit">ユーザー登録</button>
+                <button class="btn btn-primary mt-2 mb-2" type="submit">
+                  ユーザー登録
+                </button>
               </form>
               <div class="mt-0">
                 <a href="{{ route('login') }}" class="card-text">ログインはこちら</a>
