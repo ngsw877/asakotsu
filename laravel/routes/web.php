@@ -49,9 +49,6 @@ Route::prefix('users')->name('users.')->group(function () {
 // コメント機能
 Route::resource('/comments', 'CommentController')->only(['store'])->middleware('auth');
 
-// QiitaAPIテスト
-Route::get('/post', 'PostController@index');
-
 // Zoomミーティング関連機能(CRUD)
 Route::middleware('auth')->group(function () {
   Route::resource('/meetings', 'Zoom\MeetingController');
