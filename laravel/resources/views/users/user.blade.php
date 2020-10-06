@@ -26,7 +26,7 @@
             </follow-button>
           @else
           <div class="ml-auto">
-            <button  onclick="location.href='  '" class="btn-sm shadow-none border border-success bg-success text-white p-2">
+            <button  onclick="location.href='  '" class="btn btn-success mt-2 mb-2">
               プロフィール編集
             </button>
           </div>
