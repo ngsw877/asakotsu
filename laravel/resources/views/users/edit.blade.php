@@ -27,7 +27,7 @@
                 <div class="form-group">
                   <label for="name">
                     ユーザー名
-                    <small class="blue-grey-text">(2〜16文字)</small>
+                    <small class="blue-grey-text">（15文字以内）</small>
                   </label>
                   <input class="form-control" type="text" id="name" name="name" required value="{{ $user->name ?? old('name') }}">
                 </div>
@@ -38,7 +38,7 @@
                 <div class="form-group">
                   <label for="email">
                     自己紹介文
-                    <small class="blue-grey-text">(200文字以内)</small>
+                    <small class="blue-grey-text">（200文字以内）</small>
                   </label>
                   <textarea name="self_introduction" class="form-control" rows="8">
                     {{ $user->self_introduction ?? old('self_introduction') }}

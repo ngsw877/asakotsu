@@ -19,23 +19,38 @@
               <form method="POST" action="{{ route('register') }} " enctype="multipart/form-data">
                 @csrf
                 <div class="form-group">
-                  <label for="name">ユーザー名</label>
-                  <input class="form-control" type="text" id="name" name="name" required value="{{ old('name') }}" placeholder="2〜16文字(登録後の変更はできません)">
+                  <label for="name">
+                    ユーザー名
+                    <small class="text-danger">（必須）</small>
+                  </label>
+                  <input class="form-control" type="text" id="name" name="name" value="{{ old('name') }}" placeholder="※15文字以内">
                 </div>
                 <div class="form-group">
-                  <label for="email">メールアドレス</label>
-                  <input class="form-control" type="text" id="email" name="email" required value="{{ old('email') }}">
+                  <label for="email">
+                    メールアドレス
+                    <small class="text-danger">（必須）</small>
+                  </label>
+                  <input class="form-control" type="text" id="email" name="email" value="{{ old('email') }}">
                 </div>
                 <div class="form-group">
-                  <label for="password">パスワード</label>
-                  <input class="form-control" type="password" id="password" name="password" required placeholder="8文字以上で入力してください">
+                  <label for="password">
+                    パスワード
+                    <small class="text-danger">（必須）</small>
+                  </label>
+                  <input class="form-control" type="password" id="password" name="password" placeholder="※8文字以上">
                 </div>
                 <div class="form-group">
-                  <label for="password_confirmation">パスワード(確認)</label>
-                  <input class="form-control" type="password" id="password_confirmation" name="password_confirmation" required>
+                  <label for="password_confirmation">
+                    パスワード
+                    <small class="text-danger">（確認）</small>
+                  </label>
+                  <input class="form-control" type="password" id="password_confirmation" name="password_confirmation">
                 </div>
                 <div class="form-group">
-                  <label for="profile_image">プロフィール画像</label>
+                  <label for="profile_image">
+                    プロフィール画像
+                    <small class="blue-grey-text">（任意）</small>
+                  </label>
                   <input  type="file" id="profile_image" name="profile_image" accept="image/*">
                 </div>
                 <button class="btn btn-primary mt-2 mb-2" type="submit">
