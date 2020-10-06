@@ -24,7 +24,7 @@ Route::resource('/articles', 'ArticleController')->only(['show']);
 # 投稿のタグ機能
 Route::get('/tags/{name}', 'TagController@show')->name('tags.show');
 
-# ユーザー関連機能
+# ユーザー関連機
 Route::prefix('users')->name('users.')->group(function () {
   // ユーザー詳細表示
   Route::get('/{name}', 'UserController@show')->name('show');
@@ -43,7 +43,7 @@ Route::get('/test', function() {
 });
 
 
-# ログイン状態で使用可能
+### ログイン状態で使用可能 ###
 Route::group(['middleware' => 'auth'], function() {
 
   // ユーザー投稿関係(create, edit, update, destroy)
@@ -55,10 +55,16 @@ Route::group(['middleware' => 'auth'], function() {
     Route::delete('/{article}/like', 'ArticleController@unlike')->name('unlike');
   });
 
-  // フォロー機能
-  Route::prefix('users')->name('users.')->group(function () {
-    Route::put('/{name}/follow', 'UserController@follow')->name('follow');
-    Route::delete('/{name}/follow', 'UserController@unfollow')->name('unfollow');
+  # ユーザー関係
+  Route::prefix('users/{name}')->name('users.')->group(function () {
+    // フォロー機能
+    Route::put('/follow', 'UserController@follow')->name('follow');
+    Route::delete('/follow', 'UserController@unfollow')->name('unfollow');
+
+    // ユーザープロフィール関係(edit, update, destroy)
+    Route::get('/edit', 'UserController@edit')->name('edit');
+    // Route::patch('/', 'UserController@update')->name('update');
+    // Route::delete('/', 'UserController@destroy')->name('destroy');
   });
 
   // コメント機能

@@ -26,9 +26,9 @@
             </follow-button>
           @else
           <div class="ml-auto">
-            <button  onclick="location.href='  '" class="btn btn-success mt-2 mb-2">
+            <a  href="{{ route('users.edit', ['name' => Auth::user()->name]) }}" class="btn btn-success mt-2 mb-2">
               プロフィール編集
-            </button>
+            </a>
           </div>
           @endif
         </div>
