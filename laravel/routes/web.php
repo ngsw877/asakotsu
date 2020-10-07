@@ -19,7 +19,8 @@ Route::get('guest', 'Auth\LoginController@guestLogin')->name('login.guest');
 
 # ユーザー投稿関係(index, show)
 Route::get('/', 'ArticleController@index')->name('articles.index');
-Route::resource('/articles', 'ArticleController')->only(['show']);
+Route::get('articles/{article}', 'ArticleController@show')->name('articles.show')->where('article', '[0-9]+'); // 正規表現追加 (※createメソッド実行時に404エラーが発生するため)
+
 
 # 投稿のタグ機能
 Route::get('/tags/{name}', 'TagController@show')->name('tags.show');
