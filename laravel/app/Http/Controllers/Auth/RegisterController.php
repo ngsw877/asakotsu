@@ -65,29 +65,14 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        // $file = $data['profile_image'];
-        // dd($file);
         if(!isset($data['profile_image'])) {
             $fileName = 'default.png';
-            // $file_path = "/images/profile_image/etc.png";
         } else {
             $file = $data['profile_image'];
             $fileName = time() . '.' . $file->getClientOriginalName();
             $target_path = public_path('/images/profile/');
             $file->move($target_path,$fileName);
         }
-
-
-        // if($file = $data['profile_image']) {
-        //     $fileName = time() . '.' . $file->getClientOriginalName();
-        // } else {
-        //     $fileName = 'default.png';
-        // }
-
-        // $target_path = public_path('/images/profile/');
-        // $file->move($target_path,$fileName);
-
-        // dd($fileName);
 
         return User::create([
             'name' => $data['name'],

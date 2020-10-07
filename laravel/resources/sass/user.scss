@@ -11,3 +11,16 @@
   object-fit: cover;
 }
 
+.user-form {
+  margin: auto;
+  width: 60%;
+}
+
+.image-upload:hover {
+  @include link-hover;
+}
+
+::placeholder {
+  font-size: 85%;
+}
+
