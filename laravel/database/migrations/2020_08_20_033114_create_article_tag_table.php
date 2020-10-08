@@ -15,16 +15,16 @@ class CreateArticleTagTable extends Migration
     {
         Schema::create('article_tag', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigInteger('article_id')->unsigned();
-            $table->foreign('article_id')
-                ->references('id')
-                ->on('articles')
-                ->onDelete('cascade');
-            $table->bigInteger('tag_id')->unsigned();
-            $table->foreign('tag_id')
-                ->references('id')
-                ->on('tags')
-                ->onDelete('cascade');
+            $table->bigInteger('article_id')->unsigned()->comment('投稿ID');
+                $table->foreign('article_id')
+                    ->references('id')
+                    ->on('articles')
+                    ->onDelete('cascade');
+            $table->bigInteger('tag_id')->unsigned()->comment('タグID');
+                $table->foreign('tag_id')
+                    ->references('id')
+                    ->on('tags')
+                    ->onDelete('cascade');
             $table->timestamps();
         });
     }

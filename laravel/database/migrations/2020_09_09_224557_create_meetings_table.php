@@ -15,13 +15,14 @@ class CreateMeetingsTable extends Migration
     {
         Schema::create('meetings', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('topic');
-            $table->string('agenda');
-            $table->string('start_time');
-            $table->string('start_url');
-            $table->string('join_url');
-            $table->bigInteger('user_id')->unsigned();
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->bigInteger('meeting_id')->comment('ミーティングID');
+            $table->string('topic')->comment('ミーティング名');
+            $table->string('agenda')->nullable()->comment('テーマ名');
+            $table->string('start_time')->comment('ミーティング開始時間');
+            $table->text('start_url')->comment('ホスト用URL');
+            $table->text('join_url')->comment('参加者URL');
+            $table->bigInteger('user_id')->unsigned()->comment('ユーザーID');
+                $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();
         });
     }
