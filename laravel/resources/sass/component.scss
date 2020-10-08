@@ -4,11 +4,10 @@
   cursor : pointer;
 }
 
-@mixin new-post-btn {
+@mixin new-post-btn ($btn-color: #fb3) {
 
   $btn-size: 160px;
   $btn-position: 35px;
-  $btn-collor:#FCA482;
 
   width: $btn-size;
   height: $btn-size;
@@ -16,7 +15,7 @@
   bottom: $btn-position;
   right: $btn-position;
   z-index: 9999;
-  background-color: $btn-collor;
+  background-color: $btn-color;
   color: #fff;
   border-radius: 50%;
   text-align: center;
