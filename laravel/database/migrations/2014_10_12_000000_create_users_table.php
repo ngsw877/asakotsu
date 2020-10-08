@@ -18,6 +18,8 @@ class CreateUsersTable extends Migration
             $table->string('name')->unique()->comment('ユーザー名');
             $table->string('profile_image')->nullable()->comment('プロフィール画像');
             $table->text('self_introduction')->nullable()->comment('自己紹介文');
+            $table->time('wake_up_time')->default('07:00:00')->comment('目標起床時間');
+            $table->unsignedTinyInteger('range_of_success')->default(3)->comment('早起き成功時間帯の範囲');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
