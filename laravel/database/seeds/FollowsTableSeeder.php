@@ -12,7 +12,9 @@ class FollowsTableSeeder extends Seeder
         for($i = 2; $i <= 10; $i++) {
             DB::table('follows')->insert([
                 'followee_id' => $i,
-                'follower_id' => 1
+                'follower_id' => 1,
+                'created_at' => now(),
+                'updated_at' => now()
             ]);
         }
 
@@ -20,7 +22,9 @@ class FollowsTableSeeder extends Seeder
         for($i = 4; $i <= 10; $i++) {
             DB::table('follows')->insert([
                 'followee_id' => 1,
-                'follower_id' => $i
+                'follower_id' => $i,
+                'created_at' => now(),
+                'updated_at' => now()
             ]);
         }
     }
