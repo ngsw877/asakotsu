@@ -1,7 +1,7 @@
 @import "component.scss";
 
-.new-post-btn {
-  @include new-post-btn;
+.new-article-btn {
+  @include new-post-btn ();
 }
 
 .article-card {
