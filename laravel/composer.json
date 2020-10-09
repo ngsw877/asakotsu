@@ -14,7 +14,8 @@
         "firebase/php-jwt": "^5.2",
         "guzzlehttp/guzzle": "^7.0",
         "laravel/framework": "^6.2",
-        "laravel/tinker": "^2.0"
+        "laravel/tinker": "^2.0",
+        "nesbot/carbon": "^2.41"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.5",

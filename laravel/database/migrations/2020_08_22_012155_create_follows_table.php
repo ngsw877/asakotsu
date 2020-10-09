@@ -16,17 +16,17 @@ class CreateFollowsTable extends Migration
         Schema::create('follows', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('follower_id')
-                ->unsigned();
-            $table->foreign('follower_id')
-                ->references('id')
-                ->on('users')
-                ->onDelete('cascade');
+                ->unsigned()->comment('フォロワーID');
+                $table->foreign('follower_id')
+                    ->references('id')
+                    ->on('users')
+                    ->onDelete('cascade');
             $table->bigInteger('followee_id')
-                ->unsigned();
-            $table->foreign('followee_id')
-                ->references('id')
-                ->on('users')
-                ->onDelete('cascade');
+                ->unsigned()->comment('フォロー中のユーザーID');
+                $table->foreign('followee_id')
+                    ->references('id')
+                    ->on('users')
+                    ->onDelete('cascade');
             $table->timestamps();
         });
     }
