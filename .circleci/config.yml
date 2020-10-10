@@ -4,4 +4,17 @@ jobs:
     docker:
       - image: circleci/php:7.3-node-browsers
     steps:
-      - run: echo "Hello World"
+      - checkout
+      - run:
+          working_directory: laravel
+          command: composer install -n --prefer-dist
+      - run:
+          working_directory: laravel
+          command: npm ci
+      - run:
+          working_directory: laravel
+          command: npm run dev
+      - run:
+          working_directory: laravel
+          name: php test
+          command: vendor/bin/phpunit
