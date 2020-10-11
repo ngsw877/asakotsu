@@ -5,9 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\Article;
 use App\Models\Comment;
 use App\Models\Tag;
+use App\Models\User;
 use App\Http\Requests\ArticleRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class ArticleController extends Controller
 {
@@ -38,16 +40,35 @@ class ArticleController extends Controller
 
     public function store(ArticleRequest $request, Article $article)
     {
-        $article->fill($request->all());
-        $article->user_id = $request->user()->id;
-        $article->save();
-
+        // 投稿をDBに保存
+        $user = $request->user();
+        $article = $user->articles()->create($request->all());
         $request->tags->each(function ($tagName) use ($article) {
             $tag = Tag::firstOrCreate(['name' => $tagName]);
             $article->tags()->attach($tag);
         });
 
+
+        // 早起き成功かどうか判定し、成功の場合にその日付をDBに履歴として保存する
+
+        if (
+            $user->wake_up_time->copy()->subHour($user->range_of_success) <= $article->created_at
+            && $article->created_at <= $user->wakeup_time
+        ) {
+            $user->achivement_days()->firstOrCreate([
+                'date' => $article->created_at->copy()->startOfDay(),
+            ]);
+        }
+
+        // 早起き達成日数のランキング
+        User::withCount(['achivement_days' => function ($query) {
+            $query->where('date', '>=', Carbon::today()->subDay(30));
+        }])
+            ->orderBy('achivement_days_count', 'desc')
+            ->get();
+
         return redirect()->route('articles.index');
+
     }
 
     public function edit(Article $article)
@@ -94,7 +115,7 @@ class ArticleController extends Controller
         return view('articles.show', [
             'article' => $article,
             'comments' => $comments
-            ]);
+        ]);
     }
 
     public function like(Request $request, Article $article)
@@ -117,5 +138,4 @@ class ArticleController extends Controller
             'countLikes' => $article->count_likes,
         ];
     }
-
 }

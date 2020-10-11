@@ -7,10 +7,16 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Carbon\CarbonImmutable as Carbon;
 
 class User extends Authenticatable
 {
     use Notifiable;
+
+    // protected $dates = [
+    //     'wake_up_time'
+    // ];
+
 
     /**
      * The attributes that are mass assignable.
@@ -18,7 +24,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password','profile_image',
+        'name', 'email', 'password', 'profile_image',
     ];
 
     /**
@@ -39,9 +45,16 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+
+
     public function articles(): HasMany
     {
         return $this->hasMany('App\Models\Article');
+    }
+
+    public function achivement_days(): HasMany
+    {
+        return $this->hasMany(Achievement_days::class);
     }
 
     public function followers(): BelongsToMany
@@ -74,6 +87,22 @@ class User extends Authenticatable
     public function getCountFollowingsAttribute(): int
     {
         return $this->followings->count();
+    }
+
+    /**
+     * @override Model@getWakeUpTimeAttribute
+     */
+    public function getWakeUpTimeAttribute(): Carbon
+    {
+        return new Carbon($this->attributes['wake_up_time']);
+    }
+
+    /**
+     * @override Model@setWakeUpTimeAttribute
+     */
+    public function setWakeUpTimeAttibute($value)
+    {
+        $this->attributes['wake_up_time'] = $value->format('H:i:s');
     }
 
 }
