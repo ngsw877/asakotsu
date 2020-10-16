@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use App\Http\Requests\UserRequest;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -30,10 +31,14 @@ class UserController extends Controller
         return view('users.edit', ['user' => $user]);
     }
 
-    // public function update(string $name)
-    // {
+    public function update(UserRequest $request, string $name)
+    {
+        $user = User::where('name', $name)->first();
+        $user->fill($request->all())->save();
 
-    // }
+        return redirect()->route('users.show',['name' => $user->name]);
+
+    }
 
     // public function destroy(string $name)
     // {

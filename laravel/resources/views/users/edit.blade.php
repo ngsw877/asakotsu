@@ -15,7 +15,7 @@
             @include('error_card_list')
 
             <div class="user-form my-4">
-              <form method="POST" action="" enctype="multipart/form-data">
+              <form method="POST" action="{{ route('users.update', ['name' => $user->name]) }}" enctype="multipart/form-data">
                 @method('PATCH')
                 @csrf
                 <div class="form-group text-center">
