@@ -54,6 +54,7 @@ class RegisterController extends Controller
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
             'profile_image' => ['file','mimes:jpeg,png,jpg,bmb','max:2048'],
+            'wake_up_time' => ['required', 'string'],
         ]);
     }
 
@@ -65,6 +66,7 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+        // 画像のファイル名の設定と、画像のアップロード
         if(!isset($data['profile_image'])) {
             $fileName = 'default.png';
         } else {
@@ -74,11 +76,13 @@ class RegisterController extends Controller
             $file->move($target_path,$fileName);
         }
 
+        // ユーザー情報の登録
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
             'profile_image' => $fileName,
+            'wake_up_time' => $data['wake_up_time'],
         ]);
     }
 }

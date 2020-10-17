@@ -42,9 +42,16 @@
                 <div class="form-group">
                   <label for="password_confirmation">
                     パスワード
-                    <small class="text-danger">（確認）</small>
+                    <small class="text-danger">（必須）</small>
                   </label>
                   <input class="form-control" type="password" id="password_confirmation" name="password_confirmation">
+                </div>
+                <div class="form-group">
+                  <label for="wake_up_time">
+                    目標起床時間
+                    <small class="blue-grey-text">（04:00 〜 10:00）</small>
+                  </label>
+                  <input class="form-control" type="time" id="wake_up_time" name="wake_up_time" value="07:00" min="04:00" max="10:00">
                 </div>
                 <div class="form-group">
                   <label for="profile_image">
