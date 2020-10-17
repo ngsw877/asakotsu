@@ -30,7 +30,7 @@ class UserRequest extends FormRequest
             'password' => 'string|min:8|confirmed',
             'profile_image' => 'file|mimes:jpeg,png,jpg,bmb|max:2048',
             'self_introduction' => 'string|max:200',
-            'wake_up_time' => 'date',
+            'wake_up_time' => 'date_format:"H:i"',
         ];
     }
 

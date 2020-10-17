@@ -54,7 +54,7 @@ class RegisterController extends Controller
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
             'profile_image' => ['file','mimes:jpeg,png,jpg,bmb','max:2048'],
-            'wake_up_time' => ['required', 'string'],
+            'wake_up_time' => ['required', 'date_format:"H:i"'],
         ]);
     }
 
