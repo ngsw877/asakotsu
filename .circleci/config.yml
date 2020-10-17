@@ -4,4 +4,35 @@ jobs:
     docker:
       - image: circleci/php:7.3-node-browsers
     steps:
-      - run: echo "Hello World"
+      - checkout
+
+      - restore_cache:
+          key: composer-v2-{{ checksum "laravel/composer.lock" }}
+      - run:
+          working_directory: laravel
+          command: composer install -n --prefer-dist
+      - save_cache:
+          key: composer-v2-{{ checksum "laravel/composer.lock" }}
+          paths:
+            - laravel/vendor
+
+      - restore_cache:
+          key: npm-v2-{{ checksum "laravel/package-lock.json" }}
+      - run:
+          working_directory: laravel
+          name: npm ci
+          command: |
+            if [ ! -d node_modules ]; then
+              npm ci
+            fi
+      - save_cache:
+          key: npm-v2-{{ checksum "laravel/package-lock.json" }}
+          paths:
+            - laravel/node_modules
+      - run:
+          working_directory: laravel
+          command: npm run dev
+      - run:
+          working_directory: laravel
+          name: php test
+          command: vendor/bin/phpunit
