@@ -24,16 +24,27 @@
                     <input type="file" name="profile_image" id="profile_image" class="d-none">
                   </label>
                 </div>
+                @if (Auth::user()->name == 'ゲストユーザー')
+                  <p class="text-danger">※ゲストユーザーは、ユーザー名とメールアドレスを編集できません。</p>
+                @endif
                 <div class="form-group">
                   <label for="name">
                     ユーザー名
                     <small class="blue-grey-text">（15文字以内）</small>
                   </label>
-                  <input class="form-control" type="text" id="name" name="name" value="{{ $user->name ?? old('name') }}">
+                  @if (Auth::user()->name == 'ゲストユーザー')
+                    <input class="form-control" type="text" id="name" name="name" value="{{ $user->name }}" disabled>
+                  @else
+                    <input class="form-control" type="text" id="name" name="name" value="{{ $user->name ?? old('name') }}">
+                  @endif
                 </div>
                 <div class="form-group">
                   <label for="email">メールアドレス</label>
-                  <input class="form-control" type="text" id="email" name="email" value="{{ $user->email ?? old('email') }}">
+                  @if (Auth::user()->email == 'guest@guest.com')
+                    <input class="form-control" type="text" id="email" name="email" value="{{ $user->email }}" disabled>
+                  @else
+                    <input class="form-control" type="text" id="email" name="email" value="{{ $user->email ?? old('email') }}">
+                  @endif
                 </div>
                 <div class="form-group">
                   <label for="wake_up_time">
