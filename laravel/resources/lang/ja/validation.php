@@ -149,6 +149,7 @@ return [
         'name' => 'ユーザー名',
         'email' => 'メールアドレス',
         'password' => 'パスワード',
+        'wake_up_time' => '目標起床時間',
     ],
 
 ];
