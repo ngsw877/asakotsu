@@ -43,8 +43,8 @@ class MeetingRequest extends FormRequest
     public function attributes()
     {
         return [
-            'title' => 'タイトル',
-            'body' => '本文',
+            'topic' => 'ミーティング名',
+            'agenda' => 'テーマ',
             'start_time' => '開始日時',
             'now' => '現在',
         ];
