@@ -29,11 +29,23 @@
                     ユーザー名
                     <small class="blue-grey-text">（15文字以内）</small>
                   </label>
-                  <input class="form-control" type="text" id="name" name="name" required value="{{ $user->name ?? old('name') }}">
+                  <input class="form-control" type="text" id="name" name="name" value="{{ $user->name ?? old('name') }}">
                 </div>
                 <div class="form-group">
                   <label for="email">メールアドレス</label>
-                  <input class="form-control" type="text" id="email" name="email" required value="{{ $user->email ?? old('email') }}">
+                  <input class="form-control" type="text" id="email" name="email" value="{{ $user->email ?? old('email') }}">
+                </div>
+                <div class="form-group">
+                  <label for="wake_up_time">
+                    目標起床時間
+                    <small class="blue-grey-text">（04:00 〜 10:00）</small>
+                  </label>
+                  <input class="form-control" type="time" id="wake_up_time" name="wake_up_time" min="04:00" max="10:00"
+                  value="{{
+                    null !== old('wake_up_time') ?
+                    Carbon\Carbon::parse(old('wake_up_time'))->toTimeString() :
+                    $user->wake_up_time->format('H:i')
+                  }}">
                 </div>
                 <div class="form-group">
                   <label for="email">
