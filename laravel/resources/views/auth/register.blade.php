@@ -54,7 +54,7 @@
                   <input class="form-control" type="time" id="wake_up_time" name="wake_up_time" min="04:00" max="10:00"
                   value="{{
                     null !== old('wake_up_time') ?
-                    Carbon\Carbon::parse(old('wake_up_time'))->toTimeString() :
+                    Carbon\Carbon::parse(old('wake_up_time'))->format('H:i') :
                     '07:00'
                   }}">
                 </div>
