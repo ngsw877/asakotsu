@@ -15,7 +15,7 @@
             @include('error_card_list')
 
             <div class="user-form my-4">
-              <form method="POST" action="" enctype="multipart/form-data">
+              <form method="POST" action="{{ route('users.update', ['name' => $user->name]) }}" enctype="multipart/form-data">
                 @method('PATCH')
                 @csrf
                 <div class="form-group text-center">
@@ -40,9 +40,7 @@
                     自己紹介文
                     <small class="blue-grey-text">（200文字以内）</small>
                   </label>
-                  <textarea name="self_introduction" class="form-control" rows="8">
-                    {{ $user->self_introduction ?? old('self_introduction') }}
-                  </textarea>
+                  <textarea name="self_introduction" class="form-control" rows="8">{{ $user->self_introduction ?? old('self_introduction') }}</textarea>
                 </div>
                 <button class="btn btn-primary mt-2 mb-2" type="submit">
                   保存
