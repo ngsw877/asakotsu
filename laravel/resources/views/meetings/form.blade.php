@@ -10,10 +10,6 @@
 <div class="row">
   <div class="form-group h5 col-xs-2 mx-auto">
     <label for="start_time">開始日時</label>
-    <input class="form-control" type="datetime-local" id="start_time" name="start_time" value="{{
-      isset($meeting) ?
-      $meeting->start_time
-      : old('start_time')
-       }}" required>
+    <input class="form-control" type="datetime-local" id="start_time" name="start_time" value="{{ $meeting->start_time ?? old('start_time') }}">
   </div>
 </div>

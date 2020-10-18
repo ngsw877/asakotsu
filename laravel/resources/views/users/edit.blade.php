@@ -15,7 +15,7 @@
             @include('error_card_list')
 
             <div class="user-form my-4">
-              <form method="POST" action="" enctype="multipart/form-data">
+              <form method="POST" action="{{ route('users.update', ['name' => $user->name]) }}" enctype="multipart/form-data">
                 @method('PATCH')
                 @csrf
                 <div class="form-group text-center">
@@ -24,25 +24,46 @@
                     <input type="file" name="profile_image" id="profile_image" class="d-none">
                   </label>
                 </div>
+                @if (Auth::user()->name == 'ゲストユーザー')
+                  <p class="text-danger">※ゲストユーザーは、ユーザー名とメールアドレスを編集できません。</p>
+                @endif
                 <div class="form-group">
                   <label for="name">
                     ユーザー名
                     <small class="blue-grey-text">（15文字以内）</small>
                   </label>
-                  <input class="form-control" type="text" id="name" name="name" required value="{{ $user->name ?? old('name') }}">
+                  @if (Auth::user()->name == 'ゲストユーザー')
+                    <input class="form-control" type="text" id="name" name="name" value="{{ $user->name }}" disabled>
+                  @else
+                    <input class="form-control" type="text" id="name" name="name" value="{{ $user->name ?? old('name') }}">
+                  @endif
                 </div>
                 <div class="form-group">
                   <label for="email">メールアドレス</label>
-                  <input class="form-control" type="text" id="email" name="email" required value="{{ $user->email ?? old('email') }}">
+                  @if (Auth::user()->email == 'guest@guest.com')
+                    <input class="form-control" type="text" id="email" name="email" value="{{ $user->email }}" disabled>
+                  @else
+                    <input class="form-control" type="text" id="email" name="email" value="{{ $user->email ?? old('email') }}">
+                  @endif
+                </div>
+                <div class="form-group">
+                  <label for="wake_up_time">
+                    目標起床時間
+                    <small class="blue-grey-text">（04:00 〜 10:00）</small>
+                  </label>
+                  <input class="form-control" type="time" id="wake_up_time" name="wake_up_time" min="04:00" max="10:00"
+                  value="{{
+                    null !== old('wake_up_time') ?
+                    Carbon\Carbon::parse(old('wake_up_time'))->format('H:i') :
+                    $user->wake_up_time->format('H:i')
+                  }}">
                 </div>
                 <div class="form-group">
                   <label for="email">
                     自己紹介文
                     <small class="blue-grey-text">（200文字以内）</small>
                   </label>
-                  <textarea name="self_introduction" class="form-control" rows="8">
-                    {{ $user->self_introduction ?? old('self_introduction') }}
-                  </textarea>
+                  <textarea name="self_introduction" class="form-control" rows="8">{{ $user->self_introduction ?? old('self_introduction') }}</textarea>
                 </div>
                 <button class="btn btn-primary mt-2 mb-2" type="submit">
                   保存
