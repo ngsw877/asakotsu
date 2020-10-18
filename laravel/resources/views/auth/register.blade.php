@@ -51,7 +51,12 @@
                     目標起床時間
                     <small class="blue-grey-text">（04:00 〜 10:00）</small>
                   </label>
-                  <input class="form-control" type="time" id="wake_up_time" name="wake_up_time" value="07:00" min="04:00" max="10:00">
+                  <input class="form-control" type="time" id="wake_up_time" name="wake_up_time" min="04:00" max="10:00"
+                  value="{{
+                    null !== old('wake_up_time') ?
+                    Carbon\Carbon::parse(old('wake_up_time'))->format('H:i') :
+                    '07:00'
+                  }}">
                 </div>
                 <div class="form-group">
                   <label for="profile_image">

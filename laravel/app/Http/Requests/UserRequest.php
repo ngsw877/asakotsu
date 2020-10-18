@@ -25,12 +25,11 @@ class UserRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'string|max:15|' . Rule::unique('users')->ignore(Auth::id()),
-            'email' => 'string|email|max:255|' . Rule::unique('users')->ignore(Auth::id()),
-            'password' => 'string|min:8|confirmed',
+            'name' => 'required|string|max:15|' . Rule::unique('users')->ignore(Auth::id()),
+            'email' => 'required|string|email|max:255|' . Rule::unique('users')->ignore(Auth::id()),
             'profile_image' => 'file|mimes:jpeg,png,jpg,bmb|max:2048',
-            'self_introduction' => 'string|max:200',
-            'wake_up_time' => 'date_format:"H:i"',
+            'self_introduction' => 'string|max:200|nullable',
+            'wake_up_time' => 'required|date_format:"H:i"',
         ];
     }
 
