@@ -53,7 +53,7 @@
   * Docker 19.03.12
   * docker-compose 1.26.2
   * nginx 1.18
-  * mysql 5.7
+  * mysql 5.7.31
 
 * その他使用ツール
   * VisualStudioCode
