@@ -1,0 +1,165 @@
+AWSTemplateFormatVersion: 2010-09-09
+
+Parameters:
+  VpcCidrBlock:
+    Type: String
+    Default: 172.18.0.0/16
+  PublicSubnetCidrBlock:
+    Type: String
+    Default: 172.18.3.0/24
+  PrivateSubnet01CidrBlock:
+    Type: String
+    Default: 172.18.6.0/24
+  PrivateSubnet02CidrBlock:
+    Type: String
+    Default: 172.18.7.0/24
+  Ec2ImageId:
+#    Type: AWS::SSM::Parameter::Value<String>
+#    Default: /aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2
+    Type: String
+    Default: ami-0f310fced6141e627
+  Ec2InstanceType:
+    Type: String
+    Default: t2.micro
+  Ec2KeyName:
+    Type: String
+    Default: laravel-ci-ec2-user
+
+Resources:
+  VPC:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: !Ref VpcCidrBlock
+      Tags:
+        -
+          Key: Name
+          Value: !Ref AWS::StackName
+  PublicSubnet:
+    Type: AWS::EC2::Subnet
+    Properties:
+      CidrBlock: !Ref PublicSubnetCidrBlock
+      MapPublicIpOnLaunch: true
+      VpcId: !Ref VPC
+      AvailabilityZone: ap-northeast-1a
+      Tags:
+        - Key: Name
+          Value: !Sub ${AWS::StackName}-public-subnet
+  PrivateSubnet01:
+    Type: AWS::EC2::Subnet
+    Properties:
+      CidrBlock: !Ref PrivateSubnet01CidrBlock
+      MapPublicIpOnLaunch: false
+      VpcId: !Ref VPC
+      AvailabilityZone: ap-northeast-1a
+      Tags:
+        - Key: Name
+          Value: !Sub ${AWS::StackName}-private-subnet-01
+  PrivateSubnet02:
+    Type: AWS::EC2::Subnet
+    Properties:
+      CidrBlock: !Ref PrivateSubnet02CidrBlock
+      MapPublicIpOnLaunch: false
+      VpcId: !Ref VPC
+      AvailabilityZone: ap-northeast-1c
+      Tags:
+        - Key: Name
+          Value: !Sub ${AWS::StackName}-private-subnet-02
+  DBSubnetGroup:
+    Type: AWS::RDS::DBSubnetGroup
+    Properties:
+      DBSubnetGroupDescription: !Ref AWS::StackName
+      DBSubnetGroupName: !Ref AWS::StackName
+      SubnetIds:
+        - !Ref PrivateSubnet01
+        - !Ref PrivateSubnet02
+  InternetGateway:
+    Type: AWS::EC2::InternetGateway
+    Properties:
+      Tags:
+        - Key: Name
+          Value: !Ref AWS::StackName
+  AttachInternetGateway:
+    Type: AWS::EC2::VPCGatewayAttachment
+    Properties:
+      InternetGatewayId : !Ref InternetGateway
+      VpcId: !Ref VPC
+  RouteTableForPublicSubnet:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref VPC
+      Tags:
+        - Key: Name
+          Value: !Sub ${AWS::StackName}-rt-for-public-subnet
+  RouteForPublicSubnet:
+    Type: AWS::EC2::Route
+    Properties:
+      RouteTableId: !Ref RouteTableForPublicSubnet
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId: !Ref InternetGateway
+  AssocciateRouteTableForPublicSubnet:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId: !Ref RouteTableForPublicSubnet
+      SubnetId: !Ref PublicSubnet
+  SecurityGroupForPublicServer:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupName: !Sub ${AWS::StackName}-sg-for-public-server
+      GroupDescription: !Sub ${AWS::StackName}-sg-for-public-server
+      VpcId: !Ref VPC
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 22
+          ToPort: 22
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: 443
+          ToPort: 443
+          CidrIp: 0.0.0.0/0
+      Tags:
+        - Key: Name
+          Value: !Sub ${AWS::StackName}-sg-for-public-server
+  PublicServer:
+    Type: AWS::EC2::Instance
+    Properties:
+      ImageId: !Ref Ec2ImageId
+      InstanceType: !Ref Ec2InstanceType
+      KeyName: !Ref Ec2KeyName
+      #      SubnetId: !Ref PublicSubnet
+      #      SecurityGroupIds:
+      #        - !Ref SecurityGroupForPublicServer
+      NetworkInterfaces:
+        - SubnetId: !Ref PublicSubnet # Network interfaces and an instance-level subnet ID may not be specified on the same request
+          GroupSet:
+            - !Ref SecurityGroupForPublicServer # Network interfaces and an instance-level security groups may not be specified on the same request
+          AssociatePublicIpAddress: true
+          DeviceIndex : 0 # Property DeviceIndex cannot be empty.
+      Tags:
+        - Key: Name
+          Value: !Sub ${AWS::StackName}-ec2
+  ElasticIpForPublicServer:
+    Type: AWS::EC2::EIP
+    Properties:
+      InstanceId: !Ref PublicServer
+  SecurityGroupForPrivateServer:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupName: !Sub ${AWS::StackName}-sg-for-private-server
+      GroupDescription: !Sub ${AWS::StackName}-sg-for-private-server
+      VpcId: !Ref VPC
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 22
+          ToPort: 22
+          SourceSecurityGroupId: !Ref SecurityGroupForPublicServer
+        - IpProtocol: tcp
+          FromPort: 3306
+          ToPort: 3306
+          SourceSecurityGroupId: !Ref SecurityGroupForPublicServer
+      Tags:
+        - Key: Name
+          Value: !Sub ${AWS::StackName}-sg-for-private-server

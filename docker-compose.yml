@@ -20,6 +20,7 @@ services:
   app:
     container_name: php
     build: ./docker/php
+    image: php:7.4-fpm
     volumes:
       - .:/var/www/html
       # ホストのエイリアスコマンドを共有
