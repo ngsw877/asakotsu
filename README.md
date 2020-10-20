@@ -48,8 +48,11 @@
 * バックエンド
   * PHP 7.4.9
   * Laravel 6.18.36
+  * PHPUnit 8.5.8
 
 * インフラ
+  * AWS(EC2, VPC, RDS, CloudFormation)
+  * CircleCi
   * Docker 19.03.12
   * docker-compose 1.26.2
   * nginx 1.18
