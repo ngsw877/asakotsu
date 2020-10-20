@@ -59,3 +59,7 @@
   * VisualStudioCode
   * Postman
   * Adobe XD
+
+
+## ER図
+![AsaKotsu_ERD](https://user-images.githubusercontent.com/58071320/96544796-34a3f000-12e2-11eb-9dd6-c6a9f8ad9c9c.png)
