@@ -1,24 +1,24 @@
 <nav class="navbar navbar-expand navbar-dark sunny-morning-gradient sticky-top">
 
-  <a class="navbar-brand" href="/"><i class="fas fa-sun mr-1"></i>Asakotsu</a>
+  <a class="navbar-brand" href="/" style="font-size:1.5rem;"><i class="fas fa-sun mr-1"></i>Asakotsu</a>
 
   <ul class="navbar-nav ml-auto">
 
     @guest
     <li class="nav-item">
-      <a class="nav-link" href="{{ route('register') }}">ユーザー登録</a>
+      <a class="nav-link" href="{{ route('register') }}"><i class="fas fa-user-plus mr-1"></i>ユーザー登録</a>
     </li>
     @endguest
 
     @guest
     <li class="nav-item">
-      <a class="nav-link" href="{{ route('login') }}">ログイン</a>
+      <a class="nav-link" href="{{ route('login') }}"><i class="fas fa-sign-in-alt mr-1"></i>ログイン</a>
     </li>
     @endguest
 
     @guest
     <li class="nav-item">
-      <a class="nav-link" href="{{ route('login.guest') }}">ゲストログイン</a>
+      <a class="nav-link btn btn-success btn-sm" href="{{ route('login.guest') }}">かんたんログイン</a>
     </li>
     @endguest
 
