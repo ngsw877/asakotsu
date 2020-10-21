@@ -7,7 +7,9 @@
   <title>
     @yield('title')
   </title>
-  <link href="{{ asset('css/style.css') }}" rel="stylesheet">
+  <!-- favicon -->
+  <link rel="shortcut icon" type="image/x-icon" href="{{ asset('/images/favicon.ico') }}">
+  <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('/images/apple-touch-icon-180x180.png') }}/">
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
   <!-- Bootstrap core CSS -->
