@@ -18,10 +18,13 @@
                 <i class="fas fa-clock mr-2"></i>目標起床時間：{{ $user->wake_up_time->format('H:i') }}
                 </p>
               </div>
-                <p class="bg-danger text-white text-center p-2">
-                  早起き達成日数<br>
-                  <span class="h4">10日</span>
-                </p>
+                <div class=" text-white text-center">
+                  <p class="bg-warning mb-0 p-2">
+                    10月の<br>
+                    早起き達成日数
+                  </p>
+                  <p class="bg-danger h4 p-2">10日</p>
+                </div>
             </div>
             @if (isset($user->self_introduction))
               <p>{{ $user->self_introduction }}</p>
