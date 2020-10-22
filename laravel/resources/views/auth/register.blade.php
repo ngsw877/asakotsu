@@ -10,7 +10,7 @@
     <div class="row">
       <div class="mx-auto col-md-8 ">
         <div class="card">
-          <h2 class="h4 card-header text-center">ユーザー登録</h2>
+          <h2 class="h4 card-header text-center sunny-morning-gradient text-white">ユーザー登録</h2>
           <div class="card-body">
 
             @include('error_card_list')
@@ -65,12 +65,12 @@
                   </label>
                   <input  type="file" id="profile_image" name="profile_image" accept="image/*">
                 </div>
-                <button class="btn btn-primary mt-2 mb-2" type="submit">
+                <button class="btn btn-block peach-gradient mt-2 mb-2" type="submit">
                   ユーザー登録
                 </button>
               </form>
-              <div class="mt-0">
-                <a href="{{ route('login') }}" class="card-text">ログインはこちら</a>
+              <div class="mt-3">
+                <a href="{{ route('login') }}" class="text-primary">ログインはこちら</a>
               </div>
             </div>
 

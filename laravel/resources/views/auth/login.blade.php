@@ -10,7 +10,7 @@
     <div class="row">
       <div class="mx-auto col-md-7">
         <div class="card mt-3">
-          <h2 class="h4 card-header text-center">ログイン</h2>
+          <h2 class="h4 card-header text-center sunny-morning-gradient text-white">ログイン</h2>
           <div class="card-body">
 
             @include('error_card_list')
@@ -32,7 +32,7 @@
                 <!-- 次回から自動でログインする(remember meトークン) -->
                 <input type="hidden" name="remember" id="remember" value="on">
 
-                <button class="btn btn-primary mt-2 mb-2" type="submit" text-while>ログイン</button>
+                <button class="btn peach-gradient mt-2 mb-2" type="submit" text-while>ログイン</button>
 
               </form>
 
