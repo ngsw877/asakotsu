@@ -33,7 +33,7 @@
                     <small class="blue-grey-text">（15文字以内）</small>
                   </label>
                   @if (Auth::user()->name == 'ゲストユーザー')
-                    <input class="form-control" type="text" id="name" name="name" value="{{ $user->name }}" disabled>
+                    <input class="form-control" type="text" id="name" name="name" value="{{ $user->name }}" readonly>
                   @else
                     <input class="form-control" type="text" id="name" name="name" value="{{ $user->name ?? old('name') }}">
                   @endif
@@ -41,7 +41,7 @@
                 <div class="form-group">
                   <label for="email">メールアドレス</label>
                   @if (Auth::user()->email == 'guest@guest.com')
-                    <input class="form-control" type="text" id="email" name="email" value="{{ $user->email }}" disabled>
+                    <input class="form-control" type="text" id="email" name="email" value="{{ $user->email }}" readonly>
                   @else
                     <input class="form-control" type="text" id="email" name="email" value="{{ $user->email ?? old('email') }}">
                   @endif
