@@ -4,32 +4,31 @@
   cursor : pointer;
 }
 
-@mixin new-post-btn ($btn-color: #fb3) {
+@mixin new-post-btn ($btn-color: linear-gradient(to bottom, #f5d364, #fca186)) {
 
-  $btn-size: 160px;
+  $btn-size: 140px;
   $btn-position: 35px;
-
   width: $btn-size;
   height: $btn-size;
   position: fixed;
   bottom: $btn-position;
   right: $btn-position;
   z-index: 9999;
-  background-color: $btn-color;
+  background: $btn-color;
   color: #fff;
   border-radius: 50%;
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 
   p {
-    margin-top: 30px;
+    margin-top: 0;
+    margin-bottom: 3px;
     font-size: 15px;
   }
 
   i.fa-plus {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
     font-size: 48px;
   }
 
