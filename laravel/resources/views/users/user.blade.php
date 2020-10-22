@@ -7,11 +7,22 @@
             </a>
           </div>
           <div class="col-md-5">
-            <h2 class="h5 card-title font-weight-bold mb-3">
-              <a href="{{ route('users.show', ['name' => $user->name]) }}" class="text-dark">
-                {{ $user->name }}
-              </a>
-            </h2>
+            <div class="d-flex flex-row mb-4">
+              <div class="mr-5">
+                <h2 class="h5 card-title font-weight-bold mb-3">
+                  <a href="{{ route('users.show', ['name' => $user->name]) }}" class="text-dark">
+                    {{ $user->name }}
+                  </a>
+                </h2>
+                <p class="text-primary m-0">
+                <i class="fas fa-clock mr-2"></i>目標起床時間：{{ $user->wake_up_time->format('H:i') }}
+                </p>
+              </div>
+                <p class="bg-danger text-white text-center p-2">
+                  早起き達成日数<br>
+                  <span class="h4">10日</span>
+                </p>
+            </div>
             @if (isset($user->self_introduction))
               <p>{{ $user->self_introduction }}</p>
             @endif
@@ -34,8 +45,8 @@
         </div>
       </div>
       <div class="card-body">
-        <div class="card-text">
-          <a href="{{ route('users.followings', ['name' => $user->name]) }}" class="text-muted">
+        <div>
+          <a href="{{ route('users.followings', ['name' => $user->name]) }}" class="text-muted mr-3">
             {{ $user->count_followings }} フォロー
           </a>
           <a href="{{ route('users.followers', ['name' => $user->name]) }}" class="text-muted">
