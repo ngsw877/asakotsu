@@ -15,7 +15,7 @@
                   </a>
                 </h2>
                 <p class="text-primary m-0">
-                <i class="fas fa-clock mr-2"></i>目標起床時間：{{ $user->wake_up_time->format('H:i') }}
+                  <i class="fas fa-clock mr-2"></i>目標起床時間：{{ $user->wake_up_time->format('H:i') }}
                 </p>
               </div>
                 <div class=" text-white text-center">
