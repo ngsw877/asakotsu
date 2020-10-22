@@ -61,11 +61,11 @@ class ArticleController extends Controller
         }
 
         // 早起き達成日数のランキング
-        User::withCount(['achivement_days' => function ($query) {
-            $query->where('date', '>=', Carbon::today()->subDay(30));
-        }])
-            ->orderBy('achivement_days_count', 'desc')
-            ->get();
+        // User::withCount(['achivement_days' => function ($query) {
+        //     $query->where('date', '>=', Carbon::today()->subDay(30));
+        // }])
+        //     ->orderBy('achivement_days_count', 'desc')
+        //     ->get();
 
         return redirect()->route('articles.index');
 

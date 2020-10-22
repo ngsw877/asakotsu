@@ -15,7 +15,7 @@
                   </a>
                 </h2>
                 <p class="text-primary m-0">
-                <i class="fas fa-clock mr-2"></i>目標起床時間：{{ $user->wake_up_time->format('H:i') }}
+                  <i class="fas fa-clock mr-2"></i>目標起床時間：{{ $user->wake_up_time->format('H:i') }}
                 </p>
               </div>
                 <div class=" text-white text-center">
@@ -23,7 +23,7 @@
                     10月の<br>
                     早起き達成日数
                   </p>
-                  <p class="bg-danger h4 p-2">10日</p>
+                  <p class="bg-danger h4 p-2">{{ $user->achivement_days_count }}日</p>
                 </div>
             </div>
             @if (isset($user->self_introduction))

@@ -10,13 +10,20 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Intervention\Image\ImageManagerStatic as Image;
 use Illuminate\Support\Facades\Storage;
+use Carbon\Carbon;
 
 
 class UserController extends Controller
 {
     public function show(string $name)
     {
-        $user = User::where('name', $name)->first()->load(['articles.user', 'articles.likes', 'articles.tags']);
+        $user = User::with(['articles.user', 'articles.likes', 'articles.tags'])
+        ->withCount(['achivement_days' => function ($query) {
+            $query->where('date', '>=', Carbon::today()->subDay(30));
+        }])
+        ->where('name', $name)
+        ->first();
+
         $articles = $user->articles->sortByDesc('created_at');
 
         return view('users.show', [

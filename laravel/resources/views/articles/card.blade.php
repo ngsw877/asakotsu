@@ -7,14 +7,15 @@
           <img class="user-icon rounded-circle mr-3" src="/images/profile/{{ $article->user->profile_image }}">
         </a>
         <div>
-          <div class="font-weight-bold">
-            <a href="{{ route('users.show', ['name' => $article->user->name]) }}" class="in-link text-dark">
+          <p class="mb-1">
+            <a href="{{ route('users.show', ['name' => $article->user->name]) }}" class="font-weight-bold in-link text-dark mr-4">
               {{ $article->user->name }}
             </a>
-          </div>
-          <div class="font-weight-lighter">
-            {{ $article->created_at->format('Y/m/d H:i') }}
-          </div>
+            <span class="font-weight-lighter">{{ $article->created_at->format('Y/m/d H:i') }}</span>
+          </p>
+          <p class="text-primary m-0">
+            <i class="fas fa-clock mr-2"></i>目標起床時間：{{ $article->user->wake_up_time->format('H:i') }}
+          </p>
         </div>
 
         @if( Auth::id() === $article->user_id )
@@ -69,7 +70,7 @@
           <div class="card-body pt-0 pb-4 pl-3">
             <div class="card-text line-height">
         @endif
-          <a href="{{ route('tags.show', ['name' => $tag->name]) }}" class="border p-1 mr-1 mt-1 text-muted">
+          <a href="{{ route('tags.show', ['name' => $tag->name]) }}" class="border border-default text-default p-1 mr-1 mt-1 in-link">
             {{ $tag->hashtag }}
           </a>
         @if($loop->last)
