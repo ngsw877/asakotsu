@@ -54,11 +54,15 @@ class ArticleController extends Controller
             $user->wake_up_time->copy()->subHour($user->range_of_success) <= $article->created_at
             && $article->created_at <= $user->wakeup_time
         ) {
-            $user->achivement_days()->firstOrCreate([
+            $result = $user->achivement_days()->firstOrCreate([
                 'date' => $article->created_at->copy()->startOfDay(),
             ]);
 
-            session()->flash('msg_achievement','早起き達成です！');
+            // 早起き達成記録がレコードに記録されたかを判定
+            if ($result->wasRecentlyCreated) {
+                session()->flash('msg_achievement','早起き達成です！');
+            }
+
         }
 
         // 早起き達成日数のランキング
