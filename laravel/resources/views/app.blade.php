@@ -21,6 +21,8 @@
 </head>
 
 <body>
+
+
   <div id="app">
     @yield('content')
   </div>
@@ -37,14 +39,21 @@
   <!-- MDB core JavaScript -->
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.8.11/js/mdb.min.js"></script>
 
+  <!-- toastr -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
   <!-- JavaScript -->
   <script src="{{ mix('js/app.js') }}"></script>
 
+  <!-- フラッシュメッセージ -->
   <script>
-    // モーダルウィンドウ
-    // $(window).on('load',function(){
-    //     $('#achievement-modal').modal('show');
-    // });
+    @if (session('flash_message'))
+        $(function () {
+            toastr.success('{{ session('flash_message') }}');
+        });
+    @endif
   </script>
+  
 </body>
 </html>
