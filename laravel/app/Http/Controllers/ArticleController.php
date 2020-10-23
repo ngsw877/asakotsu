@@ -48,16 +48,21 @@ class ArticleController extends Controller
             $article->tags()->attach($tag);
         });
 
-
         // 早起き成功かどうか判定し、成功の場合にその日付をDBに履歴として保存する
 
         if (
             $user->wake_up_time->copy()->subHour($user->range_of_success) <= $article->created_at
             && $article->created_at <= $user->wakeup_time
         ) {
-            $user->achivement_days()->firstOrCreate([
+            $result = $user->achivement_days()->firstOrCreate([
                 'date' => $article->created_at->copy()->startOfDay(),
             ]);
+
+            // 早起き達成記録がレコードに記録されたかを判定
+            if ($result->wasRecentlyCreated) {
+                session()->flash('msg_achievement','早起き達成です！');
+            }
+
         }
 
         // 早起き達成日数のランキング
@@ -67,8 +72,9 @@ class ArticleController extends Controller
         //     ->orderBy('achivement_days_count', 'desc')
         //     ->get();
 
-        return redirect()->route('articles.index');
+        session()->flash('flash_message', '投稿が完了しました');
 
+        return redirect()->route('articles.index');
     }
 
     public function edit(Article $article)
@@ -99,12 +105,16 @@ class ArticleController extends Controller
             $article->tags()->attach($tag);
         });
 
+        session()->flash('flash_message', '投稿を編集しました');
         return redirect()->route('articles.index');
     }
 
     public function destroy(Article $article)
     {
         $article->delete();
+
+        session()->flash('flash_message', '投稿を削除しました');
+
         return redirect()->route('articles.index');
     }
 
