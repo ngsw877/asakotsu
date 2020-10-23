@@ -1,4 +1,5 @@
 import './bootstrap'
+import './ModalWindow'
 import Vue from 'vue'
 import ArticleLike from './components/ArticleLike'
 import ArticleTagsInput from './components/ArticleTagsInput'
