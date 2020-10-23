@@ -58,6 +58,8 @@ class ArticleController extends Controller
             $user->achivement_days()->firstOrCreate([
                 'date' => $article->created_at->copy()->startOfDay(),
             ]);
+
+            session()->flash('msg_achievement','早起き達成です！');
         }
 
         // 早起き達成日数のランキング

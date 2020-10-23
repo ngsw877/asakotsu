@@ -6,6 +6,28 @@
 
   @include('nav')
 
+  @if(session('msg_achievement'))
+
+    <!-- 早起き達成時のメッセージを表示するモーダルウィンドウ -->
+    <div class="modal fade" id="achievement-modal" tabindex="-1"
+        role="dialog" aria-labelledby="label1" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body text-center">
+                    {{ session('msg_achievement') }}
+                </div>
+                <div class="modal-footer text-center">
+                </div>
+            </div>
+        </div>
+    </div>
+  @endif
+
   <div class="container">
     @foreach($articles as $article)
 
