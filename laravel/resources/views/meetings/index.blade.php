@@ -7,11 +7,20 @@
   @include('nav')
 
   <div class="container mt-2 mb-5">
-    @foreach($meetings as $meeting)
 
-      @include('meetings.card')
+    @include('meetings.list', compact('meetings'))
 
-    @endforeach
+    <!-- 無限スクロールのsppiner -->
+    @if ($meetings->nextPageUrl())
+      <a href="{{ $meetings->nextPageUrl() }}" infinity-scroll>
+        <div class="d-flex justify-content-center my-4">
+          <div class="spinner-border" role="status">
+            <span class="sr-only">Loading...</span>
+          </div>
+        </div>
+      </a>
+    @endif
+
   </div>
   <div class="new-post">
     <a class="new-meeting-btn" href="{{ route('meetings.create') }}">
