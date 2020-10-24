@@ -1,6 +1,7 @@
 import './bootstrap'
 import './ModalWindow'
 import './InfiniteScroll'
+import './ToastrOption'
 import Vue from 'vue'
 import ArticleLike from './components/ArticleLike'
 import ArticleTagsInput from './components/ArticleTagsInput'
