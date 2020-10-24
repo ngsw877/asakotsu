@@ -61,11 +61,10 @@ class ArticleController extends Controller
             // 早起き達成記録がレコードに記録されたかを判定
             if ($result->wasRecentlyCreated) {
                 session()->flash('msg_achievement','早起き達成です！');
+            } else {
+                session()->flash('flash_message', '投稿が完了しました');
             }
-
         }
-
-        session()->flash('flash_message', '投稿が完了しました');
 
         return redirect()->route('articles.index');
     }
