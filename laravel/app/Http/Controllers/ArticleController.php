@@ -23,14 +23,17 @@ class ArticleController extends Controller
     public function index(Request $request)
     {
         // 無限スクロール
-        $articles = Article::with(['user', 'likes', 'tags'])->paginate(10);
+        $articles = Article::with(['user', 'likes', 'tags'])
+        ->orderBy('created_at', 'desc')
+        ->paginate(10);
+        
         if ($request->ajax()) {
             return response()->json([
                 'html' => view('articles.list', ['articles' => $articles])->render(),
                 'next' => $articles->nextPageUrl()
             ]);
         }
-        
+
         return view('articles.index', ['articles' => $articles]);
     }
 
