@@ -30,6 +30,7 @@
 <div class="container">
   @include('articles.list', compact('articles'))
 
+  <!-- 無限スクロールのsppiner -->
   @if ($articles->nextPageUrl())
     <a href="{{ $articles->nextPageUrl() }}" infinity-scroll>
       <div class="d-flex justify-content-center my-4">
