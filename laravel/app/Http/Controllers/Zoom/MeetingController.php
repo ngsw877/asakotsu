@@ -46,9 +46,20 @@ class MeetingController extends Controller
         ];
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $meetings = Meeting::all()->sortByDesc('created_at');
+        // 無限スクロール
+        $meetings = Meeting::with(['user'])
+        ->orderBy('created_at', 'desc')
+        ->paginate(10);
+
+        if ($request->ajax()) {
+            return response()->json([
+                'html' => view('meetings.list', ['meetings' => $meetings])->render(),
+                'next' => $meetings->nextPageUrl()
+            ]);
+        }
+
         return view('meetings.index', ['meetings' => $meetings]);
     }
 
