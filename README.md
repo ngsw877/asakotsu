@@ -42,10 +42,10 @@
 * コメント機能
   * ユーザー投稿に対してコメントを投稿
   
-* タグ機能
+* タグ機能(Vue.js / Vue Tags Input)
   * タグ別に、投稿を一覧表示
   
-* いいね機能
+* いいね機能(Vue.js / ajax)
   * いいねした投稿の一覧表示
   
 * フォロー機能
@@ -54,11 +54,14 @@
 * 画像アップロード機能
   * ユーザープロフィール画像
 
+* 無限スクロール機能(jQuery / inview.js / ajax)
+
 
 ## 使用技術
 
 * フロントエンド
   * Vue.js 2.6.11
+  * jQuery 3.4.1
   * Blade(Laravel)
   * MDBootstrap
 
@@ -68,7 +71,7 @@
   * PHPUnit 8.5.8
 
 * インフラ
-  * AWS(EC2, VPC, RDS, CloudFormation)
+  * AWS(EC2, EIP, VPC, RDS, Route53, CloudFormation)
   * CircleCi
   * Docker 19.03.12
   * docker-compose 1.26.2
