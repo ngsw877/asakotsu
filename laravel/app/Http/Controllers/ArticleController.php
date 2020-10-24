@@ -61,18 +61,10 @@ class ArticleController extends Controller
             // 早起き達成記録がレコードに記録されたかを判定
             if ($result->wasRecentlyCreated) {
                 session()->flash('msg_achievement','早起き達成です！');
+            } else {
+                session()->flash('flash_message', '投稿が完了しました');
             }
-
         }
-
-        // 早起き達成日数のランキング
-        // User::withCount(['achivement_days' => function ($query) {
-        //     $query->where('date', '>=', Carbon::today()->subDay(30));
-        // }])
-        //     ->orderBy('achivement_days_count', 'desc')
-        //     ->get();
-
-        session()->flash('flash_message', '投稿が完了しました');
 
         return redirect()->route('articles.index');
     }
