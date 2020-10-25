@@ -28,27 +28,40 @@
 @endif
 
 <div class="container">
-  @include('articles.list', compact('articles'))
+  <div class="row justify-content-center d-flex mt-5">
+    <div class="row col-md-12">
 
-  <!-- 無限スクロールのsppiner -->
-  @if ($articles->nextPageUrl())
-    <a href="{{ $articles->nextPageUrl() }}" infinity-scroll>
-      <div class="d-flex justify-content-center my-4">
-        <div class="spinner-border" role="status">
-          <span class="sr-only">Loading...</span>
-        </div>
+      <aside class="col-3 d-none d-md-block position-fixed">
+        @include('articles.sidebar')
+      </aside>
+
+      <main class="col-md-7 offset-md-5">
+
+        @include('articles.list', compact('articles'))
+
+        <!-- 無限スクロールのsppiner -->
+        @if ($articles->nextPageUrl())
+          <a href="{{ $articles->nextPageUrl() }}" infinity-scroll>
+            <div class="d-flex justify-content-center my-4">
+              <div class="spinner-border" role="status">
+                <span class="sr-only">Loading...</span>
+              </div>
+            </div>
+          </a>
+        @endif
+      </main>
+
+      @auth
+      <div class="new-post">
+        <a class="new-article-btn" href="{{ route('articles.create') }}">
+          <p>新規投稿</p>
+          <i class="fas fa-plus"></i>
+        </a>
       </div>
-    </a>
-  @endif
+      @endauth
+    </div>
+  </div>
 </div>
 
-@auth
-<div class="new-post">
-  <a class="new-article-btn" href="{{ route('articles.create') }}">
-    <p>新規投稿</p>
-    <i class="fas fa-plus"></i>
-  </a>
-</div>
-@endauth
 
 @endsection

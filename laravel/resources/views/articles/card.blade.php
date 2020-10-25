@@ -1,6 +1,6 @@
-<div class="row justify-content-center">
-  <div class="col-md-8 mb-3">
-    <div class="card mt-3 article-card">
+<div class="row">
+  <div class="col-md mb-3">
+    <div class="card article-card">
       <a href="{{ route('articles.show', ['article' => $article]) }}" class="full-range-link"></a> <!-- このリンククリック範囲が親<div>全体まで広がる -->
       <div class="card-body d-flex flex-row">
         <a href="{{ route('users.show', ['name' => $article->user->name]) }}" class="in-link text-dark">
