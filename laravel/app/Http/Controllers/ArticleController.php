@@ -71,9 +71,9 @@ class ArticleController extends Controller
             // 本日の早起き達成記録が、レコードに記録されたかを判定。一日最大一回のみ、早起き達成メッセージを表示。
             if ($result->wasRecentlyCreated) {
                 session()->flash('msg_achievement','早起き達成です！');
-            } else {
-                session()->flash('flash_message', '投稿が完了しました');
             }
+        } else {
+            session()->flash('flash_message', '投稿が完了しました');
         }
 
         return redirect()->route('articles.index');
