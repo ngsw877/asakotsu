@@ -20,9 +20,19 @@ class ArticleController extends Controller
         // ②'article'　　モデルのIDがセットされる、ルーティングのパラメータ名　→　{article}
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $articles = Article::all()->sortByDesc('created_at')->load(['user', 'likes', 'tags']);
+        // 無限スクロール
+        $articles = Article::with(['user', 'likes', 'tags'])
+        ->orderBy('created_at', 'desc')
+        ->paginate(10);
+
+        if ($request->ajax()) {
+            return response()->json([
+                'html' => view('articles.list', ['articles' => $articles])->render(),
+                'next' => $articles->nextPageUrl()
+            ]);
+        }
 
         return view('articles.index', ['articles' => $articles]);
     }
@@ -58,21 +68,13 @@ class ArticleController extends Controller
                 'date' => $article->created_at->copy()->startOfDay(),
             ]);
 
-            // 早起き達成記録がレコードに記録されたかを判定
+            // 本日の早起き達成記録が、レコードに記録されたかを判定。一日最大一回のみ、早起き達成メッセージを表示。
             if ($result->wasRecentlyCreated) {
                 session()->flash('msg_achievement','早起き達成です！');
+            } else {
+                session()->flash('flash_message', '投稿が完了しました');
             }
-
         }
-
-        // 早起き達成日数のランキング
-        // User::withCount(['achivement_days' => function ($query) {
-        //     $query->where('date', '>=', Carbon::today()->subDay(30));
-        // }])
-        //     ->orderBy('achivement_days_count', 'desc')
-        //     ->get();
-
-        session()->flash('flash_message', '投稿が完了しました');
 
         return redirect()->route('articles.index');
     }
