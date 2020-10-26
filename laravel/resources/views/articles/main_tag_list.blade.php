@@ -1,6 +1,6 @@
 <div class="card mb-4">
     <div class="card-header user-mark"># メインタグ</div>
-    <div class="card-body">
+    <div class="card-body sidebar-content">
         <a href="">
             <p>#行動宣言</p>
         </a>
