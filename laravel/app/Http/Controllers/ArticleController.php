@@ -24,16 +24,19 @@ class ArticleController extends Controller
     {
 
         // 早起き達成日数のランキングを取得
-        $ranked_users =  User::withCount(['achivement_days' => function ($query) {
+        $ranked_users =  User::withCount(['achievement_days' => function ($query) {
             $query->where('date', '>=', Carbon::today()->subDay(30));
         }])
-            ->orderBy('achivement_days_count', 'desc')
+            ->orderBy('achievement_days_count', 'desc')
             ->limit(5)
             ->get();
             // dd($ranked_users);
 
         // 無限スクロール
         $articles = Article::with(['user', 'likes', 'tags'])
+        // ->withCount(['achievement_days' => function ($query) {
+        //     $query->where('date', '>=', Carbon::today()->subDay(30));
+        // }])
         ->orderBy('created_at', 'desc')
         ->paginate(10);
 
@@ -74,7 +77,7 @@ class ArticleController extends Controller
             $user->wake_up_time->copy()->subHour($user->range_of_success) <= $article->created_at
             && $article->created_at <= $user->wakeup_time
         ) {
-            $result = $user->achivement_days()->firstOrCreate([
+            $result = $user->achievement_days()->firstOrCreate([
                 'date' => $article->created_at->copy()->startOfDay(),
             ]);
 

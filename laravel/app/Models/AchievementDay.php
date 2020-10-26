@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class Achievement_days extends Model
+class AchievementDay extends Model
 {
     protected $fillable = [
         'user_id',

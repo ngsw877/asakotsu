@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Article;
 use Illuminate\Http\Request;
 use App\Http\Requests\UserRequest;
 use Illuminate\Support\Facades\DB;
@@ -15,16 +16,25 @@ use Carbon\Carbon;
 
 class UserController extends Controller
 {
-    public function show(string $name)
+    public function show(string $name, Request $request)
     {
-        $user = User::with(['articles.user', 'articles.likes', 'articles.tags'])
-        ->withCount(['achivement_days' => function ($query) {
+        $user = User::withCount(['achievement_days' => function ($query) {
             $query->where('date', '>=', Carbon::today()->subDay(30));
         }])
         ->where('name', $name)
         ->first();
 
-        $articles = $user->articles->sortByDesc('created_at');
+        // 投稿の無限スクロール
+        $articles = Article::with(['likes', 'tags'])
+        ->orderBy('created_at', 'desc')
+        ->paginate(10);
+
+        if ($request->ajax()) {
+            return response()->json([
+                'html' => view('articles.list', ['articles' => $articles])->render(),
+                'next' => $articles->nextPageUrl()
+            ]);
+        }
 
         return view('users.show', [
             'user' => $user,
