@@ -22,6 +22,16 @@ class ArticleController extends Controller
 
     public function index(Request $request)
     {
+
+        // 早起き達成日数のランキングを取得
+        $ranked_users =  User::withCount(['achivement_days' => function ($query) {
+            $query->where('date', '>=', Carbon::today()->subDay(30));
+        }])
+            ->orderBy('achivement_days_count', 'desc')
+            ->limit(5)
+            ->get();
+            // dd($ranked_users);
+
         // 無限スクロール
         $articles = Article::with(['user', 'likes', 'tags'])
         ->orderBy('created_at', 'desc')
@@ -34,7 +44,7 @@ class ArticleController extends Controller
             ]);
         }
 
-        return view('articles.index', ['articles' => $articles]);
+        return view('articles.index', ['articles' => $articles, 'ranked_users' => $ranked_users]);
     }
 
     public function create()
