@@ -50,4 +50,9 @@ class Article extends Model
     {
         return $this->with('user')->where('id', $article_id)->first();
     }
+
+    public function achievement_days()
+    {
+        return $this->belongsToMany(AchievementDay::class);
+    }
 }

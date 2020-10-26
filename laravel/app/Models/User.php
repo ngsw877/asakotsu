@@ -57,9 +57,9 @@ class User extends Authenticatable
         return $this->hasMany('App\Models\Article');
     }
 
-    public function achivement_days(): HasMany
+    public function achievement_days(): HasMany
     {
-        return $this->hasMany(Achievement_days::class);
+        return $this->hasMany(AchievementDay::class);
     }
 
     public function followers(): BelongsToMany

@@ -12,7 +12,7 @@
                 <a  class="block" href="{{ route('users.show', ['name' => $ranked_user->name]) }}">
                     <p>{{$ranked_user->name}}さん</p>
                 </a>
-                <p class="h5">{{ $ranked_user->achivement_days_count }}日</p>
+                <p class="h5">{{ $ranked_user->achievement_days_count }}日</p>
             </div>
         @endforeach
     </div>

@@ -18,7 +18,7 @@ class UserController extends Controller
     public function show(string $name)
     {
         $user = User::with(['articles.user', 'articles.likes', 'articles.tags'])
-        ->withCount(['achivement_days' => function ($query) {
+        ->withCount(['achievement_days' => function ($query) {
             $query->where('date', '>=', Carbon::today()->subDay(30));
         }])
         ->where('name', $name)

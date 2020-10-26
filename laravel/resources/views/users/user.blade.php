@@ -23,7 +23,7 @@
                     10月の<br>
                     早起き達成日数
                   </p>
-                  <p class="bg-danger h4 p-2">{{ $user->achivement_days_count }}日</p>
+                  <p class="bg-danger h4 p-2">{{ $user->achievement_days_count }}日</p>
                 </div>
             </div>
             @if (isset($user->self_introduction))
