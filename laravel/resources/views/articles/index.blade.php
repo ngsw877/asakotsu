@@ -28,7 +28,7 @@
 @endif
 
 <div class="container">
-  <div class="row justify-content-center d-flex mt-5">
+  <div class="row justify-content-center d-flex mt-4">
     <div class="row col-md-12">
 
       <aside class="col-3 d-none d-md-block position-fixed">
