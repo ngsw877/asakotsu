@@ -1,6 +1,7 @@
 <div class="card mb-4 sidebar-content">
     <div class="card-header text-center">
-        <i class="fas fa-crown mr-2 text-warning"></i>早起き達成日数ランキング
+        <i class="fas fa-crown mr-2 text-warning"></i>
+        <span class="font-weight-bold">{{ date('m') }}月</span>の早起き達成日数ランキング
     </div>
     <div class="card-body user-ranking-list">
         @foreach ($ranked_users  as $key => $ranked_user)
