@@ -1,12 +1,16 @@
 <div class="row">
   <div class="col-md mb-3">
     <div class="card article-card">
-      <a href="{{ route('articles.show', ['article' => $article]) }}" class="full-range-link"></a> <!-- このリンククリック範囲が親<div>全体まで広がる -->
-      <div class="card-body d-flex flex-row">
-        <a href="{{ route('users.show', ['name' => $article->user->name]) }}" class="in-link text-dark">
-          <img class="user-icon rounded-circle mr-3" src="/images/profile/{{ $article->user->profile_image }}">
-        </a>
-        <div>
+      <!-- このリンククリック範囲が親<div>全体まで広がる -->
+      <a href="{{ route('articles.show', ['article' => $article]) }}" class="full-range-link"></a>
+
+      <div class="card-body d-flex flex-row row">
+        <div class="col-2">
+          <a href="{{ route('users.show', ['name' => $article->user->name]) }}" class="in-link text-dark">
+            <img class="user-icon rounded-circle mr-3" src="/images/profile/{{ $article->user->profile_image }}">
+          </a>
+        </div>
+        <div class="col-7">
           <p class="mb-1">
             <a href="{{ route('users.show', ['name' => $article->user->name]) }}" class="font-weight-bold in-link text-dark mr-4">
               {{ $article->user->name }}
@@ -14,8 +18,13 @@
             <span class="font-weight-lighter">{{ $article->created_at->format('Y/m/d H:i') }}</span>
           </p>
           <p class="text-primary m-0">
-            <i class="fas fa-clock mr-2"></i>目標起床時間：{{ $article->user->wake_up_time->format('H:i') }}
+            <i class="fas fa-clock"></i>目標起床時間：{{ $article->user->wake_up_time->format('H:i') }}
           </p>
+        </div>
+
+        <div class="col-2 bg-success text-white">
+          早起き<br>
+          {{ ($article->achievement_days_count) }}日目
         </div>
 
         @if( Auth::id() === $article->user_id )
