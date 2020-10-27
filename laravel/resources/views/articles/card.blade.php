@@ -22,9 +22,11 @@
           </p>
         </div>
 
-        <div class="col-2 bg-success text-white">
-          早起き<br>
-          {{ ($article->achievement_days_count) }}日目
+        <div class="col-2 text-white text-center rounded peach-gradient p-1">
+            <p class="small m-0">早起き</p>
+            <p class="m-0">
+              <span class="h5 mr-1">15{{ ($article->achievement_days_count) }}</span>日目
+            </p>
         </div>
 
         @if( Auth::id() === $article->user_id )
