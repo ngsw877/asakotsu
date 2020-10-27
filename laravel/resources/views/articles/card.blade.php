@@ -98,7 +98,7 @@
       <div class="card-footer py-1 d-flex justify-content-end bg-white">
         <!-- コメントアイコン -->
         <div class="mr-3 d-flex align-items-center">
-            <a class="in-link p-1" href="{{ route('articles.show', ['article' => $article]) }}"><i class="far fa-comment fa-fw mr-1"></i></a>
+            <a class="in-link p-1" href="{{ route('articles.show', ['article' => $article]) }}"><i class="far fa-comment fa-fw fa-lg"></i></a>
             <p class="mb-0">{{ count($article->comments) }}</p>
         </div>
         <!-- いいねアイコン -->
