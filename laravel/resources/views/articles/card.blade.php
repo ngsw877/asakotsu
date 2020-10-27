@@ -34,7 +34,7 @@
         @if( Auth::id() === $article->user_id )
           <!-- dropdown -->
           <div class="col-1 card-text">
-            <div class="dropdown">
+            <div class="dropdown text-center">
               <a class="in-link p-2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <i class="fas fa-ellipsis-v fa-lg"></i>
               </a>
