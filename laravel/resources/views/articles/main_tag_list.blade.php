@@ -1,6 +1,6 @@
 <div class="card mb-4 sidebar-content">
     <div class="card-header text-center"># メインタグ</div>
-    <div class="card-body main-tag-list">
+    <div class="card-body main-tag-list py-3">
         <a href="">
             <p>#行動宣言</p>
         </a>
