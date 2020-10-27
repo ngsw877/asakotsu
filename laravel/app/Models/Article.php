@@ -53,6 +53,6 @@ class Article extends Model
 
     public function achievement_days()
     {
-        return $this->belongsToMany(AchievementDay::class);
+        return $this->belongsToMany(AchievementDay::class, 'users');
     }
 }
