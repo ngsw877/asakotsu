@@ -18,15 +18,17 @@
             <span class="font-weight-lighter">{{ $article->created_at->format('Y/m/d H:i') }}</span>
           </p>
           <p class="text-primary m-0">
-            <i class="fas fa-clock"></i>目標起床時間：{{ $article->user->wake_up_time->format('H:i') }}
+            <i class="fas fa-clock mr-2"></i>目標起床時間：{{ $article->user->wake_up_time->format('H:i') }}
           </p>
         </div>
 
-        <div class="col-2 text-white text-center rounded peach-gradient p-1">
-            <p class="small m-0">早起き</p>
-            <p class="m-0">
-              <span class="h5 mr-1">15{{ ($article->achievement_days_count) }}</span>日目
-            </p>
+        <div class="col-2 rounded peach-gradient d-flex align-items-center justify-content-center p-1">
+            <div class="text-white text-center">
+              <p class="small m-0">早起き</p>
+              <p class="m-0">
+                <span class="h5 mr-1">15{{ ($article->achievement_days_count) }}</span>日目
+              </p>
+            </div>
         </div>
 
         @if( Auth::id() === $article->user_id )
