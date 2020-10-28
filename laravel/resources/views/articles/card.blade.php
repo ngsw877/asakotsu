@@ -5,14 +5,14 @@
       <a href="{{ route('articles.show', ['article' => $article]) }}" class="full-range-link"></a>
 
       <div class="card-body d-flex flex-row row">
-        <div class="col-2">
+        <div class="col-2 text-center">
           <a href="{{ route('users.show', ['name' => $article->user->name]) }}" class="in-link text-dark">
-            <img class="user-icon rounded-circle mr-3" src="/images/profile/{{ $article->user->profile_image }}">
+            <img class="user-icon rounded-circle" src="/images/profile/{{ $article->user->profile_image }}">
           </a>
         </div>
         <div class="col-7">
           <p class="mb-1">
-            <a href="{{ route('users.show', ['name' => $article->user->name]) }}" class="font-weight-bold in-link text-dark mr-4">
+            <a href="{{ route('users.show', ['name' => $article->user->name]) }}" class="font-weight-bold user-name-link text-dark mr-4">
               {{ $article->user->name }}
             </a>
             <span class="font-weight-lighter">{{ $article->created_at->format('Y/m/d H:i') }}</span>

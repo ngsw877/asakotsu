@@ -26,3 +26,13 @@
   }
 }
 
+.user-name-link {
+  position: relative; /* ユーザーページへのリンクは普通に配置するため */
+  z-index: 3; /* リンク要素の重なり順を上にするため */
+  border-bottom: 1px solid #fff;
+    &:hover {
+      border-bottom: 1px solid #333;
+      @include link-hover;
+    }
+}
+
