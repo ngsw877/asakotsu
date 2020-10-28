@@ -32,12 +32,15 @@
                 <!-- 次回から自動でログインする(remember meトークン) -->
                 <input type="hidden" name="remember" id="remember" value="on">
 
-                <button class="btn peach-gradient mt-2 mb-2" type="submit" text-while>ログイン</button>
+                <div class="d-flex justify-content-between">
+                  <button class="btn peach-gradient" type="submit" text-while>ログイン</button>
+                  <a href="{{ route('login.guest') }}" class="btn btn-success p-3">かんたんログイン</a>
+                </div>
 
               </form>
 
-              <div class="mt-0">
-                <a href="{{ route('register') }}" class="card-text">ユーザー登録はこちら</a>
+              <div class="mt-3">
+                <a href="{{ route('register') }}" class="text-primary">ユーザー登録はこちら</a>
               </div>
 
             </div>
