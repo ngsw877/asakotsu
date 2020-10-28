@@ -17,15 +17,15 @@
     @endguest
 
     @guest
-    <li class="nav-item">
-      <a class="nav-link btn btn-success btn-sm" href="{{ route('login.guest') }}">かんたんログイン</a>
+    <li class="nav-item bg-success rounded">
+      <a class="nav-link waves-effect waves-light" href="{{ route('login.guest') }}"><i class="fas fa-user-check mr-1"></i>かんたんログイン</a>
     </li>
     @endguest
 
     @auth
 
     <li class="nav-item">
-      <a class="nav-link" href="{{ route('meetings.index') }}"><i class="fas fa-video"></i>Zoom朝活</a>
+      <a class="nav-link" href="{{ route('meetings.index') }}"><i class="fas fa-video mr-1"></i>Zoom朝活</a>
     </li>
     @endauth
 

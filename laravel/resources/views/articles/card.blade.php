@@ -5,40 +5,42 @@
       <a href="{{ route('articles.show', ['article' => $article]) }}" class="full-range-link"></a>
 
       <div class="card-body d-flex flex-row row">
-        <div class="col-2">
+        <div class="col-2 text-center">
           <a href="{{ route('users.show', ['name' => $article->user->name]) }}" class="in-link text-dark">
-            <img class="user-icon rounded-circle mr-3" src="/images/profile/{{ $article->user->profile_image }}">
+            <img class="user-icon rounded-circle" src="/images/profile/{{ $article->user->profile_image }}">
           </a>
         </div>
         <div class="col-7">
           <p class="mb-1">
-            <a href="{{ route('users.show', ['name' => $article->user->name]) }}" class="font-weight-bold in-link text-dark mr-4">
+            <a href="{{ route('users.show', ['name' => $article->user->name]) }}" class="font-weight-bold user-name-link text-dark mr-4">
               {{ $article->user->name }}
             </a>
             <span class="font-weight-lighter">{{ $article->created_at->format('Y/m/d H:i') }}</span>
           </p>
           <p class="text-primary m-0">
-            <i class="fas fa-clock"></i>目標起床時間：{{ $article->user->wake_up_time->format('H:i') }}
+            <i class="fas fa-clock mr-2"></i>目標起床時間：{{ $article->user->wake_up_time->format('H:i') }}
           </p>
         </div>
 
-        <div class="col-2 text-white text-center rounded peach-gradient p-1">
-            <p class="small m-0">早起き</p>
-            <p class="m-0">
-              <span class="h5 mr-1">15{{ ($article->achievement_days_count) }}</span>日目
-            </p>
+        <div class="col-2 rounded peach-gradient d-flex align-items-center justify-content-center p-1">
+            <div class="text-white text-center">
+              <p class="small m-0">早起き</p>
+              <p class="m-0">
+                <span class="h5 mr-1">{{ $article->user->achievement_days()->where('date', '>', '\Carbon\Carbon::today()->subDay(30)')->count() }}</span>日目
+              </p>
+            </div>
         </div>
 
         @if( Auth::id() === $article->user_id )
           <!-- dropdown -->
-          <div class="ml-auto card-text">
-            <div class="dropdown">
+          <div class="col-1 card-text">
+            <div class="dropdown text-center">
               <a class="in-link p-2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class="fas fa-ellipsis-v"></i>
+                <i class="fas fa-ellipsis-v fa-lg"></i>
               </a>
               <div class="dropdown-menu dropdown-menu-right">
                 <a class="dropdown-item" href="{{ route('articles.edit', ['article' => $article]) }}">
-                  <i class="fas fa-pen mr-1"></i>投稿を更新する
+                  <i class="fas fa-pen mr-1"></i>投稿を編集する
                 </a>
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item text-danger" data-toggle="modal" data-target="#modal-delete-{{ $article->id }}">
@@ -98,7 +100,7 @@
       <div class="card-footer py-1 d-flex justify-content-end bg-white">
         <!-- コメントアイコン -->
         <div class="mr-3 d-flex align-items-center">
-            <a class="in-link p-1" href="{{ route('articles.show', ['article' => $article]) }}"><i class="far fa-comment fa-fw mr-1"></i></a>
+            <a class="in-link p-1" href="{{ route('articles.show', ['article' => $article]) }}"><i class="far fa-comment fa-fw fa-lg"></i></a>
             <p class="mb-0">{{ count($article->comments) }}</p>
         </div>
         <!-- いいねアイコン -->

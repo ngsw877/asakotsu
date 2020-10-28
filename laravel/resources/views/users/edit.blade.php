@@ -9,7 +9,7 @@
     <div class="row">
       <div class="mx-auto col-md-8 ">
         <div class="card">
-          <h2 class="h4 card-header text-center">プロフィール編集</h2>
+          <h2 class="h4 card-header text-center sunny-morning-gradient text-white">プロフィール編集</h2>
           <div class="card-body">
 
             @include('error_card_list')
@@ -65,7 +65,7 @@
                   </label>
                   <textarea name="self_introduction" class="form-control" rows="8">{{ $user->self_introduction ?? old('self_introduction') }}</textarea>
                 </div>
-                <button class="btn btn-primary mt-2 mb-2" type="submit">
+                <button class="btn peach-gradient mt-2 mb-2" type="submit">
                   保存
                 </button>
               </form>

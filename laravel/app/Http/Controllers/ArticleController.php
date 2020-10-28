@@ -30,13 +30,9 @@ class ArticleController extends Controller
             ->orderBy('achievement_days_count', 'desc')
             ->limit(5)
             ->get();
-            // dd($ranked_users);
 
         // 無限スクロール
         $articles = Article::with(['user', 'likes', 'tags'])
-        // ->withCount(['achievement_days' => function ($query) {
-        //     $query->where('date', '>=', Carbon::today()->subDay(30));
-        // }])
         ->orderBy('created_at', 'desc')
         ->paginate(10);
 

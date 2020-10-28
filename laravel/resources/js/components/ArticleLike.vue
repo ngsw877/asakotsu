@@ -2,9 +2,9 @@
   <div>
     <button
       type="button"
-      class="in-link btn m-0 p-1 shadow-none"
+      class="in-link btn m-0 p-0 shadow-none"
     >
-      <i class="fas fa-heart mr-1"
+      <i class="fas fa-heart fa-lg fa-fw"
       :class="{'red-text':this.isLikedBy, 'animated heartBeat fast':this.gotToLike}"
       @click="clickLike"
       />
