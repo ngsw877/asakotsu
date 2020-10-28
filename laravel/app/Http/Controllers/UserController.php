@@ -62,9 +62,16 @@ class UserController extends Controller
 
     // }
 
-    public function likes(string $name)
+    public function likes(string $name, Request $request)
     {
-        $user = User::where('name', $name)->first()->load(['likes.user', 'likes.likes', 'likes.tags']);
+        // ユーザーの早起き達成日数を表示
+        $user = User::with(['likes.user', 'likes.likes', 'likes.tags'])
+        ->withCount(['achievement_days' => function ($query) {
+            $query->where('date', '>=', Carbon::today()->subDay(30));
+        }])
+        ->where('name', $name)
+        ->first();
+
         $articles = $user->likes->sortByDesc('created_at');
 
         return view('users.likes', [
