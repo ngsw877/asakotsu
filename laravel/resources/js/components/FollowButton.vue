@@ -1,17 +1,15 @@
 <template>
-  <div>
-    <button
-     class="btn-sm shadow-none border border-primary p-2"
-     :class="buttonColor"
-     @click="clickFollow"
-     >
-      <i
-      class="mr-1"
-      :class="buttonIcon"
-      ></i>
-      {{ buttonText }}
-    </button>
-  </div>
+  <button
+    class="btn-sm shadow-none border border-primary p-2 w-100 h-100 d-block"
+    :class="buttonColor"
+    @click="clickFollow"
+    >
+    <i
+    class="mr-1"
+    :class="buttonIcon"
+    ></i>
+    {{ buttonText }}
+  </button>
 </template>
 
 <script>

@@ -1,60 +1,80 @@
-<div class="card mt-3">
-      <div class="card-body">
-        <div class="d-flex flex-row row">
-          <div class="col-md-3">
-            <a href="{{ route('users.show', ['name' => $user->name]) }}" class="text-dark">
-              <img class="profile-icon rounded-circle" src="/images/profile/{{ $user->profile_image }}" alt="プロフィールアイコン">
-            </a>
+<div class="card my-4">
+  <div class="card-body">
+    <div class="d-flex flex-row row">
+
+      <div class="col-3 text-center">
+        <a href="{{ route('users.show', ['name' => $user->name]) }}" class="text-dark">
+          <img class="profile-icon rounded-circle" src="/images/profile/{{ $user->profile_image }}" alt="プロフィールアイコン">
+        </a>
+      </div>
+
+      <div class="col-9">
+
+        <div class="row mb-5">
+
+          <div class="col-6">
+            <h2 class="h5 card-title font-weight-bold mb-3">
+              <a href="{{ route('users.show', ['name' => $user->name]) }}" class="text-dark">
+                {{ $user->name }}
+              </a>
+            </h2>
+            <p class="text-primary m-0">
+              <i class="fas fa-clock mr-2"></i>目標起床時間：{{ $user->wake_up_time->format('H:i') }}
+            </p>
+            <p class="small m-0 text-muted">
+              （ {{ $user->wake_up_time->copy()->subHour($user->range_of_success)->format('H:i') }} 〜 {{ $user->wake_up_time->format('H:i') }} に投稿できると早起き成功です ）
+            </p>
           </div>
-          <div class="col-md-5">
-            <div class="d-flex flex-row mb-4">
-              <div class="mr-5">
-                <h2 class="h5 card-title font-weight-bold mb-3">
-                  <a href="{{ route('users.show', ['name' => $user->name]) }}" class="text-dark">
-                    {{ $user->name }}
-                  </a>
-                </h2>
-                <p class="text-primary m-0">
-                  <i class="fas fa-clock mr-2"></i>目標起床時間：{{ $user->wake_up_time->format('H:i') }}
+
+          <div class="col-6 row h-75">
+
+            <div class="col-6 rounded peach-gradient d-flex align-items-center justify-content-center p-2">
+              <div class="text-white text-center">
+                <p class="small m-0">早起き達成日数</p>
+                <p class="m-0">
+                  <span class="h5 mr-1">{{ $user->achievement_days_count  }}</span>日目
                 </p>
               </div>
-                <div class=" text-white text-center">
-                  <p class="bg-warning mb-0 p-2">
-                    10月の<br>
-                    早起き達成日数
-                  </p>
-                  <p class="bg-danger h4 p-2">{{ $user->achievement_days_count }}日</p>
-                </div>
             </div>
-            @if (isset($user->self_introduction))
-              <p>{{ $user->self_introduction }}</p>
-            @endif
+
+            <div class="col-6 text-center">
+              @if(Auth::id() !== $user->id)
+                  <follow-button
+                  :initial-is-followed-by='@json($user->isFollowedBy(Auth::user()))'
+                  :authorized='@json(Auth::check())'
+                  endpoint="{{ route('users.follow', ['name' => $user->name]) }}"
+                  >
+                  </follow-button>
+              @else
+              <a  href="{{ route('users.edit', ['name' => Auth::user()->name]) }}" class="btn btn-success m-0 d-block rounded h-100">
+                プロフィール<br>編集
+              </a>
+              @endif
+            </div>
           </div>
-          @if(Auth::id() !== $user->id)
-            <follow-button
-             class="ml-auto"
-             :initial-is-followed-by='@json($user->isFollowedBy(Auth::user()))'
-             :authorized='@json(Auth::check())'
-             endpoint="{{ route('users.follow', ['name' => $user->name]) }}"
-            >
-            </follow-button>
-          @else
-          <div class="ml-auto">
-            <a  href="{{ route('users.edit', ['name' => Auth::user()->name]) }}" class="btn btn-success mt-2 mb-2">
-              プロフィール編集
-            </a>
+
+        </div>
+
+        <div class="row">
+          <div class="col-9 pr-0">
+              @if (isset($user->self_introduction))
+                <p class="mb-0">{{ $user->self_introduction }}</p>
+              @endif
           </div>
-          @endif
         </div>
+
       </div>
-      <div class="card-body">
-        <div>
-          <a href="{{ route('users.followings', ['name' => $user->name]) }}" class="text-muted mr-3">
-            {{ $user->count_followings }} フォロー
-          </a>
-          <a href="{{ route('users.followers', ['name' => $user->name]) }}" class="text-muted">
-            {{ $user->count_followers }} フォロワー
-          </a>
-        </div>
-      </div>
+
     </div>
+  </div>
+  <div class="card-body">
+    <div>
+      <a href="{{ route('users.followings', ['name' => $user->name]) }}" class="text-muted mr-3">
+        {{ $user->count_followings }} フォロー
+      </a>
+      <a href="{{ route('users.followers', ['name' => $user->name]) }}" class="text-muted">
+        {{ $user->count_followers }} フォロワー
+      </a>
+    </div>
+  </div>
+</div>
