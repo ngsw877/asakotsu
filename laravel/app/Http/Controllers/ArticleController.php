@@ -25,16 +25,28 @@ class ArticleController extends Controller
 
         // 早起き達成日数のランキングを取得
         $ranked_users =  User::withCount(['achievement_days' => function ($query) {
-            $query->where('date', '>=', Carbon::today()->subDay(30));
+            $query
+            ->where('date', '>=', Carbon::now()->startOfMonth()->toDateString())
+            ->where('date', '<=', Carbon::now()->endOfMonth()->toDateString());
         }])
             ->orderBy('achievement_days_count', 'desc')
             ->limit(5)
             ->get();
 
+        // $users = User::with(['achievement_days' => function ($query) {
+        //     $query
+        //         ->where('date', '>=', Carbon::now()->startOfMonth()->toDateString())
+        //         ->where('date', '<=', Carbon::now()->endOfMonth()->toDateString());
+        // }])
+        //     ->get();
+
+
+
+
         // 無限スクロール
         $articles = Article::with(['user', 'likes', 'tags'])
-        ->orderBy('created_at', 'desc')
-        ->paginate(10);
+            ->orderBy('created_at', 'desc')
+            ->paginate(10);
 
         if ($request->ajax()) {
             return response()->json([
@@ -79,7 +91,7 @@ class ArticleController extends Controller
 
             // 本日の早起き達成記録が、レコードに記録されたかを判定。一日最大一回のみ、早起き達成メッセージを表示。
             if ($result->wasRecentlyCreated) {
-                session()->flash('msg_achievement','早起き達成です！');
+                session()->flash('msg_achievement', '早起き達成です！');
             }
         } else {
             session()->flash('flash_message', '投稿が完了しました');
