@@ -9,20 +9,10 @@
         </div>
     </div>
     <div class="card-body user-ranking-list py-3">
-        @php
-        $rank = 1;
-        $before = $ranked_users->first()->achievement_days_count;
-        @endphp
         @foreach ($ranked_users as $ranked_user)
-        @php
-        if ($before > $ranked_user->achievement_days_count) {
-        $rank++;
-        $before = $ranked_user->achievement_days_count;
-        }
-        @endphp
         <div class="d-flex justify-content-between">
-            <p class="ranking-icon{{ $rank }}">
-                {{ $rank}}
+            <p class="ranking-icon{{ $ranked_user->rank }}">
+                {{ $ranked_user->rank}}
             </p>
             <a class="block" href="{{ route('users.show', ['name' => $ranked_user->name]) }}">
                 <p>{{$ranked_user->name}}さん</p>

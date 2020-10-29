@@ -26,21 +26,26 @@ class ArticleController extends Controller
         // 早起き達成日数のランキングを取得
         $ranked_users =  User::withCount(['achievement_days' => function ($query) {
             $query
-            ->where('date', '>=', Carbon::now()->startOfMonth()->toDateString())
-            ->where('date', '<=', Carbon::now()->endOfMonth()->toDateString());
+                ->where('date', '>=', Carbon::now()->startOfMonth()->toDateString())
+                ->where('date', '<=', Carbon::now()->endOfMonth()->toDateString());
         }])
             ->orderBy('achievement_days_count', 'desc')
             ->limit(5)
             ->get();
 
-        // $users = User::with(['achievement_days' => function ($query) {
-        //     $query
-        //         ->where('date', '>=', Carbon::now()->startOfMonth()->toDateString())
-        //         ->where('date', '<=', Carbon::now()->endOfMonth()->toDateString());
-        // }])
-        //     ->get();
 
-
+        // 早起き達成日数ランキングの順位の数値を取得（タイ対応）
+        $rank = 1;
+            // 最も早起き達成日数の多いユーザーの日数を取得
+        $before = $ranked_users->first()->achievement_days_count;
+        $ranked_users = $ranked_users->transform(function ($user) use (&$rank, &$before) {
+            if ($before > $user->achievement_days_count) {
+                $rank++;
+                $before = $user->achievement_days_count;
+            }
+            $user->rank = $rank;
+            return $user;
+        });
 
 
         // 無限スクロール
@@ -172,3 +177,4 @@ class ArticleController extends Controller
         ];
     }
 }
+
