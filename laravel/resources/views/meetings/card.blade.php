@@ -40,8 +40,8 @@
             <form method="POST" action="{{ route('meetings.destroy', ['meeting' => $meeting]) }}">
               @csrf
               @method('DELETE')
-              <div class="modal-body">
-                {{ $meeting->topic }}を削除します。よろしいですか？
+              <div class="modal-body text-center text-dark">
+                {{ $meeting->topic }} を削除します。よろしいですか？
               </div>
               <div class="modal-footer justify-content-between">
                 <a class="btn btn-outline-grey" data-dismiss="modal">キャンセル</a>
