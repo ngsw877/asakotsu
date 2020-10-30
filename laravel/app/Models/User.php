@@ -121,9 +121,9 @@ class User extends Authenticatable
             ->orderBy('achievement_days_count', 'desc')
             ->limit(5)
             ->get();
-
-
+            
         // 早起き達成日数ランキングの順位の数値を取得（タイ対応）
+        if (!$ranked_users->isEmpty()) {
         $rank = 1;
             // 最も早起き達成日数の多いユーザーの日数を取得
         $before = $ranked_users->first()->achievement_days_count;
@@ -135,7 +135,7 @@ class User extends Authenticatable
             $user->rank = $rank;
             return $user;
         });
-
+        }
         return $ranked_users;
     }
 
