@@ -1,7 +1,7 @@
 version: 0.0
 os: linux
 files:
-  - source: /laravel
+  - source: /
     destination: /home/webapp/laravel
 
 permissions:
