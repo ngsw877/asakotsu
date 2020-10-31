@@ -76,12 +76,21 @@
   * PHPUnit 8.5.8
 
 * インフラ
-  * AWS(EC2, EIP, VPC, RDS, Route53, CloudFormation)
   * CircleCi
   * Docker 19.03.12
   * docker-compose 1.26.2
   * nginx 1.18
   * mysql 5.7.31
+  * AWS
+    * EC2
+    * EIP / Route53　：　固定IPアドレス、ドメイン
+    * VPC
+    * RDS
+    * S3
+    * CodeDeploy
+    * SNS / Chatbot　：　CodeDeployの開始と終了をSlackに通知
+    * IAM
+    * CloudFormation
 
 * その他使用ツール
   * VisualStudioCode
