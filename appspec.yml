@@ -1,0 +1,16 @@
+version: 0.0
+os: linux
+files:
+  - source: /laravel
+    destination: /home/webapp/laravel
+
+permissions:
+  - object: /home/webapp/laravel
+    owner: webapp
+    group: webapp
+
+hooks:
+  AfterInstall:
+    - location: ./scripts/after_install.sh
+      timeout: 60
+      runas: webapp
