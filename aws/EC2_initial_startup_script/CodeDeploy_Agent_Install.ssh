@@ -1,0 +1,15 @@
+#!/bin/bash
+
+### CodeDeployエージェントのインストール ###
+
+# Rubyのインストール
+sudo yum install ruby -y
+
+# インストーラーのダウンロード
+wget https://aws-codedeploy-ap-northeast-1.s3.ap-northeast-1.amazonaws.com/latest/install
+
+# CodeDeployエージェントのインストール
+chmod +x ./install
+sudo ./install auto
+sudo service codedeploy-agent start
+
