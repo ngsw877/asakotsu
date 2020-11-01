@@ -17,7 +17,7 @@
     @endguest
 
     @guest
-    <li class="nav-item bg-success rounded">
+    <li class="nav-item bg-default rounded">
       <a class="nav-link waves-effect waves-light" href="{{ route('login.guest') }}"><i class="fas fa-user-check mr-1"></i>かんたんログイン</a>
     </li>
     @endguest
