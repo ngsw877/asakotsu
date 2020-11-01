@@ -9,7 +9,7 @@
     <div class="row">
       <div class="mx-auto col-md-7">
         <div class="card">
-          <h2 class="h4 card-header text-center sunny-morning-gradient text-white">投稿する</h2>
+          <h2 class="h4 card-header text-center sunny-morning-gradient text-white">メッセージを投稿しましょう！</h2>
           <div class="card-body pt-3">
 
             @include('error_card_list')
@@ -19,7 +19,9 @@
 
                 @include('articles.form')
 
-                <button type="submit" class="btn peach-gradient btn-block">投稿する</button>
+                <button type="submit" class="btn peach-gradient btn-block">
+                  <span class="h6">送信</span>
+                </button>
               </form>
             </div>
           </div>
