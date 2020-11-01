@@ -16,13 +16,9 @@ use Carbon\Carbon;
 
 class UserController extends Controller
 {
-    public function show(string $name, Request $request)
+    public function show(string $name, Request $request, User $user)
     {
-        $user = User::withCount(['achievement_days' => function ($query) {
-            $query->where('date', '>=', Carbon::today()->subDay(30));
-        }])
-        ->where('name', $name)
-        ->first();
+        $user = $user->withCountAchievementDays($name);
 
         // 投稿の無限スクロール
         $articles = Article::with(['likes', 'tags'])
@@ -62,15 +58,10 @@ class UserController extends Controller
 
     // }
 
-    public function likes(string $name, Request $request)
+    public function likes(string $name, Request $request, User $user)
     {
         // ユーザーの早起き達成日数を表示
-        $user = User::with(['likes.user', 'likes.likes', 'likes.tags'])
-        ->withCount(['achievement_days' => function ($query) {
-            $query->where('date', '>=', Carbon::today()->subDay(30));
-        }])
-        ->where('name', $name)
-        ->first();
+        $user = $user->withCountAchievementDays($name);
 
         $articles = $user->likes->sortByDesc('created_at');
 
