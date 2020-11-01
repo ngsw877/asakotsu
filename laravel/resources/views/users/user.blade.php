@@ -28,12 +28,15 @@
 
           <div class="col-6 row h-75">
 
-            <div class="col-6 rounded peach-gradient d-flex align-items-center justify-content-center p-2">
-              <div class="text-white text-center">
-                <p class="small m-0">早起き達成日数</p>
-                <p class="m-0">
-                  <span class="h5 mr-1">{{ $user->achievement_days_count  }}</span>日目
-                </p>
+            <div class="col-6 rounded peach-gradient d-flex align-items-center justify-content-center">
+              <div class="text-white text-center d-flex align-items-center justify-content-center">
+                <div class="bg-success text-white rounded-circle p-1 mr-2">{{ date('m') }}月</div>
+                <div>
+                  <p class="small m-0">早起き達成日数</p>
+                  <p class="m-0">
+                    <span class="h5 mr-1">{{ $user->achievement_days_count  }}</span>日目
+                  </p>
+                </div>
               </div>
             </div>
 
@@ -46,7 +49,7 @@
                   >
                   </follow-button>
               @else
-              <a  href="{{ route('users.edit', ['name' => Auth::user()->name]) }}" class="btn btn-success m-0 d-block rounded h-100">
+              <a  href="{{ route('users.edit', ['name' => Auth::user()->name]) }}" class="btn btn-default m-0 d-block rounded h-100">
                 プロフィール<br>編集
               </a>
               @endif
