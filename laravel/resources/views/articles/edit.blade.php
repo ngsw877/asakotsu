@@ -20,7 +20,9 @@
                 @method('PATCH')
                 @include('articles.form')
 
-                <button type="submit" class="btn peach-gradient btn-block">更新する</button>
+                <button type="submit" class="btn peach-gradient btn-block">
+                  <span class="h6">更新する</span>
+                </button>
               </form>
             </div>
           </div>

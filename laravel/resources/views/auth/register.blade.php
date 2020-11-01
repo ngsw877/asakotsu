@@ -66,7 +66,7 @@
                   <input  type="file" id="profile_image" name="profile_image" accept="image/*">
                 </div>
                 <button class="btn btn-block peach-gradient mt-2 mb-2" type="submit">
-                  ユーザー登録
+                  <span class="h6">ユーザー登録</span>
                 </button>
               </form>
               <div class="mt-3">

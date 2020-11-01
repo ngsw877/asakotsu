@@ -66,7 +66,7 @@
                   <textarea name="self_introduction" class="form-control" rows="8">{{ $user->self_introduction ?? old('self_introduction') }}</textarea>
                 </div>
                 <button class="btn peach-gradient mt-2 mb-2" type="submit">
-                  保存
+                  <span class="h6">保存</span>
                 </button>
               </form>
             </div>
