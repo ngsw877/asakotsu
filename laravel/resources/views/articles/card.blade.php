@@ -1,5 +1,5 @@
 <div class="row">
-  <div class="col-md mb-3">
+  <div class="col-md mb-4">
     <div class="card article-card">
       <!-- このリンククリック範囲が親<div>全体まで広がる -->
       <a href="{{ route('articles.show', ['article' => $article]) }}" class="full-range-link"></a>
