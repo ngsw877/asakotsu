@@ -48,10 +48,10 @@ class MeetingController extends Controller
 
     public function index(Request $request)
     {
-        // 無限スクロール
+        // ミーティング一覧を、無限スクロールで表示
         $meetings = Meeting::with(['user'])
         ->orderBy('created_at', 'desc')
-        ->paginate(10);
+        ->paginate(5);
 
         if ($request->ajax()) {
             return response()->json([
