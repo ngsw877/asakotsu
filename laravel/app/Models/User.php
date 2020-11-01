@@ -110,6 +110,19 @@ class User extends Authenticatable
         $this->attributes['wake_up_time'] = $value->format('H:i:s');
     }
 
+    public function withCountAchievementDays(string $name)
+    {
+        $user = User::withCount(['achievement_days' => function ($query) {
+            $query
+                ->where('date', '>=', Carbon::now()->startOfMonth()->toDateString())
+                ->where('date', '<=', Carbon::now()->endOfMonth()->toDateString());
+        }])
+        ->where('name', $name)
+        ->first();
+
+        return $user;
+    }
+
     public function ranking()
     {
         // 早起き達成日数のランキングを取得
@@ -121,7 +134,7 @@ class User extends Authenticatable
             ->orderBy('achievement_days_count', 'desc')
             ->limit(5)
             ->get();
-            
+
         // 早起き達成日数ランキングの順位の数値を取得（タイ対応）
         if (!$ranked_users->isEmpty()) {
         $rank = 1;

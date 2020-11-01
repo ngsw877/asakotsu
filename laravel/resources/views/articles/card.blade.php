@@ -26,7 +26,12 @@
             <div class="text-white text-center">
               <p class="small m-0">早起き</p>
               <p class="m-0">
-                <span class="h5 mr-1">{{ $article->user->achievement_days()->where('date', '>', '\Carbon\Carbon::today()->subDay(30)')->count() }}</span>日目
+                <span class="h5 mr-1">{{
+                  $article->user->achievement_days()
+                  ->where('date', '>=', \Carbon\Carbon::now()->startOfMonth()->toDateString())
+                  ->where('date', '<=', \Carbon\Carbon::now()->endOfMonth()->toDateString())
+                  ->count()
+                }}</span>日目
               </p>
             </div>
         </div>

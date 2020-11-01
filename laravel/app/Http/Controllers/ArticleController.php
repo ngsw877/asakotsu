@@ -20,13 +20,11 @@ class ArticleController extends Controller
         // ②'article'　　モデルのIDがセットされる、ルーティングのパラメータ名　→　{article}
     }
 
-    public function index(Request $request)
+    public function index(Request $request, User $user)
     {
 
         // ユーザーの早起き達成日数ランキングを取得
-        $user = new User();
         $ranked_users = $user->ranking();
-
 
         // 無限スクロール
         $articles = Article::with(['user', 'likes', 'tags'])
