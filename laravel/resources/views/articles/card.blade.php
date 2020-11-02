@@ -7,7 +7,7 @@
       <div class="card-body d-flex flex-row row">
         <div class="col-2 text-center">
           <a href="{{ route('users.show', ['name' => $article->user->name]) }}" class="in-link text-dark">
-            <img class="user-icon rounded-circle" src="/images/profile/{{ $article->user->profile_image }}">
+            <img class="user-icon rounded-circle" src="{{ $article->user->profile_image }}">
           </a>
         </div>
         <div class="col-7">
