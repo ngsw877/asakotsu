@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Storage;
 
 class RegisterController extends Controller
 {
@@ -67,21 +68,30 @@ class RegisterController extends Controller
     protected function create(array $data)
     {
         // 画像のファイル名の設定と、画像のアップロード
-        if(!isset($data['profile_image'])) {
-            $fileName = 'default.png';
-        } else {
-            $file = $data['profile_image'];
-            $fileName = time() . '.' . $file->getClientOriginalName();
-            $target_path = public_path('/images/profile/');
-            $file->move($target_path,$fileName);
-        }
+        // if(!isset($data['profile_image'])) {
+        //     $fileName = 'default.png';
+        // } else {
+        //     $file = $data['profile_image'];
+        //     $fileName = time() . '.' . $file->getClientOriginalName();
+        //     $target_path = public_path('/images/profile/');
+        //     $file->move($target_path,$fileName);
+        // }
+
+        //S3へアップロード開始
+        $image = $data['profile_image'];
+
+        // バケットの`image/profile`フォルダへアップロード
+        $disk = Storage::disk('s3');
+        $path = $disk->putFile('images/profile', $image, 'public');
+        // アップロードした画像のフルパスを取得
+        $image_path = $disk->url($path);
 
         // ユーザー情報の登録
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
-            'profile_image' => $fileName,
+            'profile_image' => $image_path,
             'wake_up_time' => $data['wake_up_time'],
         ]);
     }
