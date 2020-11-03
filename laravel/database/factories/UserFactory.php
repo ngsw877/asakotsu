@@ -19,6 +19,10 @@ use Illuminate\Support\Str;
 $factory->define(User::class, function (Faker $faker) {
     return [
         'name' => $faker->name,
+        'profile_image' => $faker->imageUrl($randomize = true, $word = null),
+        'self_introduction' => $faker->text,
+        'wake_up_time' => $faker->time,
+        'range_of_success' => 3,
         'email' => $faker->unique()->safeEmail,
         'email_verified_at' => now(),
         'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
