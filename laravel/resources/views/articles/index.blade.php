@@ -17,10 +17,22 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body text-center">
-        {{ session('msg_achievement') }}
-      </div>
-      <div class="modal-footer text-center">
+      <div class="modal-body text-center font-weight-bold">
+        <p class="h5 text-primary  font-weight-bold mb-3">
+          <i class="fas fa-award mr-2"></i>
+          {{ session('msg_achievement') }}
+        </p>
+        <p>
+          <span class="d-inline-block">{{ date('m') }}月の早起き　</span>
+          <span class="d-inline-block rounded peach-gradient text-white p-1">
+            {{
+              \Auth::user()->achievement_days()
+              ->where('date', '>=', \Carbon\Carbon::now()->startOfMonth()->toDateString())
+              ->where('date', '<=', \Carbon\Carbon::now()->endOfMonth()->toDateString())
+              ->count()
+            }}日目
+          </span>
+        </p>
       </div>
     </div>
   </div>
