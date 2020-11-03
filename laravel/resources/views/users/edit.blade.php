@@ -20,7 +20,7 @@
                 @csrf
                 <div class="form-group text-center">
                   <label for="profile_image">
-                    <img class="profile-icon image-upload rounded-circle" src="/images/profile/{{ $user->profile_image }}" alt="プロフィールアイコン">
+                    <img class="profile-icon image-upload rounded-circle" src="{{ $user->profile_image }}" alt="プロフィールアイコン">
                     <input type="file" name="profile_image" id="profile_image" class="d-none">
                   </label>
                 </div>
