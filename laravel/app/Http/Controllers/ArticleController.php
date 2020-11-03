@@ -47,8 +47,11 @@ class ArticleController extends Controller
             return ['text' => $tag->name];
         });
 
+        $user = Auth::user();
+
         return view('articles.create', [
             'allTagNames' => $allTagNames,
+            'user' => $user
         ]);
     }
 
