@@ -50,8 +50,10 @@
                   <label for="wake_up_time">
                     目標起床時間
                     <small class="blue-grey-text">（04:00 〜 10:00）</small>
+                    <p class="mb-1 small text-default">※動作確認用に、現在自由に目標起床時間を設定できます。</p>
                   </label>
-                  <input class="form-control" type="time" id="wake_up_time" name="wake_up_time" min="04:00" max="10:00"
+                  <!-- 動作確認用に、目標起床時間の設定可能時間帯の制限を解除中。　min="04:00" max="10:00" -->
+                  <input class="form-control" type="time" id="wake_up_time" name="wake_up_time"
                   value="{{
                     null !== old('wake_up_time') ?
                     Carbon\Carbon::parse(old('wake_up_time'))->format('H:i') :
