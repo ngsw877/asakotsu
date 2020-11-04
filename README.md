@@ -82,15 +82,17 @@
   * nginx 1.18
   * mysql 5.7.31
   * AWS
-    * EC2
+    * EC2　：　Laravel, PHP, Nginx
     * EIP / Route53　：　固定IPアドレス、ドメイン
     * VPC
-    * RDS
-    * S3
-    * CodeDeploy
+    * ELB(ALB)
+    + ACM ：　SSL証明書を発行
+    * RDS　；　MySQL
+    * S3　：　画像データ、ビルド後のコードを保存
+    * CodeDeploy　：　CircleCIと連動してCI/CDパイプラインを構築
     * SNS / Chatbot　：　CodeDeployの開始と終了をSlackに通知
     * IAM
-    * CloudFormation
+    * CloudFormation　：　AWSインフラテンプレート
 
 * その他使用ツール
   * VisualStudioCode
