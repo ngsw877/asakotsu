@@ -1,6 +1,8 @@
 # AsaKotsu
 
-**朝活に特化したSNSアプリです。**
+**朝活に特化したSNSアプリです。** 
+<br><br>
+https://pf.asakotsu.com/
 
 コンセプトは、以下の２点です。
 
@@ -94,8 +96,8 @@
     * IAM
     * CloudFormation　：　AWSインフラテンプレート
 
-* その他使用ツール
-  * VisualStudioCode
+* 開発環境
+  * Visual Studio Code
   * Postman
   * Adobe XD
 
