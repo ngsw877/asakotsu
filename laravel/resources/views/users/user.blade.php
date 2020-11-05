@@ -10,9 +10,9 @@
 
       <div class="col-9">
 
-        <div class="row mb-5">
+        <div class="row mb-2">
 
-          <div class="col-6">
+          <div class="col-5">
             <h2 class="h5 card-title font-weight-bold mb-3">
               <a href="{{ route('users.show', ['name' => $user->name]) }}" class="text-dark">
                 {{ $user->name }}
@@ -21,12 +21,10 @@
             <p class="text-primary m-0">
               <i class="fas fa-clock mr-2"></i>目標起床時間：{{ $user->wake_up_time->format('H:i') }}
             </p>
-            <p class="small m-0 text-muted">
-              （ {{ $user->wake_up_time->copy()->subHour($user->range_of_success)->format('H:i') }} 〜 {{ $user->wake_up_time->format('H:i') }} に投稿できると早起き成功です ）
-            </p>
+
           </div>
 
-          <div class="col-6 row h-75">
+          <div class="col-7 row h-75">
 
             <div class="col-6 rounded peach-gradient d-flex align-items-center justify-content-center">
               <div class="text-white text-center d-flex align-items-center justify-content-center">
@@ -40,7 +38,7 @@
               </div>
             </div>
 
-            <div class="col-6 text-center">
+            <div class="col-6 text-center pr-0">
               @if(Auth::id() !== $user->id)
                   <follow-button
                   :initial-is-followed-by='@json($user->isFollowedBy(Auth::user()))'
@@ -49,13 +47,19 @@
                   >
                   </follow-button>
               @else
-              <a  href="{{ route('users.edit', ['name' => Auth::user()->name]) }}" class="btn btn-default m-0 d-block rounded h-100">
+              <a  href="{{ route('users.edit', ['name' => Auth::user()->name]) }}" class="btn btn-default d-block d-flex justify-content-center align-items-center rounded h-100 m-0 p-1">
                 プロフィール<br>編集
               </a>
               @endif
             </div>
           </div>
 
+        </div>
+
+        <div class="mb-4">
+          <p class="small m-0 text-muted">
+            ( {{ $user->wake_up_time->copy()->subHour($user->range_of_success)->format('H:i') }} 〜 {{ $user->wake_up_time->format('H:i') }} に投稿できると早起き成功です )
+          </p>
         </div>
 
         <div class="row">
