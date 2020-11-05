@@ -21,7 +21,7 @@
                         <li class="list-group-item">
                             <div class="py-3 w-100 d-flex">
                                 <a href="{{ route('users.show', ['name' => $comment->user->name]) }}" class="in-link text-dark">
-                                    <img class="user-icon rounded-circle" src="{{ asset('/images/profile/' .$comment->user->profile_image) }}" alt="プロフィールアイコン">
+                                    <img class="user-icon rounded-circle" src="{{ $comment->user->profile_image }}" alt="プロフィールアイコン">
                                 </a>
                                 <div class="ml-2 d-flex flex-column">
                                     <a href="{{ route('users.show', ['name' => $comment->user->name]) }}" class="in-link text-dark">
@@ -60,7 +60,7 @@
                                     <div class="form-group row mb-0">
                                         <div class="col-md-12 p-3 w-100 d-flex">
                                             <a href="{{ route('users.show', ['name' => Auth::user()->name]) }}" class="in-link text-dark">
-                                                <img class="user-icon rounded-circle" src="{{ asset('/images/profile/' . Auth::user()->profile_image) }}" alt="プロフィールアイコン">
+                                                <img class="user-icon rounded-circle" src="{{ Auth::user()->profile_image }}" alt="プロフィールアイコン">
                                             </a>
                                             <div class="ml-2 d-flex flex-column font-weight-bold">
                                                 <a href="{{ route('users.show', ['name' => Auth::user()->name]) }}" class="in-link text-dark">
