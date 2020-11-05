@@ -10,7 +10,7 @@
 
       <div class="col-9">
 
-        <div class="row mb-3">
+        <div class="row mb-2">
 
           <div class="col-5">
             <h2 class="h5 card-title font-weight-bold mb-3">
@@ -71,7 +71,7 @@
         </div>
 
         <div class="row">
-          <div class="col-9 pr-0">
+          <div class="col-10 pr-0">
               @if (isset($user->self_introduction))
                 <p class="mb-0">{{ $user->self_introduction }}</p>
               @endif
