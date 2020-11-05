@@ -10,7 +10,7 @@
 
       <div class="col-9">
 
-        <div class="row mb-2">
+        <div class="row mb-3">
 
           <div class="col-5">
             <h2 class="h5 card-title font-weight-bold mb-3">
@@ -24,11 +24,19 @@
 
           </div>
 
-          <div class="col-7 row h-75">
+          <div class="col-7 row">
 
-            <div class="col-6 rounded peach-gradient d-flex align-items-center justify-content-center">
+            <div class="col-3 calendar pl-0 d-flex justify-content-center">
+              <p class="mt-auto mb-2">
+                <span class="h5">
+                  {{ date('m') }}
+                </span>
+                <span class="small">月</span>
+              </p>
+            </div>
+
+            <div class="col-5 rounded peach-gradient d-flex align-items-center justify-content-center">
               <div class="text-white text-center d-flex align-items-center justify-content-center">
-                <div class="bg-success text-white rounded-circle p-1 mr-2">{{ date('m') }}月</div>
                 <div>
                   <p class="small m-0">早起き達成日数</p>
                   <p class="m-0">
@@ -38,7 +46,7 @@
               </div>
             </div>
 
-            <div class="col-6 text-center pr-0">
+            <div class="col-4 text-center pr-0">
               @if(Auth::id() !== $user->id)
                   <follow-button
                   :initial-is-followed-by='@json($user->isFollowedBy(Auth::user()))'
