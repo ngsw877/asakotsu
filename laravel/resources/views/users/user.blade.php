@@ -35,7 +35,7 @@
               </p>
             </div>
 
-            <div class="col-5 rounded peach-gradient d-flex align-items-center justify-content-center">
+            <div class="col-4 rounded peach-gradient d-flex align-items-center justify-content-center p-1">
               <div class="text-white text-center d-flex align-items-center justify-content-center">
                 <div>
                   <p class="small m-0">早起き達成日数</p>
@@ -46,7 +46,7 @@
               </div>
             </div>
 
-            <div class="col-4 text-center pr-0">
+            <div class="col-5 text-center pr-0">
               @if(Auth::id() !== $user->id)
                   <follow-button
                   :initial-is-followed-by='@json($user->isFollowedBy(Auth::user()))'
