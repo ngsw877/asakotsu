@@ -85,8 +85,8 @@
       </div>
       @foreach($article->tags as $tag)
         @if($loop->first)
-          <div class="card-body pt-0 pb-4 pl-3">
-            <div class="card-text line-height">
+          <div class="card-body pt-0">
+            <div class="card-text line-height px-3">
         @endif
           <a href="{{ route('tags.show', ['name' => $tag->name]) }}" class="border border-default text-default p-1 mr-1 mt-1 in-link">
             {{ $tag->hashtag }}
@@ -96,8 +96,8 @@
           </div>
         @endif
       @endforeach
-      <div class="card-body pt-0 pb-2">
-        <div class="py-3">
+      <div class="card-body pt-0">
+        <div class="px-3">
           {!! nl2br(e( $article->body )) !!}
         </div>
 
