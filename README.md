@@ -17,6 +17,47 @@
 
 ※朝活のコツの共有・・・例）光目覚まし時計や安眠グッズのような商品情報や、早寝早起きのコツを紹介するYoutubeや書籍のシェア、その他気付いたことの発信など
 
+## 使用技術
+
+* フロントエンド
+  * Vue.js 2.6.11
+  * jQuery 3.4.1
+  * Blade(Laravel)
+  * MDBootstrap
+
+* バックエンド
+  * PHP 7.4.9
+  * Laravel 6.18.36
+  * PHPUnit 8.5.8
+
+* インフラ
+  * CircleCi
+  * Docker 19.03.12
+  * docker-compose 1.26.2
+  * nginx 1.18
+  * mysql 5.7.31
+  * AWS
+    * EC2　：　Laravel, PHP, Nginx
+    * EIP / Route53　：　固定IPアドレス、ドメイン
+    * VPC
+    * ELB(ALB)
+    + ACM ：　SSL証明書を発行
+    * RDS　；　MySQL
+    * S3　：　画像データ、ビルド後のコードを保存
+    * CodeDeploy　：　CircleCIと連動してCI/CDパイプラインを構築
+    * SNS / Chatbot　：　CodeDeployの開始と終了をSlackに通知
+    * IAM
+    * CloudFormation　：　AWSインフラテンプレート
+
+* その他使用ツール
+  * VisualStudioCode
+  * Postman
+  * Adobe XD
+
+## AWS構成図
+
+![AWS Diagram](https://user-images.githubusercontent.com/58071320/98453077-8e3c6380-2198-11eb-81f9-836cf418469b.png)
+
 ## 機能一覧
 
 * ユーザー関連
@@ -58,47 +99,6 @@
     
 * 画像アップロード機能
   * ユーザープロフィール画像等をAWS S3バケットにアップロード/読み込み
-
-
-
-
-## 使用技術
-
-* フロントエンド
-  * Vue.js 2.6.11
-  * jQuery 3.4.1
-  * Blade(Laravel)
-  * MDBootstrap
-
-* バックエンド
-  * PHP 7.4.9
-  * Laravel 6.18.36
-  * PHPUnit 8.5.8
-
-* インフラ
-  * CircleCi
-  * Docker 19.03.12
-  * docker-compose 1.26.2
-  * nginx 1.18
-  * mysql 5.7.31
-  * AWS
-    * EC2　：　Laravel, PHP, Nginx
-    * EIP / Route53　：　固定IPアドレス、ドメイン
-    * VPC
-    * ELB(ALB)
-    + ACM ：　SSL証明書を発行
-    * RDS　；　MySQL
-    * S3　：　画像データ、ビルド後のコードを保存
-    * CodeDeploy　：　CircleCIと連動してCI/CDパイプラインを構築
-    * SNS / Chatbot　：　CodeDeployの開始と終了をSlackに通知
-    * IAM
-    * CloudFormation　：　AWSインフラテンプレート
-
-* その他使用ツール
-  * VisualStudioCode
-  * Postman
-  * Adobe XD
-
 
 ## ER図
 ![AsaKotsu_ERD](https://user-images.githubusercontent.com/58071320/96544796-34a3f000-12e2-11eb-9dd6-c6a9f8ad9c9c.png)
