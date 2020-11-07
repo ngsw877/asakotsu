@@ -112,7 +112,8 @@ class User extends Authenticatable
 
     public function withCountAchievementDays(string $name)
     {
-        $user = User::withCount(['achievement_days' => function ($query) {
+        $user = User::where('name', $name)
+        ->withCount(['achievement_days' => function ($query) {
             $query
                 ->where('date', '>=', Carbon::now()->startOfMonth()->toDateString())
                 ->where('date', '<=', Carbon::now()->endOfMonth()->toDateString());

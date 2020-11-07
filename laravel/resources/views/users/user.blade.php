@@ -73,7 +73,7 @@
         <div class="row">
           <div class="col-10 pr-0">
               @if (isset($user->self_introduction))
-                <p class="mb-0">{{ $user->self_introduction }}</p>
+                <p class="mb-0">{!! nl2br(e( $user->self_introduction )) !!}</p>
               @endif
           </div>
         </div>
