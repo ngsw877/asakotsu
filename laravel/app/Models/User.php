@@ -118,7 +118,6 @@ class User extends Authenticatable
                 ->where('date', '>=', Carbon::now()->startOfMonth()->toDateString())
                 ->where('date', '<=', Carbon::now()->endOfMonth()->toDateString());
         }])
-        ->where('name', $name)
         ->first();
 
         return $user;
