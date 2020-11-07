@@ -44,7 +44,7 @@
     <div class="row col-md-12">
 
       <aside class="col-3 d-none d-md-block position-fixed">
-        @include('articles.sidebar')
+        @include('sidebar.list')
       </aside>
 
       <main class="col-md-7 offset-md-5">
