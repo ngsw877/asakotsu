@@ -63,7 +63,18 @@ class UserController extends Controller
         // ユーザーの早起き達成日数を表示
         $user = $user->withCountAchievementDays($name);
 
-        $articles = $user->likes->sortByDesc('created_at');
+        // いいねした投稿一覧を10件ずつ取得
+        $articles = $user->likes()
+            ->orderBy('created_at', 'desc')
+            ->paginate(10);
+
+        // 無限スクロールのajax処理
+        if ($request->ajax()) {
+            return response()->json([
+                'html' => view('articles.list', ['articles' => $articles])->render(),
+                'next' => $articles->nextPageUrl()
+            ]);
+        }
 
         return view('users.likes', [
             'user' => $user,
