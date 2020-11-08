@@ -48,7 +48,7 @@
 
 ## AWS構成図
 
-![AWS Diagram](https://user-images.githubusercontent.com/58071320/98455031-e2ead900-21ae-11eb-8687-e8b349aa2929.png)
+![AWS Diagram](https://user-images.githubusercontent.com/58071320/98456202-079a7d00-21be-11eb-8902-8bbaea816cf3.png)
 
 ## 機能一覧
 
@@ -81,11 +81,11 @@
 
 * フォロー機能
 
-※ フラッシュメッセージ表示機能(jQuery/ Toastr)
+* フラッシュメッセージ表示機能(jQuery/ Toastr)
   * 投稿、編集、削除、ログイン、ログアウト時にフラッシュメッセージを表示
 
 * 画像アップロード機能(AWS S3バケット)
 
 
 ## ER図
-![AWS Diagram](https://user-images.githubusercontent.com/58071320/98456202-079a7d00-21be-11eb-8902-8bbaea816cf3.png)
+![AsaKotsu_ERD](https://user-images.githubusercontent.com/58071320/96544796-34a3f000-12e2-11eb-9dd6-c6a9f8ad9c9c.png)
