@@ -48,7 +48,7 @@
 
 ## AWS構成図
 
-![AWS Diagram](https://user-images.githubusercontent.com/58071320/98453077-8e3c6380-2198-11eb-81f9-836cf418469b.png)
+![AWS Diagram](https://user-images.githubusercontent.com/58071320/98455031-e2ead900-21ae-11eb-8687-e8b349aa2929.png)
 
 ## 機能一覧
 
