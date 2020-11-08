@@ -2,7 +2,7 @@
     <div class="card-header d-flex align-items-center row m-0 text-center">
         <div class="col-10 pl-0">
             <i class="fas fa-crown mr-2 text-warning fa-lg"></i>
-            <span class="mr-1">早起き達成日数ランキング</span>
+            <span class="mr-1">早起き達成ランキング</span>
         </div>
         <div class="col-2 p-1 rounded sunny-morning-gradient d-flex align-items-center justify-content-center font-weight-bold text-white">
             <span class="font-weight-bold text-white">{{ date('m') }}月</span>
