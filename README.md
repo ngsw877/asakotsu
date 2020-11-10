@@ -25,12 +25,14 @@
   * Vue.js 2.6.11
   * jQuery 3.4.1
   * Blade(Laravel)
+  * HTML / SCC / SCSS
   * MDBootstrap
 
 * バックエンド
   * PHP 7.4.9
   * Laravel 6.18.36
   * PHPUnit 8.5.8
+  * ZoomAPI (guzzlehttp/guzzle 7.0.1)
 
 * インフラ
   * CircleCi
@@ -85,6 +87,8 @@
   * 投稿、編集、削除、ログイン、ログアウト時にフラッシュメッセージを表示
 
 * 画像アップロード機能(AWS S3バケット)
+
+* PHPUnitテスト
 
 
 ## ER図
