@@ -50,7 +50,7 @@
 
 ## AWS構成図
 
-![AWS Diagram](https://user-images.githubusercontent.com/58071320/98456202-079a7d00-21be-11eb-8902-8bbaea816cf3.png)
+![AWS_Diagram](https://user-images.githubusercontent.com/58071320/98756993-eed4d600-240e-11eb-8a3a-141290e77fc9.png)
 
 ## 機能一覧
 
