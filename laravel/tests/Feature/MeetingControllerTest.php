@@ -28,4 +28,22 @@ class MeetingControllerTest extends TestCase
         $response->assertStatus(200)
         ->assertViewIs('meetings.index');
     }
+
+    public function testGuestCreate()
+    {
+        $response = $this->get(route('meetings.create'));
+
+        $response->assertRedirect(route('login'));
+    }
+
+    public function testAuthCreate()
+    {
+        $user = factory(User::class)->create();
+
+        $response = $this->actingAs($user)
+        ->get(route('meetings.create'));
+
+        $response->assertStatus(200)
+        ->assertViewIs('meetings.create');
+    }
 }
