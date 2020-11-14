@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Models\User;
+use App\Models\Tag;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -40,7 +41,9 @@ class ArticleControllerTest extends TestCase
         ->assertSee('新規投稿');
     }
 
+    ### 投稿画面表示機能のテスト ###
 
+    // 未ログイン時
     public function testGuestCreate()
     {
         $response = $this->get(route('articles.create'));
@@ -48,6 +51,7 @@ class ArticleControllerTest extends TestCase
         $response->assertRedirect('login');
     }
 
+    // ログイン時
     public function testAuthCreate()
     {
         $user = factory(User::class)->create();
@@ -58,4 +62,41 @@ class ArticleControllerTest extends TestCase
         $response->assertStatus(200)
         ->assertViewIs('articles.create');
     }
+
+    ### 投稿機能のテスト ###
+
+    // 未ログイン時
+    public function testGuestStore()
+    {
+        $response = $this->post(route('articles.store'));
+
+        $response->assertRedirect('login');
+    }
+
+    // ログイン時
+    public function testAuthStore()
+    {
+        $user = factory(User::class)->create();
+
+        $body = "テスト本文";
+        $user_id = $user->id;
+
+        $response = $this->actingAs($user)
+        ->post(route('articles.store',
+        [
+            'body' => $body,
+            'user_id' => $user_id,
+            ]
+        ));
+
+        // 投稿内容がDBに登録されているかテスト
+        $this->assertDatabaseHas('articles', [
+            'body' => $body,
+            'user_id' => $user_id
+        ]);
+
+        $response->assertRedirect(route('articles.index'));
+    }
+
 }
+
