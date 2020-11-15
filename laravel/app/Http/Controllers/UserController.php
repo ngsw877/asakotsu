@@ -16,6 +16,7 @@ use Carbon\Carbon;
 
 class UserController extends Controller
 {
+
     public function show(string $name, Request $request, User $user)
     {
         // ユーザーの早起き達成日数を表示
@@ -43,6 +44,10 @@ class UserController extends Controller
     public function edit(string $name)
     {
         $user = User::where('name', $name)->first();
+
+        // UserPolicyのupdateメソッドでアクセス制限
+        $this->authorize('update', $user);
+
         return view('users.edit', ['user' => $user]);
     }
 
@@ -50,6 +55,9 @@ class UserController extends Controller
     {
         $user = User::where('name', $name)->first();
         $user->fill($request->all())->save();
+
+        // UserPolicyのupdateメソッドでアクセス制限
+        $this->authorize('update', $user);
 
         return redirect()->route('users.show',['name' => $user->name]);
 
