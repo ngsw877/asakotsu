@@ -2,8 +2,8 @@
 
 namespace Tests\Feature;
 
+use App\Models\Article;
 use App\Models\User;
-use App\Models\Tag;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -41,6 +41,7 @@ class ArticleControllerTest extends TestCase
         ->assertSee('新規投稿');
     }
 
+
     ### 投稿画面表示機能のテスト ###
 
     // 未ログイン時
@@ -62,6 +63,7 @@ class ArticleControllerTest extends TestCase
         $response->assertStatus(200)
         ->assertViewIs('articles.create');
     }
+
 
     ### 投稿機能のテスト ###
 
@@ -96,6 +98,29 @@ class ArticleControllerTest extends TestCase
         ]);
 
         $response->assertRedirect(route('articles.index'));
+    }
+
+    ### 投稿の編集画面 表示機能のテスト ###
+
+    // 未ログイン時
+    public function  testGuestEdit()
+    {
+        $article = factory(Article::class)->create();
+
+        $response = $this->get(route('articles.edit', ['article' => $article]));
+        $response->assertRedirect(route('login'));
+    }
+
+    // ログイン時
+    public function testAuthEdit()
+    {
+        $this->withoutExceptionHandling();
+        $article = factory(Article::class)->create();
+        $user = $article->user;
+
+        $response = $this->actingAs($user)->get(route('articles.edit', ['article' => $article]));
+
+        $response->assertStatus(200)->assertViewIs('articles.edit');
     }
 
 }
