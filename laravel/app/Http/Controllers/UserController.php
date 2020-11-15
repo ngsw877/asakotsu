@@ -63,11 +63,6 @@ class UserController extends Controller
 
     }
 
-    // public function destroy(string $name)
-    // {
-
-    // }
-
     public function likes(string $name, Request $request, User $user)
     {
         // ユーザーの早起き達成日数を表示

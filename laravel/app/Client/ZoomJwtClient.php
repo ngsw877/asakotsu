@@ -10,8 +10,6 @@ class ZoomJwtClient
     {
         $key = config('zoom.zoom_api_key');
         $secret = config('zoom.zoom_api_secret');
-        // dd($key);
-        // dd($secret);
         $payload = [
             'iss' => $key,
             'exp' => strtotime('+1 minute'),
