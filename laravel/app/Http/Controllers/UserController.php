@@ -16,11 +16,16 @@ use Carbon\Carbon;
 
 class UserController extends Controller
 {
+    private $user;
 
-    public function show(string $name, Request $request, User $user)
+    public function __construct(User $user) {
+        $this->user = $user;
+    }
+
+    public function show(string $name, Request $request)
     {
         // ユーザーの早起き達成日数を表示
-        $user = $user->withCountAchievementDays($name);
+        $user = $this->user->withCountAchievementDays($name);
 
         // ユーザー詳細ページのユーザーによる投稿一覧を10件ずつ取得
         $articles = $user->articles()
@@ -63,10 +68,10 @@ class UserController extends Controller
 
     }
 
-    public function likes(string $name, Request $request, User $user)
+    public function likes(string $name, Request $request)
     {
         // ユーザーの早起き達成日数を表示
-        $user = $user->withCountAchievementDays($name);
+        $user = $this->user->withCountAchievementDays($name);
 
         // いいねした投稿一覧を10件ずつ取得
         $articles = $user->likes()
@@ -89,8 +94,10 @@ class UserController extends Controller
 
     public function followings(string $name)
     {
-        $user = User::where('name', $name)->first()->load('followings.followers');
-        $followings = $user->followings->sortByDesc('created_at');
+        $user = $this->user->withCountAchievementDays($name)->load('followings.followers');
+        $followings = $user->followings()
+        ->orderBy('created_at', 'desc')
+        ->paginate(5);
 
         return view('users.followings', [
             'user' => $user,
@@ -100,8 +107,10 @@ class UserController extends Controller
 
     public function followers(string $name)
     {
-        $user = User::where('name', $name)->first()->load('followers.followers');;
-        $followers = $user->followers->sortByDesc('created_at');
+        $user = $this->user->withCountAchievementDays($name)->load('followers.followers');;
+        $followers = $user->followers()
+        ->orderBy('created_at', 'desc')
+        ->paginate(5);
 
         return view('users.followers', [
             'user' => $user,
