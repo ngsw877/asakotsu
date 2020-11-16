@@ -16,8 +16,7 @@ class ArticleController extends Controller
     public function __construct()
     {
         $this->authorizeResource(Article::class, 'article');
-        // ①Article::class　　→　　'App\Models\Article'という文字列を返す
-        // ②'article'　　モデルのIDがセットされる、ルーティングのパラメータ名　→　{article}
+        // 'article'...モデルのIDがセットされる、ルーティングのパラメータ名 → {article}
     }
 
     public function index(Request $request, User $user)

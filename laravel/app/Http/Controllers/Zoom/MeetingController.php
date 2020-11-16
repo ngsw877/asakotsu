@@ -24,28 +24,6 @@ class MeetingController extends Controller
         $this->authorizeResource(Meeting::class, 'meeting');
     }
 
-    // function list(Request $request) {
-    public function list() {
-        $path = 'users/' . config('zoom.zoom_account_email') . '/meetings';
-        $response = $this->client->zoomGet($path);
-        // $response = json_decode($response, true);
-        // dd($response);
-
-        $data = json_decode($response->getBody(), true);
-        dd($data);
-        $data['meetings'] = array_map(function (&$m) {
-            $m['start_time'] = $this->client->toUnixTimeStamp($m['start_time'], $m['timezone']);
-            $m['start_time'] = date('Y/m/d H時i分', $m['start_at']);
-            return $m;
-        }, $data['meetings']);
-
-        // dd($data['meetings']);
-        return [
-            'success' => 'ok',
-            'data' => $data,
-        ];
-    }
-
     public function index(Request $request)
     {
         // ミーティング一覧を、無限スクロールで表示
@@ -78,8 +56,6 @@ class MeetingController extends Controller
         $body = json_decode($response->getBody(), true);
         $body['start_time'] = $this->client->toUnixTimeStamp($body['start_time'], $body['timezone']);
         $body['start_time'] = date('Y-m-d\TH:i:s', $body['start_time']);
-        // dd($body['start_time']);
-        // dd($body);
 
         // 作成したミーティング情報をDBに保存
         if($response->getStatusCode() === 201) {  // 201：ミーティング作成成功のHTTPステータスコード
@@ -119,9 +95,7 @@ class MeetingController extends Controller
         // ZoomAPIにミーティング更新のリクエスト
         $id = $meeting->meeting_id;
         $path = 'meetings/' . $id;
-        // dd($id);
         $response = $this->client->zoomPatch($path, $request->zoomParams());
-        // dd($response);
 
          // DBに更新後のミーティングを保存
          if($response->getStatusCode() === 204) {  // 204：ミーティング更新成功のHTTPステータスコード
@@ -132,24 +106,5 @@ class MeetingController extends Controller
             return redirect()->route('meetings.index');
         }
     }
-
-    // public function get(Request $request, string $id)
-    // {
-    //     $path = 'meetings/' . $id;
-    //     $response = $this->client->zoomGet($path);
-
-    //     $data = json_decode($response->body(), true);
-    //     if ($response->ok()) {
-    //         $data['start_at'] = $this->client->toUnixTimeStamp($data['start_time'], $data['timezone']);
-    //     }
-
-    //     return [
-    //         'success' => $response->ok(),
-    //         'data' => $data,
-    //     ];
-    // }
-
-
-
 
 }
