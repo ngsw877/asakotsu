@@ -3,7 +3,7 @@
     <div class="d-flex justify-content-between row">
       <div class="col-2">
         <a href="{{ route('users.show', ['name' => $person->name]) }}" class="text-dark">
-          <img src="/images/profile/{{ $person->profile_image }}" class="user-icon rounded-circle mr-3" alt="プロフィールアイコン">
+          <img src="{{ $person->profile_image }}" class="user-icon rounded-circle mr-3" alt="プロフィールアイコン">
         </a>
       </div>
       <div class="col-2">
