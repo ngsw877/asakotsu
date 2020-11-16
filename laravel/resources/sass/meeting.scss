@@ -1,6 +1,6 @@
 @import "component.scss";
 
 .new-meeting-btn {
-  @include new-post-btn (linear-gradient(to bottom,#86b9fc, #7264f5))
+  @include new-post-btn (225px, linear-gradient(to bottom,#86b9fc, #7264f5))
 }
 
