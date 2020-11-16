@@ -4,15 +4,15 @@
   cursor : pointer;
 }
 
-@mixin new-post-btn ($btn-color: linear-gradient(to bottom, #f5d364, #fca186)) {
+@mixin new-post-btn ($right-position, $btn-color: linear-gradient(to bottom, #f5d364, #fca186)) {
 
   $btn-size: 140px;
-  $btn-position: 35px;
+
   width: $btn-size;
   height: $btn-size;
   position: fixed;
-  bottom: $btn-position;
-  right: $btn-position;
+  bottom: 35px;
+  right: $right-position;
   z-index: 999;
   background: $btn-color;
   color: #fff;
