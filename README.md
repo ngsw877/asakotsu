@@ -18,7 +18,7 @@
 朝活のコツ(「朝コツ」)を共有する機能、1月毎の早起き達成日数のランキング機能などがあります。
 
 ## 使用画面のイメージ
-![ScreenShot_Diagram](https://user-images.githubusercontent.com/58071320/99253319-e5ef6480-2853-11eb-870a-e0ae77566d26.png)
+![ScreenShot_Diagram (1)](https://user-images.githubusercontent.com/58071320/99262351-35885d00-2861-11eb-9562-2cde0231e4a2.png)
 
 ## 使用技術
 
