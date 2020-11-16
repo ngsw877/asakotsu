@@ -95,7 +95,9 @@ class UserController extends Controller
     public function followings(string $name)
     {
         $user = $this->user->withCountAchievementDays($name)->load('followings.followers');
-        $followings = $user->followings->sortByDesc('created_at');
+        $followings = $user->followings()
+        ->orderBy('created_at', 'desc')
+        ->paginate(5);
 
         return view('users.followings', [
             'user' => $user,
@@ -106,7 +108,9 @@ class UserController extends Controller
     public function followers(string $name)
     {
         $user = $this->user->withCountAchievementDays($name)->load('followers.followers');;
-        $followers = $user->followers->sortByDesc('created_at');
+        $followers = $user->followers()
+        ->orderBy('created_at', 'desc')
+        ->paginate(5);
 
         return view('users.followers', [
             'user' => $user,

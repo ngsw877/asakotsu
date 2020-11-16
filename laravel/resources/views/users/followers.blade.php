@@ -17,6 +17,8 @@
         @foreach($followers as $person)
           @include('users.person')
         @endforeach
+
+        {{ $followers->links() }}
       </div>
 
     </div>
