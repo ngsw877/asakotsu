@@ -11,6 +11,7 @@ class Article extends Model
 {
     protected $fillable = [
         'body',
+        'user_id',
     ];
 
     public function user(): BelongsTo

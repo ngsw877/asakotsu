@@ -53,7 +53,7 @@ class MeetingPolicy
      */
     public function update(User $user, Meeting $meeting)
     {
-        return $user->id === $meeting->user_id;
+        return (int) $user->id === (int) $meeting->user_id;
     }
 
     /**
