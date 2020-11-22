@@ -46,26 +46,23 @@
 
 ## 使用技術
 
-* フロントエンド
-  * Vue.js 2.6.11
-  * jQuery 3.4.1
-  * Blade(Laravel)
-  * HTML / SCC / SCSS
-  * MDBootstrap
+* __フロントエンド__
+  * __Vue.js 2.6.11__
+  * __jQuery 3.4.1__
+  * __HTML / SCC / Sass / MDBootstrap__
 
-* バックエンド
-  * PHP 7.4.9
-  * Laravel 6.18.36
-  * PHPUnit 8.5.8
-  * ZoomAPI (guzzlehttp/guzzle 7.0.1)
+* __バックエンド__
+  * __PHP 7.4.9__
+  * __Laravel 6.18.36__
+  * __PHPUnit 8.5.8__
+  * __ZoomAPI (guzzlehttp/guzzle 7.0.1)__
 
-* インフラ
-  * CircleCi
-  * Docker 19.03.12
-  * docker-compose 1.26.2
-  * nginx 1.18
-  * mysql 5.7.31
-  * AWS ( EC2, ALB, ACM, S3, RDS, CodeDeploy, SNS, Chatbot, CloudFormation, Route53, VPC, EIP, IAM )
+* __インフラ__
+  * __CircleCi__
+  * __Docker 19.03.12 / docker-compose 1.26.2__
+  * __nginx 1.18__
+  * __mysql 5.7.31__
+  * __AWS__ ( EC2, ALB, ACM, S3, RDS, CodeDeploy, SNS, Chatbot, CloudFormation, Route53, VPC, EIP, IAM )
 
 * その他使用ツール
   * Visual Studio Code
@@ -79,44 +76,44 @@
 
 ## 機能一覧
 
-* ユーザー登録関連
+* __ユーザー登録関連__
   * 新規登録、プロフィール編集機能
   * ログイン、ログアウト機能
   * かんたんログイン機能（ゲストユーザーログイン）
 
-* ZoomAPI連携
+* __ZoomAPI連携__
     * 朝活Zoomミーティング機能(CRUD)
       * ミーティングの新規作成、一覧表示、編集、削除機能
 
-* 早起き達成の判定機能
+* __早起き達成の判定機能__
   * ユーザー毎に目標起床時刻を設定可能（4:00〜10:00まで）
   * 目標起床時間より前に投稿をすることができれば、早起き達成記録が１日分増えます。<br>
     * ※深夜過ぎ等に投稿した場合も早起き成功とならぬよう、<br>
    　  目標起床時間より3時間前に投稿しても無効になるよう対処しています。<br>
-       （例）目標起床時間を07:00に設定した場合、04:00~07:00に起床できたら早起き達成
+       （例）目標起床時間を07:00に設定した場合、04:00~07:00に投稿できたら早起き達成
     
 
-* ユーザーの早起き達成日数のランキング機能（1ヶ月毎）
+* __ユーザーの早起き達成日数のランキング機能（1ヶ月毎）__
 
-* 無限スクロール機能(jQuery / inview.js / ajax)
+* __無限スクロール機能__ (jQuery / inview.js / ajax)
 
-* ユーザー投稿関連(CRUD)
+* __ユーザー投稿関連(CRUD)__
 
-* コメント機能
+* __コメント機能__
 
-* タグ機能(Vue.js / Vue Tags Input)
+* __タグ機能__ (Vue.js / Vue Tags Input)
 
-* いいね機能(Vue.js / ajax)
+* __いいね機能__ (Vue.js / ajax)
 
-* フォロー機能
+* __フォロー機能__
   - フォロー中/フォロワー一覧（ページネーション）
 
-* フラッシュメッセージ表示機能(jQuery/ Toastr)
+* __フラッシュメッセージ表示機能__ (jQuery/ Toastr)
   * 投稿、編集、削除、ログイン、ログアウト時にフラッシュメッセージを表示
 
-* 画像アップロード機能(AWS S3バケット)
+* __画像アップロード機能__ (AWS S3バケット)
 
-* PHPUnitテスト
+* __PHPUnitテスト__
 
 
 ## ER図
