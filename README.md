@@ -118,3 +118,15 @@
 
 ## ER図
 ![AsaKotsu_ERD](https://user-images.githubusercontent.com/58071320/96544796-34a3f000-12e2-11eb-9dd6-c6a9f8ad9c9c.png)
+
+| テーブル名 | 説明 |
+|:-:|:-:|
+| users  | 登録ユーザー情報  |
+|  follows | フォロー中/フォロワーのユーザー情報  |
+| achievement_days  | ユーザーが早起き達成した日付を、履歴として管理  |
+| meetings  | ユーザーが作成したZoomミーティング情報  |
+| articles  | ユーザー投稿の情報  |
+| tags  | ユーザー投稿のタグ情報  |
+| article_tags  | articleとtagsの中間テーブル  |
+| likes  | 投稿への、いいねの情報  |
+| comments  | ユーザー投稿への、コメントの情報  |
