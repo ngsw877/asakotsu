@@ -62,16 +62,17 @@ class UserController extends Controller
         $user = User::where('name', $name)->first();
 
         // ゲストユーザーログイン時に、ユーザー名とメールアドレスを変更できないよう対策
-
         if($name != self::GUEST_USER_NAME) {
             $user->fill($request->all())->save();
-
-            // UserPolicyのupdateメソッドでアクセス制限
-            $this->authorize('update', $user);
+        } else {
+            $user->self_introduction = $request->self_introduction;
+            $user->wake_up_time = $request->wake_up_time;
+            $user->save();
         }
+        // UserPolicyのupdateメソッドでアクセス制限
+        $this->authorize('update', $user);
 
         return redirect()->route('users.show',['name' => $user->name]);
-
     }
 
     public function likes(string $name, Request $request)
