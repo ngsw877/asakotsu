@@ -59,10 +59,14 @@ class UserController extends Controller
     public function update(UserRequest $request, string $name)
     {
         $user = User::where('name', $name)->first();
-        $user->fill($request->all())->save();
 
-        // UserPolicyのupdateメソッドでアクセス制限
-        $this->authorize('update', $user);
+        // ゲストユーザーログイン時に、ユーザー名とメールアドレスを変更できないよう対策
+        if($name != 'ゲストユーザー') {
+            $user->fill($request->all())->save();
+
+            // UserPolicyのupdateメソッドでアクセス制限
+            $this->authorize('update', $user);
+        }
 
         return redirect()->route('users.show',['name' => $user->name]);
 
