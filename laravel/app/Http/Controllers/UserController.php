@@ -16,6 +16,7 @@ use Carbon\Carbon;
 
 class UserController extends Controller
 {
+    public const GUEST_USER_NAME = 'ゲストユーザー';
     private $user;
 
     public function __construct(User $user) {
@@ -61,7 +62,8 @@ class UserController extends Controller
         $user = User::where('name', $name)->first();
 
         // ゲストユーザーログイン時に、ユーザー名とメールアドレスを変更できないよう対策
-        if($name != 'ゲストユーザー') {
+
+        if($name != self::GUEST_USER_NAME) {
             $user->fill($request->all())->save();
 
             // UserPolicyのupdateメソッドでアクセス制限
