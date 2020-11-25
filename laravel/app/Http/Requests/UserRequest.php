@@ -22,15 +22,26 @@ class UserRequest extends FormRequest
      *
      * @return array
      */
+    private const GUEST_USER_EMAIL = 'guest@guest.com';
+
     public function rules()
     {
-        return [
-            'name' => 'required|string|max:15|' . Rule::unique('users')->ignore(Auth::id()),
-            'email' => 'required|string|email|max:255|' . Rule::unique('users')->ignore(Auth::id()),
-            'profile_image' => 'file|mimes:jpeg,png,jpg,bmb|max:2048',
-            'self_introduction' => 'string|max:200|nullable',
-            'wake_up_time' => 'required|date_format:"H:i"',
-        ];
+        // ゲストユーザーログイン時に、ユーザー名とメールアドレスを変更できないよう対策
+        if(Auth::user()->email == self::GUEST_USER_EMAIL) {
+            return [
+                'profile_image' => 'file|mimes:jpeg,png,jpg,bmb|max:2048',
+                'self_introduction' => 'string|max:200|nullable',
+                'wake_up_time' => 'required|date_format:"H:i"',
+            ];
+        } else {
+            return [
+                'name' => 'required|string|max:15|' . Rule::unique('users')->ignore(Auth::id()),
+                'email' => 'required|string|email|max:255|' . Rule::unique('users')->ignore(Auth::id()),
+                'profile_image' => 'file|mimes:jpeg,png,jpg,bmb|max:2048',
+                'self_introduction' => 'string|max:200|nullable',
+                'wake_up_time' => 'required|date_format:"H:i"',
+            ];
+        }
     }
 
     public function attributes()
