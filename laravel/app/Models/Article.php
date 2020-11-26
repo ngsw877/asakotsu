@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use App\Rules\NgWordCheck;
 
 class Article extends Model
 {
@@ -13,6 +14,13 @@ class Article extends Model
         'body',
         'user_id',
     ];
+
+    public static function Rules()
+    {
+        return [
+            'body'  => ['required', 'max:500', new NgWordCheck('body')]
+            ];
+    }
 
     public function user(): BelongsTo
     {

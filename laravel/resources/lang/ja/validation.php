@@ -150,6 +150,7 @@ return [
         'email' => 'メールアドレス',
         'password' => 'パスワード',
         'wake_up_time' => '目標起床時間',
+        "body" => "本文",  
     ],
 
 ];

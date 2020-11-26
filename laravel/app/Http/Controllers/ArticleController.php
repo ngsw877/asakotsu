@@ -54,11 +54,11 @@ class ArticleController extends Controller
         ]);
     }
 
-    public function store(ArticleRequest $request, Article $article)
+    public function store(Request $request, Article $article)
     {
         // 投稿をDBに保存
         $user = $request->user();
-        $article = $user->articles()->create($request->all());
+        $article = $user->articles()->create($request->validate(Article::Rules()));
         $request->tags->each(function ($tagName) use ($article) {
             $tag = Tag::firstOrCreate(['name' => $tagName]);
             $article->tags()->attach($tag);
