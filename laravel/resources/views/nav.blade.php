@@ -3,7 +3,7 @@
   <div class="container d-flex justify-content-center px-4">
     <a class="navbar-brand" href="/" style="font-size:1.5rem;"><i class="fas fa-sun mr-1"></i>Asakotsu</a>
 
-    <ul class="navbar-nav ml-auto">
+    <ul class="navbar-nav ml-auto d-flex align-items-center">
 
       @guest
       <li class="nav-item">
@@ -24,7 +24,6 @@
       @endguest
 
       @auth
-
       <li class="nav-item">
         <a class="nav-link" href="{{ route('meetings.index') }}"><i class="fas fa-video mr-1"></i>Zoom朝活</a>
       </li>
@@ -41,7 +40,7 @@
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown"
            aria-haspopup="true" aria-expanded="false">
-          <i class="fas fa-user-circle"></i>
+           <img class="user-mini-icon  rounded-circle" src="{{ Auth::user()->profile_image }}">
           {{ Auth::user()->name }}さん
         </a>
         <div class="dropdown-menu dropdown-menu-right dropdown-primary" aria-labelledby="navbarDropdownMenuLink">
