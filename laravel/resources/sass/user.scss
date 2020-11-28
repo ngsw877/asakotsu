@@ -1,16 +1,23 @@
-$profile-icon-size: 150px;
-$user-icon-size: 60px;
+$L-size: 150px;
+$M-size: 60px;
+$S-size: 30px;
 
 
 .profile-icon {
-  width: $profile-icon-size;
-  height: $profile-icon-size;
+  width: $L-size;
+  height: $L-size;
   object-fit: cover;
 }
 
 .user-icon {
-  width: $user-icon-size;
-  height: $user-icon-size;
+  width: $M-size;
+  height: $M-size;
+  object-fit: cover;
+}
+
+.user-mini-icon {
+  width: $S-size;
+  height: $S-size;
   object-fit: cover;
 }
 
