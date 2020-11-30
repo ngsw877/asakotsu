@@ -10,7 +10,7 @@
     <div class="row">
       <div class="mx-auto col-md-7">
         <div class="card">
-          <h2 class="h4 card-header text-center sunny-morning-gradient text-white">Zoomミーティングを編集</h2>
+          <h2 class="h4 card-header text-center blue-gradient text-white">Zoomミーティングを編集</h2>
           <div class="card-body pt-3">
 
             @include('error_card_list')
@@ -21,7 +21,7 @@
                 @include('meetings.form')
 
                 <div class="mt-4">
-                  <button class="btn btn-block peach-gradient mt-2 mb-2" type="submit" text-while>
+                  <button class="btn btn-block blue-gradient mt-2 mb-2" type="submit" text-while>
                     <span class="h5">更新する</span>
                   </button>
                 </div>
