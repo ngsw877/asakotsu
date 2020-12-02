@@ -54,8 +54,8 @@
       <!-- modal -->
     @endif
   </div>
-  <div class="card-body">
-    <table class="table table w-75 mx-auto">
+  <div class="card-body p-0">
+    <table class="table table w-75 mx-auto mb-0">
       <tbody class="container">
         <tr class="row">
           <th scope="row" class="col-4 border-top-0 font-weight-bold">ミーティング名</th>
