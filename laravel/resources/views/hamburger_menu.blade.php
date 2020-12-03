@@ -54,7 +54,7 @@
           マイページ
         </a>
       </li>
-      <form id="logout-button" method="POST" action="{{ route('logout') }}">
+      <form id="logout-button" method="POST" action="{{ route('logout') }}" class="mb-0">
         @csrf
       <li>
 
