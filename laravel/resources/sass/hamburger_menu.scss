@@ -7,90 +7,105 @@
 /* ~~~~~~~ ハンバーガーメニューここから~~~~~~~ */
 
 .hamburger {
-display: block;
-position: relative;
-cursor: pointer;
+  display: block;
+  position: relative;
+  cursor: pointer;
 }
 
 .nav-button,
 .nav-button span {
-display: inline-block;
-transition: all 0.4s;
+  display: inline-block;
+  transition: all 0.4s;
 }
 
 .nav-button {
-position: relative;
-right: 0;
-width: 70px;
-height: 70px;
+  position: relative;
+  right: 0;
+  width: 70px;
+  height: 70px;
+
+  &:hover {
+    opacity: 0.9;
+  }
+
+  &::after {
+    content: "MENU";
+    position: absolute;
+    bottom: 12px;
+    left: 20px;
+    font-size: 10px;
+    text-align: center;
+    color: #fff;
+  }
+
+  span {
+    position: absolute;
+    left: 0;
+    width: 30px;
+    height: 2px;
+    background-color: #fff;
+    border-radius: 4px;
+
+    &:nth-of-type(1) {
+      top: 21px;
+      left: 20px;
+    }
+
+    &:nth-of-type(2) {
+      top: 30px;
+      left: 20px;
+    }
+
+    &:nth-of-type(3) {
+      top: 39px;
+      left: 20px;
+    }
+  }
+
+  /*ボタンクリック時のアニメーション*/
+  &::before {
+    position: absolute;
+    top: 7%;
+    left: 7%;
+    display: block;
+    content: '';
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    border: 3px solid transparent;
+    transition: all 0.75s;
+    z-index: 5;
+  }
+
+  &.active {
+    span {
+      &:nth-of-type(1) {
+        -webkit-transform: translateY(9px) rotate(-45deg);
+        transform: translateY(9px) rotate(-45deg);
+      /* top:30px;の位置に移動(23px+9px) */
+      }
+
+      &:nth-of-type(2) {
+        left: 60%;
+        opacity: 0;
+        -webkit-animation: active-btn-bar 0.8s forwards;
+        animation: active-btn-bar 0.8s forwards;
+      }
+
+      &:nth-of-type(3) {
+        -webkit-transform: translateY(-9px) rotate(45deg);
+        transform: translateY(-9px) rotate(45deg);
+        /* top:30px;の位置に移動(39px-9px) */
+      }
+    }
+
+    &::before {
+      -webkit-animation: active-btn 0.7s .25s forwards;
+      animation: active-btn 0.7s .25s forwards;
+    }
+  }
 }
 
-.nav-button:hover {
-  opacity: 0.9;
-}
-
-.nav-button::after {
-  content: "MENU";
-  position: absolute;
-  bottom: 12px;
-  left: 20px;
-  font-size: 10px;
-  text-align: center;
-  color: #fff;
-}
-
-.nav-button span {
-position: absolute;
-left: 0;
-width: 30px;
-height: 2px;
-background-color: #fff;
-border-radius: 4px;
-}
-
-.nav-button span:nth-of-type(1) {
-  top: 21px;
-  /* top: 0px; */
-  left: 20px;
-}
-
-.nav-button span:nth-of-type(2) {
-  top: 30px;
-  left: 20px;
-}
-
-.nav-button span:nth-of-type(3) {
-  top: 39px;
-  left: 20px;
-}
-
-/*ボタンクリック時のアニメーション*/
-.nav-button::before {
-  position: absolute;
-  top: 7%;
-  left: 7%;
-  display: block;
-  content: '';
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  border: 3px solid transparent;
-  transition: all 0.75s;
-  z-index: 5;
-}
-
-.nav-button.active span:nth-of-type(1) {
-  -webkit-transform: translateY(9px) rotate(-45deg);
-  transform: translateY(9px) rotate(-45deg);
-/* top:30px;の位置に移動(23px+9px) */
-}
-
-.nav-button.active span:nth-of-type(2) {
-  left: 60%;
-  opacity: 0;
-  -webkit-animation: active-btn-bar 0.8s forwards;
-  animation: active-btn-bar 0.8s forwards;
-}
 
 @-webkit-keyframes active-btn-bar {
   100% {
@@ -102,16 +117,7 @@ border-radius: 4px;
     height: 0;
   }
 }
-.nav-button.active span:nth-of-type(3) {
-  -webkit-transform: translateY(-9px) rotate(45deg);
-  transform: translateY(-9px) rotate(45deg);
-  /* top:30px;の位置に移動(39px-9px) */
-}
 
-.nav-button.active::before {
-  -webkit-animation: active-btn 0.7s .25s forwards;
-  animation: active-btn 0.7s .25s forwards;
-}
 @-webkit-keyframes active-btn {
   0% {
     border-color: transparent;
@@ -160,25 +166,24 @@ border-radius: 4px;
   left: 0;
   width: 100%;
   z-index: 9999;
-}
 
-.menu-area a:hover {
-  opacity: 1;
-}
+  a:hover {
+    opacity: 1;
+  }
 
+  .nav-modal {
+    list-style-type: none;
+    padding-left: 0;
 
-.nav-modal {
-  list-style-type: none;
-  padding-left: 0;
-}
-
-.menu-area .nav-modal a {
-  display: block;
-  width: 100%;
-  padding: 15px 10px;
-  border-bottom: 1px solid #fff;
-  color: #ffffff;
-  position: relative;
+    a {
+      display: block;
+      width: 100%;
+      padding: 15px 10px;
+      border-bottom: 1px solid #fff;
+      color: #ffffff;
+      position: relative;
+    }
+  }
 }
 
 /*  <button>タグのデザイン初期化 */
