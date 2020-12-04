@@ -68,7 +68,7 @@
                 <form method="POST" action="{{ route('articles.destroy', ['article' => $article]) }}">
                   @csrf
                   @method('DELETE')
-                  <div class="modal-body">
+                  <div class="modal-body text-center">
                     投稿を削除します。よろしいですか？
                   </div>
                   <div class="modal-footer justify-content-between">
