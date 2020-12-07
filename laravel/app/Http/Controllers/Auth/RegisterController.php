@@ -93,6 +93,8 @@ class RegisterController extends Controller
             $image_path = $disk->url($path);
         }
 
+        // フラッシュメッセージ
+        session()->flash('flash_message', 'ユーザー登録が完了しました');
 
         // ユーザー情報の登録
         return User::create([
