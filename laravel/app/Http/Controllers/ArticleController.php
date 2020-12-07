@@ -50,7 +50,7 @@ class ArticleController extends Controller
         if ($request->ajax()) {
             return response()->json([
                 'html' => view('articles.list', ['articles' => $articles])->render(),
-                'next' => $articles->appends(['body' => $search])->nextPageUrl()
+                'next' =>  $articles->appends($request->only('search'))->nextPageUrl()
             ]);
         }
 
