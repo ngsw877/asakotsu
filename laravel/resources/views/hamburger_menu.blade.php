@@ -58,7 +58,7 @@
         @csrf
       <li>
 
-        <button form="logout-button" class="waves-effect waves-light text-white" type="submit" style="padding: 15px 10px; width:100%;">
+        <button form="logout-button" class="button-reset waves-effect waves-light text-white" type="submit" style="padding: 15px 10px; width:100%;">
           <i class="fas fa-sign-out-alt mr-1"></i>
           ログアウト
         </button>
