@@ -5,8 +5,8 @@
 
     @include('hamburger_menu')
 
-    <form method="GET" action="{{ route('articles.index') }}" class="form-inline w-25">
-      <input class="form-control w-100" name="search" type="search" placeholder="🔍  投稿を検索" aria-label="Search">
+    <form method="GET" action="{{ route('articles.index') }}" class="form-inline w-25 d-none d-md-flex">
+      <input class="form-control w-100" name="search" type="search" placeholder="🔍  投稿を検索">
     </form>
 
     <ul class="navbar-nav ml-auto d-none d-md-flex align-items-center">
