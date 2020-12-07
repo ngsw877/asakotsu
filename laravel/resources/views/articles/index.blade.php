@@ -49,11 +49,6 @@
 
       <main class="col-md-7 offset-md-5">
 
-        <form method="GET" action="{{ route('articles.index') }}" class="form-inline mb-3 ">
-          <input class="form-control mr-sm-2 w-50" name="search" type="search" placeholder="投稿を検索" aria-label="Search">
-          <button class="btn btn-outline-success mb-3 my-sm-0" type="submit">検索</button>
-        </form>
-
         @include('articles.list', compact('articles'))
 
         @include('articles.sppiner')
