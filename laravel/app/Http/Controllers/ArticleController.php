@@ -8,6 +8,7 @@ use App\Models\Tag;
 use App\Models\User;
 use App\Http\Requests\ArticleRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 
@@ -21,21 +22,40 @@ class ArticleController extends Controller
 
     public function index(Request $request, User $user)
     {
+        ### ユーザー投稿の検索機能 ###
+        $search = $request->input('search');
 
-        // ユーザーの早起き達成日数ランキングを取得
-        $ranked_users = $user->ranking();
+        $query = Article::query();
 
-        // 無限スクロール
-        $articles = Article::with(['user', 'likes', 'tags'])
+        //もしキーワードがあったら
+        if($search !== null){
+            //全角スペースを半角に
+            $search_split = mb_convert_kana($search,'s');
+
+            //空白で区切る
+            $search_split2 = preg_split('/[\s]+/', $search_split,-1,PREG_SPLIT_NO_EMPTY);
+
+            //単語をループで回す
+            foreach($search_split2 as $value)
+            {
+            $query->where('body','like','%'.$value.'%');
+            }
+        };
+
+        ### 無限スクロール ###
+        $articles = $query->with(['user', 'likes', 'tags'])
             ->orderBy('created_at', 'desc')
             ->paginate(10);
 
         if ($request->ajax()) {
             return response()->json([
                 'html' => view('articles.list', ['articles' => $articles])->render(),
-                'next' => $articles->nextPageUrl()
+                'next' => $articles->appends(['body' => $search])->nextPageUrl()
             ]);
         }
+
+        ### ユーザーの早起き達成日数ランキングを取得 ###
+        $ranked_users = $user->ranking();
 
         return view('articles.index', ['articles' => $articles, 'ranked_users' => $ranked_users]);
     }
