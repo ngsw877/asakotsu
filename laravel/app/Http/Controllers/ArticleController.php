@@ -57,7 +57,11 @@ class ArticleController extends Controller
         ### ユーザーの早起き達成日数ランキングを取得 ###
         $ranked_users = $user->ranking();
 
-        return view('articles.index', ['articles' => $articles, 'ranked_users' => $ranked_users]);
+        return view('articles.index', [
+            'articles' => $articles,
+            'ranked_users' => $ranked_users,
+            'search' => $search
+            ]);
     }
 
     public function create()
