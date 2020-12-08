@@ -42,12 +42,12 @@ class ArticleController extends Controller
             }
         };
 
-        ### 無限スクロール ###
+        ### 投稿一覧を無限スクロールで表示 ###
         $articles = $query->with(['user', 'likes', 'tags'])
             ->orderBy('created_at', 'desc')
             ->paginate(10);
 
-        if ($request->ajax()) {
+        if($request->ajax()) {
             return response()->json([
                 'html' => view('articles.list', ['articles' => $articles])->render(),
                 'next' =>  $articles->appends($request->only('search'))->nextPageUrl()
