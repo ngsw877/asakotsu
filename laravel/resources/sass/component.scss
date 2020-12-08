@@ -4,6 +4,7 @@
   cursor : pointer;
 }
 
+// 投稿ボタン
 @mixin new-post-btn ($right-position, $btn-color: linear-gradient(to bottom, #f5d364, #fca186)) {
 
   $btn-size: 140px;
@@ -35,5 +36,21 @@
   &:hover {
     @include link-hover;
     color: #fff;
+  }
+}
+
+// 検索フォーム
+.search-form {
+  position: relative;
+
+  span::before {
+    content: "🔍";
+    position: absolute;
+    top: 8px;
+    left: 9px;
+  }
+
+  input[name="search"] {
+    padding-left: 36px;
   }
 }
