@@ -5,10 +5,17 @@
 
     @include('hamburger_menu')
 
-    <form method="GET" action="{{ route('articles.index') }}" class="search-form form-inline w-25 d-none d-md-flex">
-      <span></span>
-      <input class="form-control w-100" name="search" type="search" placeholder="投稿を検索" value="{{ $search ?? old('search') }}">
-    </form>
+    @if(isset($articles))
+      <form method="GET" action="{{ route('articles.index') }}" class="search-form form-inline w-25 d-none d-md-flex">
+        <span></span>
+        <input class="form-control w-100" name="search" type="search" placeholder="投稿を検索" value="{{ $search ?? old('search') }}">
+      </form>
+    @else(isset($meetings))
+      <form method="GET" action="{{ route('meetings.index') }}" class="search-form form-inline w-25 d-none d-md-flex">
+        <span></span>
+        <input class="form-control w-100" name="search" type="search" placeholder="ミーテイングを検索" value="{{ $search ?? old('search') }}">
+      </form>
+    @endif
 
     <ul class="navbar-nav ml-auto d-none d-md-flex align-items-center">
 

@@ -26,19 +26,43 @@ class MeetingController extends Controller
 
     public function index(Request $request)
     {
-        // ミーティング一覧を、無限スクロールで表示
-        $meetings = Meeting::with(['user'])
+        ### ユーザー投稿の検索機能 ###
+        $search = $request->input('search');
+
+        $query = Meeting::query();
+
+        //もしキーワードがあったら
+        if($search !== null){
+            //全角スペースを半角に
+            $search_split = mb_convert_kana($search,'s');
+
+            //空白で区切る
+            $search_split2 = preg_split('/[\s]+/', $search_split,-1,PREG_SPLIT_NO_EMPTY);
+
+            //単語をループで回す
+            foreach($search_split2 as $value)
+            {
+            $query->where('topic','like','%'.$value.'%')
+            ->orWhere('agenda','like','%'.$value.'%');
+            }
+        };
+
+        ### ミーティング一覧を、無限スクロールで表示 ###
+        $meetings = $query->with(['user'])
         ->orderBy('created_at', 'desc')
         ->paginate(5);
 
         if ($request->ajax()) {
             return response()->json([
                 'html' => view('meetings.list', ['meetings' => $meetings])->render(),
-                'next' => $meetings->nextPageUrl()
+                'next' => $meetings->appends($request->only('search'))->nextPageUrl()
             ]);
         }
 
-        return view('meetings.index', ['meetings' => $meetings]);
+        return view('meetings.index', [
+            'meetings' => $meetings,
+            'search' => $search
+            ]);
     }
 
     public function create()
