@@ -154,7 +154,7 @@ class ArticleController extends Controller
     {
         $comments = $article->comments()
         ->orderBy('created_at', 'desc')
-        ->get();
+        ->paginate(5);
         return view('articles.show', [
             'article' => $article,
             'comments' => $comments
