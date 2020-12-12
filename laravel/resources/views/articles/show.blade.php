@@ -31,6 +31,7 @@
                     <!-- コメント一覧 -->
                     @include('comments.card')
                 </ul>
+                {{ $comments->links('pagination::default') }}
             </div>
         </div>
     </div>
