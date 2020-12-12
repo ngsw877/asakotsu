@@ -152,8 +152,9 @@ class ArticleController extends Controller
 
     public function show(Article $article, Comment $comment)
     {
-        $article = $article->getArticle($article->id);
-        $comments = $comment->getComments($article->id);
+        $comments = $article->comments()
+        ->orderBy('created_at', 'desc')
+        ->get();
         return view('articles.show', [
             'article' => $article,
             'comments' => $comments

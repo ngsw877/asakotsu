@@ -46,12 +46,6 @@ class Article extends Model
         return $this->hasMany(Comment::class);
     }
 
-    // 詳細画面
-    public function getArticle(Int $article_id)
-    {
-        return $this->with('user')->where('id', $article_id)->first();
-    }
-
     public function achievement_days()
     {
         return $this->belongsToMany(AchievementDay::class, 'users');
