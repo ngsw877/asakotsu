@@ -1,4 +1,4 @@
-<li class="list-group-item">
+<li class="list-group-item card">
   <div class="py-3">
       <form method="POST" action="{{ route('comments.store') }}">
           @csrf
