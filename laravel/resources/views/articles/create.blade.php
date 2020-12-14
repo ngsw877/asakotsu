@@ -23,14 +23,33 @@
             @include('error_card_list')
 
             <div class="card-text">
-              <form method="POST" class="w-75 mx-auto" action="{{ route('articles.store') }}">
+              <!-- 通常投稿のフォーム -->
+              <form id="nomal-post" method="POST" class="w-75 mx-auto" action="{{ route('articles.store') }}">
 
                 @include('articles.form')
 
-                <button type="submit" class="btn peach-gradient btn-block">
-                  <span class="h6">送信</span>
-                </button>
               </form>
+              <!-- クイック投稿用のフォーム -->
+              <form id="quick-post" action="">
+
+              </form>
+
+              <div class="w-75 mx-auto d-flex justify-content-between align-items-start">
+                <!-- 通常の投稿ボタン -->
+                <div style="width:45%">
+                  <button form="nomal-post" type="submit" class="btn btn-block peach-gradient" >
+                    <span class="h6">送 信</span>
+                  </button>
+                </div>
+
+                <!-- クイック投稿ボタン -->
+                <div style="width:45%">
+                  <button form="quick-post" type="submit" class="btn btn-block btn-default">
+                    <span ><i class="far fa-clock mr-2"></i>クイック投稿</span>
+                  </button>
+                  <small class="d-block text-center mt-2">（１クリックでテンプレ投稿）</small>
+                </div>
+              </div>
             </div>
           </div>
         </div>
