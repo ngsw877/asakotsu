@@ -89,7 +89,6 @@ class ArticleController extends Controller
         });
 
         // 早起き成功かどうか判定し、成功の場合にその日付をDBに履歴として保存する
-
         if (
             $user->wake_up_time->copy()->subHour($user->range_of_success) <= $article->created_at
             && $article->created_at <= $user->wakeup_time

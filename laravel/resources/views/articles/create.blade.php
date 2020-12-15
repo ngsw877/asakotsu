@@ -30,8 +30,9 @@
 
               </form>
               <!-- クイック投稿用のフォーム -->
-              <form id="quick-post" action="">
-
+              <form id="quick-post" method="POST" action="{{ route('articles.store') }}">
+                @csrf
+                <input type="hidden" name="body" value="おはようございます！">
               </form>
 
               <div class="w-75 mx-auto d-flex justify-content-between align-items-start">
