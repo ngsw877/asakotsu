@@ -44,6 +44,16 @@
         <a class="nav-link" href="{{ route('articles.create') }}"><i class="fas fa-pen mr-1"></i>投稿する</a>
       </li>
 
+      <li class="nav-item d-flex align-items-center">
+        <button form="quick-post" type="submit" class="nav-link button-reset">
+          <i class="far fa-clock mr-1"></i>クイック投稿
+        </button>
+      </li>
+      <form id="quick-post" method="POST" action="{{ route('articles.store') }}">
+        @csrf
+        <input type="hidden" name="body" value="おはようございます！">
+      </form>
+
       <!-- Dropdown -->
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown"
