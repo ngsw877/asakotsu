@@ -44,7 +44,7 @@
         <a class="nav-link" href="{{ route('articles.create') }}"><i class="fas fa-pen mr-1"></i>投稿する</a>
       </li>
 
-      <li class="nav-item d-flex align-items-center">
+      <li class="nav-item">
         <button form="quick-post" type="submit" class="nav-link button-reset">
           <i class="far fa-clock mr-1"></i>クイック投稿
         </button>

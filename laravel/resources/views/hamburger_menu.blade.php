@@ -12,21 +12,21 @@
   <ul class="nav-modal mb-0 text-center">
   @guest
     <li>
-      <a class="waves-effect waves-light" href="{{ route('register') }}">
+      <a class="waves-effect waves-light modal-link" href="{{ route('register') }}">
         <i class="fas fa-user-plus mr-1"></i>
         ユーザー登録
       </a>
     </li>
 
     <li>
-      <a class="waves-effect waves-light" href="{{ route('login') }}">
+      <a class="waves-effect waves-light modal-link" href="{{ route('login') }}">
         <i class="fas fa-sign-in-alt mr-1"></i>
         ログイン
       </a>
     </li>
 
     <li class="bg-default rounded">
-      <a class="waves-effect waves-light" href="{{ route('login.guest') }}">
+      <a class="waves-effect waves-light modal-link" href="{{ route('login.guest') }}">
         <i class="fas fa-user-check mr-1"></i>
         かんたんログイン
       </a>
