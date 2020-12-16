@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Storage;
 
 class UserRequest extends FormRequest
 {
@@ -55,5 +56,25 @@ class UserRequest extends FormRequest
             'wake_up_time' => '目標起床時間',
 
         ];
+    }
+
+    public function userParams()
+    {
+        $validated = parent::validated();
+
+        if(isset($validated['profile_image'])) {
+            ### S3バケットに画像をアップロード ###
+
+            // S3へアップロード開始
+            $image = $validated['profile_image'];
+
+            $disk = Storage::disk('s3');
+            // バケットの`image/profile`フォルダへアップロード
+            $path = $disk->putFile('images/profile', $image, 'public');
+            // アップロードした画像のフルパスを取得
+            $validated['profile_image'] = $disk->url($path);
+
+            return $validated;
+        }
     }
 }

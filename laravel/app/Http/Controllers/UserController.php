@@ -60,11 +60,12 @@ class UserController extends Controller
     {
         $user = User::where('name', $name)->first();
 
-        $user->fill($request->validated())->save();
+        $user->fill($request->userParams())->save();
 
         // UserPolicyのupdateメソッドでアクセス制限
         $this->authorize('update', $user);
 
+        session()->flash('flash_message', 'プロフィールを編集しました');
         return redirect()->route('users.show',['name' => $user->name]);
     }
 
