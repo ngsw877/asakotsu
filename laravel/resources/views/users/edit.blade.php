@@ -21,7 +21,7 @@
                 <div class="form-group text-center">
                   <label for="profile_image">
                     <img class="profile-icon image-upload rounded-circle" src="{{ $user->profile_image }}" alt="プロフィールアイコン">
-                    <input type="file" name="profile_image" id="profile_image" class="d-none">
+                    <input type="file" name="profile_image" id="profile_image" class="d-none" accept="image/*">
                   </label>
                 </div>
                 @if (Auth::user()->name == 'ゲストユーザー')
