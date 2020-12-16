@@ -65,6 +65,7 @@ class UserController extends Controller
         // UserPolicyのupdateメソッドでアクセス制限
         $this->authorize('update', $user);
 
+        session()->flash('flash_message', 'プロフィールを編集しました');
         return redirect()->route('users.show',['name' => $user->name]);
     }
 
