@@ -10,14 +10,15 @@
     </div>
     <div class="card-body user-ranking-list py-3">
         @foreach ($ranked_users as $ranked_user)
-        <div class="d-flex justify-content-between">
-            <p class="ranking-icon{{ $ranked_user->rank }}">
+        <div class="d-flex">
+            <p class="ranking-icon{{ $ranked_user->rank }} mr-3">
                 {{ $ranked_user->rank}}
             </p>
-            <a class="block" href="{{ route('users.show', ['name' => $ranked_user->name]) }}">
-                <p>{{$ranked_user->name}}さん</p>
+            <a class="mr-1" href="{{ route('users.show', ['name' => $ranked_user->name]) }}">
+                <img class="user-mini-icon rounded-circle mr-2" src="{{ $ranked_user->profile_image }}">
+                {{$ranked_user->name}}さん
             </a>
-            <p class="h5">{{ $ranked_user->achievement_days_count }} 日</p>
+            <p class="h5 ml-auto">{{ $ranked_user->achievement_days_count }} 日</p>
         </div>
         @endforeach
     </div>
