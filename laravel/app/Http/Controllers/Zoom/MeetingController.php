@@ -89,6 +89,8 @@ class MeetingController extends Controller
 
             session()->flash('flash_message', 'ミーティングを作成しました');
             return redirect()->route('meetings.index');
+        } else {
+            return view('errors.meeting', ['method' => '作成']);
         }
     }
 
@@ -106,6 +108,8 @@ class MeetingController extends Controller
             session()->flash('flash_message', 'ミーティングを削除しました');
 
             return redirect()->route('meetings.index');
+        } else {
+            return view('errors.meeting', ['method' => '削除']);
         }
     }
 
@@ -128,6 +132,8 @@ class MeetingController extends Controller
             session()->flash('flash_message', 'ミーティングを編集しました');
 
             return redirect()->route('meetings.index');
+        } else {
+            return view('errors.meeting', ['method' => '更新']);
         }
     }
 
