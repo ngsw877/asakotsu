@@ -32,7 +32,7 @@ class MeetingController extends Controller
         $query = Meeting::query();
 
         //もしキーワードがあったら
-        if($search !== null){
+        if ($search !== null){
             //全角スペースを半角に
             $search_split = mb_convert_kana($search,'s');
 
@@ -82,16 +82,17 @@ class MeetingController extends Controller
         $body['start_time'] = date('Y-m-d\TH:i:s', $body['start_time']);
 
         // 作成したミーティング情報をDBに保存
-        if($response->getStatusCode() === 201) {  // 201：ミーティング作成成功のHTTPステータスコード
+        if ($response->getStatusCode() === 201) {  // 201：ミーティング作成成功のHTTPステータスコード
             $meeting
                 ->fill($body + [ 'meeting_id' => $body['id'], 'user_id' => $request->user()->id ])
                 ->save();
 
             session()->flash('flash_message', 'ミーティングを作成しました');
             return redirect()->route('meetings.index');
-        } else {
-            return view('errors.meeting', ['method' => '作成']);
         }
+
+        return view('errors.meeting', ['method' => '作成']);
+
     }
 
     public function destroy(Meeting $meeting)
@@ -102,15 +103,16 @@ class MeetingController extends Controller
         $response = $this->client->zoomDelete($path);
 
         // DBからもミーティングを削除
-        if($response->getStatusCode() === 204) {  // 204：ミーティング削除成功のHTTPステータスコード
+        if ($response->getStatusCode() === 204) {  // 204：ミーティング削除成功のHTTPステータスコード
             $meeting->delete();
 
             session()->flash('flash_message', 'ミーティングを削除しました');
 
             return redirect()->route('meetings.index');
-        } else {
-            return view('errors.meeting', ['method' => '削除']);
         }
+
+        return view('errors.meeting', ['method' => '削除']);
+
     }
 
     public function edit(Meeting $meeting)
@@ -126,15 +128,16 @@ class MeetingController extends Controller
         $response = $this->client->zoomPatch($path, $request->zoomParams());
 
          // DBに更新後のミーティングを保存
-         if($response->getStatusCode() === 204) {  // 204：ミーティング更新成功のHTTPステータスコード
+         if ($response->getStatusCode() === 204) {  // 204：ミーティング更新成功のHTTPステータスコード
             $meeting->fill($request->validated())->save();
 
             session()->flash('flash_message', 'ミーティングを編集しました');
 
             return redirect()->route('meetings.index');
-        } else {
-            return view('errors.meeting', ['method' => '更新']);
         }
+
+        return view('errors.meeting', ['method' => '更新']);
+
     }
 
 }
