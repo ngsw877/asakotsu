@@ -26,7 +26,7 @@ class ArticleController extends Controller
         $query = Article::query();
 
         //もしキーワードがあったら
-        if($search !== null){
+        if ($search !== null){
             //全角スペースを半角に
             $search_split = mb_convert_kana($search,'s');
 
@@ -45,7 +45,7 @@ class ArticleController extends Controller
             ->orderBy('created_at', 'desc')
             ->paginate(10);
 
-        if($request->ajax()) {
+        if ($request->ajax()) {
             return response()->json([
                 'html' => view('articles.list', ['articles' => $articles])->render(),
                 'next' =>  $articles->appends($request->only('search'))->nextPageUrl()
@@ -80,7 +80,7 @@ class ArticleController extends Controller
     {
         // 投稿をDBに保存
         $user = $request->user();
-        $article = $user->articles()->create($request->all());
+        $article = $user->articles()->create($request->validated());
         $request->tags->each(function ($tagName) use ($article) {
             $tag = Tag::firstOrCreate(['name' => $tagName]);
             $article->tags()->attach($tag);
@@ -126,7 +126,7 @@ class ArticleController extends Controller
 
     public function update(ArticleRequest $request, Article $article)
     {
-        $article->fill($request->all())->save();
+        $article->fill($request->validated())->save();
 
         $article->tags()->detach();
         $request->tags->each(function ($tagName) use ($article) {
