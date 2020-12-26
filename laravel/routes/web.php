@@ -65,6 +65,7 @@ Route::group(['middleware' => 'auth'], function() {
     // ユーザープロフィール関係(edit, update, destroy)
     Route::get('/edit', 'UserController@edit')->name('edit');
     Route::patch('/update', 'UserController@update')->name('update');
+    Route::get('/edit_password', 'UserController@editPassword')->name('edit_password');
     // Route::delete('/', 'UserController@destroy')->name('destroy');
   });
 
