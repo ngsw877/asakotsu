@@ -22,7 +22,7 @@
                   <label for="current_password">
                     現在のパスワード
                   </label>
-                  <input class="form-control" type="password" id="current_password" name="current_password">
+                  <input class="form-control" type="password" id="current_password" name="current_password" placeholder="ご登録のパスワードを入力してください">
                 </div>
                 <div class="form-group">
                   <label for="new_password">
@@ -34,7 +34,7 @@
                   <label for="current_password_confirmation">
                     パスワードを確認
                   </label>
-                  <input class="form-control" type="password" id="current_password_confirmation" name="current_password_confirmation" placeholder="再入力してください">
+                  <input class="form-control" type="password" id="current_password_confirmation" name="current_password_confirmation" placeholder="新しいパスワードを再入力してください">
                 </div>
                 <div class="d-flex justify-content-between align-items-center">
                   <button class="btn peach-gradient mt-2 mb-2" type="submit">
