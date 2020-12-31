@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Requests\UserRequest;
+use App\Http\Requests\UpdatePasswordRequest;
+use Illuminate\Support\Facades\Hash;
+
 class UserController extends Controller
 {
     private $user;
@@ -50,7 +53,7 @@ class UserController extends Controller
     public function update(UserRequest $request, string $name)
     {
         $user = User::where('name', $name)->first();
-        
+
         // UserPolicyのupdateメソッドでアクセス制限
         $this->authorize('update', $user);
 
@@ -58,6 +61,24 @@ class UserController extends Controller
 
 
         session()->flash('flash_message', 'プロフィールを編集しました');
+        return redirect()->route('users.show',['name' => $user->name]);
+    }
+
+    public function editPassword(string $name)
+    {
+        $user = User::where('name', $name)->first();
+
+        return view('users.edit_password', ['user' => $user]);
+    }
+
+    public function updatePassword(UpdatePasswordRequest $request, string $name)
+    {
+        $user = User::where('name', $name)->first();
+
+        $user->password = Hash::make($request->input('new_password'));
+        $user->save();
+
+        session()->flash('flash_message', 'パスワードを更新しました');
         return redirect()->route('users.show',['name' => $user->name]);
     }
 

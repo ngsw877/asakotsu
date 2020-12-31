@@ -62,9 +62,14 @@ Route::group(['middleware' => 'auth'], function() {
     Route::put('/follow', 'UserController@follow')->name('follow');
     Route::delete('/follow', 'UserController@unfollow')->name('unfollow');
 
-    // ユーザープロフィール関係(edit, update, destroy)
+    // ユーザープロフィール編集画面の表示
     Route::get('/edit', 'UserController@edit')->name('edit');
+    // ユーザープロフィール更新
     Route::patch('/update', 'UserController@update')->name('update');
+    // パスワード変更画面の表示
+    Route::get('/edit_password', 'UserController@editPassword')->name('edit_password');
+    // パスワード変更
+    Route::patch('/update_password', 'UserController@updatePassword')->name('update_password');
     // Route::delete('/', 'UserController@destroy')->name('destroy');
   });
 

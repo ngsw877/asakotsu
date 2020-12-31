@@ -30,7 +30,7 @@
                     メールアドレス
                     <small class="text-danger">（必須）</small>
                   </label>
-                  <input class="form-control" type="text" id="email" name="email" value="{{ old('email') }}">
+                  <input class="form-control" type="text" id="email" name="email" value="{{ old('email') }}" placeholder="例）example@co.jp">
                 </div>
                 <div class="form-group">
                   <label for="password">
@@ -41,10 +41,10 @@
                 </div>
                 <div class="form-group">
                   <label for="password_confirmation">
-                    パスワード
+                    パスワードの確認
                     <small class="text-danger">（必須）</small>
                   </label>
-                  <input class="form-control" type="password" id="password_confirmation" name="password_confirmation">
+                  <input class="form-control" type="password" id="password_confirmation" name="password_confirmation" placeholder="再入力してください">
                 </div>
                 <div class="form-group">
                   <label for="wake_up_time">

@@ -68,9 +68,12 @@
                   </label>
                   <textarea name="self_introduction" class="form-control" rows="8">{{ $user->self_introduction ?? old('self_introduction') }}</textarea>
                 </div>
-                <button class="btn peach-gradient mt-2 mb-2" type="submit">
-                  <span class="h6">保存</span>
-                </button>
+                <div class="d-flex justify-content-between align-items-center">
+                  <button class="btn peach-gradient mt-2 mb-2" type="submit">
+                    <span class="h6">保存</span>
+                  </button>
+                  <a href="{{ route('users.edit_password', ['name' => $user->name]) }}">パスワード変更はこちら</a>
+                </div>
               </form>
             </div>
           </div>
