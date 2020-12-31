@@ -15,7 +15,7 @@
             @include('error_card_list')
 
             <div class="user-form my-4">
-              <form method="POST" action="{{ route('users.update', ['name' => $user->name]) }}" enctype="multipart/form-data">
+              <form method="POST" action="{{ route('users.update_password', ['name' => $user->name]) }}" enctype="multipart/form-data">
                 @method('PATCH')
                 @csrf
                 <div class="form-group">
@@ -31,10 +31,10 @@
                   <input class="form-control" type="password" id="new_password" name="new_password" placeholder="※8文字以上">
                 </div>
                 <div class="form-group">
-                  <label for="current_password_confirmation">
+                  <label for="new_password_confirmation">
                     パスワードを確認
                   </label>
-                  <input class="form-control" type="password" id="current_password_confirmation" name="current_password_confirmation" placeholder="新しいパスワードを再入力してください">
+                  <input class="form-control" type="password" id="new_password_confirmation" name="new_password_confirmation" placeholder="新しいパスワードを再入力してください">
                 </div>
                 <div class="d-flex justify-content-between align-items-center">
                   <button class="btn peach-gradient mt-2 mb-2" type="submit">

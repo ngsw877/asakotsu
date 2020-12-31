@@ -3,7 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 class UpdatePasswordRequest extends FormRequest
 {
     /**
@@ -24,8 +25,23 @@ class UpdatePasswordRequest extends FormRequest
     public function rules()
     {
         return [
-            'current_password' => 'required|string|min:8|password:api',
-            'new_password' => 'required|string|min:8|confirmed|different:current_password',
+            'current_password' => [
+                'required',
+                'string',
+                'min:8',
+                function ($attribute, $value, $fail) {
+                    if (!(Hash::check($value, Auth::user()->password))) {
+                        return $fail("現在のパスワードを正しく入力してください");
+                    }
+                }
+            ],
+            'new_password' => [
+                'required',
+                'string',
+                'min:8',
+                'confirmed',
+                'different:current_password'
+            ]
         ];
     }
 
