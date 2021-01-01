@@ -68,12 +68,18 @@ class UserController extends Controller
     {
         $user = User::where('name', $name)->first();
 
+        // UserPolicyのupdateメソッドでアクセス制限
+        $this->authorize('update', $user);
+
         return view('users.edit_password', ['user' => $user]);
     }
 
     public function updatePassword(UpdatePasswordRequest $request, string $name)
     {
         $user = User::where('name', $name)->first();
+
+        // UserPolicyのupdateメソッドでアクセス制限
+        $this->authorize('update', $user);
 
         $user->password = Hash::make($request->input('new_password'));
         $user->save();
