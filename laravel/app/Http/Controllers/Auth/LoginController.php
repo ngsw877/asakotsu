@@ -61,12 +61,11 @@ class LoginController extends Controller
     public function guestLogin()
     {
         $user = User::where('email', self::GUEST_USER_EMAIL)->first();
-        if ($user && Auth::login($user)) {
+        if ($user) {
+            Auth::login($user);
+            session()->flash('flash_message', 'ゲストユーザーでログインしました');
             return redirect('/');
         }
-
-        session()->flash('flash_message', 'ゲストユーザーでログインしました');
-        return redirect('/');
     }
 
     /**
