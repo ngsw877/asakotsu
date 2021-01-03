@@ -33,8 +33,14 @@
                 <input type="hidden" name="remember" id="remember" value="on">
 
                 <div class="d-flex justify-content-between">
-                  <button class="btn peach-gradient" type="submit" text-while>ログイン</button>
-                  <a href="{{ route('login.guest') }}" class="btn btn-default p-3">かんたんログイン</a>
+                  <button class="btn peach-gradient" type="submit" text-while>
+                    ログイン
+                  </button>
+                  <button class="btn btn-default p-3">
+                    <a href="{{ route('login.guest') }}" class="text-white">
+                      かんたんログイン
+                    </a>
+                  </button>
                 </div>
 
               </form>

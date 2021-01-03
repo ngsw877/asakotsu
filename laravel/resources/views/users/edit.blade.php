@@ -25,7 +25,7 @@
                     <input type="file" name="profile_image" id="profile_image" class="d-none" accept="image/*">
                   </label>
                 </div>
-                @if (Auth::user()->name == 'ゲストユーザー')
+                @if (Auth::user()->email == 'guest@guest.com')
                   <p class="text-danger">※ゲストユーザーは、ユーザー名とメールアドレスを編集できません。</p>
                 @endif
                 <div class="form-group">
@@ -33,7 +33,7 @@
                     ユーザー名
                     <small class="blue-grey-text">（15文字以内）</small>
                   </label>
-                  @if (Auth::user()->name == 'ゲストユーザー')
+                  @if (Auth::user()->email == 'guest@guest.com')
                     <input class="form-control" type="text" id="name" name="name" value="{{ $user->name }}" readonly>
                   @else
                     <input class="form-control" type="text" id="name" name="name" value="{{ $user->name ?? old('name') }}">
