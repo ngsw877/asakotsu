@@ -94,7 +94,7 @@ class RegisterController extends Controller
         }
 
         // フラッシュメッセージ
-        session()->flash('flash_message', 'ユーザー登録が完了しました');
+        session()->flash('msg_success', 'ユーザー登録が完了しました');
 
         // ユーザー情報の登録
         return User::create([

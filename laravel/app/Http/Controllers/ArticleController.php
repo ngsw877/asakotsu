@@ -100,7 +100,7 @@ class ArticleController extends Controller
                 session()->flash('msg_achievement', '早起き達成です！');
             }
         } else {
-            session()->flash('flash_message', '投稿が完了しました');
+            session()->flash('msg_success', '投稿が完了しました');
         }
 
         return redirect()->route('articles.index');
@@ -134,7 +134,7 @@ class ArticleController extends Controller
             $article->tags()->attach($tag);
         });
 
-        session()->flash('flash_message', '投稿を編集しました');
+        session()->flash('msg_success', '投稿を編集しました');
         return redirect()->route('articles.index');
     }
 
@@ -142,7 +142,7 @@ class ArticleController extends Controller
     {
         $article->delete();
 
-        session()->flash('flash_message', '投稿を削除しました');
+        session()->flash('msg_success', '投稿を削除しました');
 
         return redirect()->route('articles.index');
     }

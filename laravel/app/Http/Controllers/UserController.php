@@ -60,7 +60,7 @@ class UserController extends Controller
         $user->fill($request->userParams())->save();
 
 
-        session()->flash('flash_message', 'プロフィールを編集しました');
+        session()->flash('msg_success', 'プロフィールを編集しました');
         return redirect()->route('users.show',['name' => $user->name]);
     }
 
@@ -84,7 +84,7 @@ class UserController extends Controller
         $user->password = Hash::make($request->input('new_password'));
         $user->save();
 
-        session()->flash('flash_message', 'パスワードを更新しました');
+        session()->flash('msg_success', 'パスワードを更新しました');
         return redirect()->route('users.show',['name' => $user->name]);
     }
 
