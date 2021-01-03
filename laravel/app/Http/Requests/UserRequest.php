@@ -73,8 +73,8 @@ class UserRequest extends FormRequest
             $path = $disk->putFile('images/profile', $image, 'public');
             // アップロードした画像のフルパスを取得
             $validated['profile_image'] = $disk->url($path);
-
-            return $validated;
         }
+        
+        return $validated;
     }
 }
