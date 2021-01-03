@@ -16,7 +16,7 @@ class CommentController extends Controller
         $comment->user_id = $user->id;
         $comment->save();
 
-        session()->flash('flash_message', 'コメントを投稿しました');
+        session()->flash('msg_success', 'コメントを投稿しました');
         return back();
     }
 

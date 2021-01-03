@@ -51,7 +51,7 @@ class LoginController extends Controller
     protected function authenticated(Request $request)
     {
         // フラッシュメッセージを表示
-        session()->flash('flash_message', 'ログインしました');
+        session()->flash('msg_success', 'ログインしました');
         return redirect('/');
     }
 
@@ -63,10 +63,11 @@ class LoginController extends Controller
         $user = User::where('email', self::GUEST_USER_EMAIL)->first();
         if ($user) {
             Auth::login($user);
-            session()->flash('flash_message', 'ゲストユーザーでログインしました');
+            session()->flash('msg_success', 'ゲストユーザーでログインしました');
             return redirect('/');
         }
 
+        session()->flash('msg_error', 'ゲストログインに失敗しました');
         return redirect('/');
     }
 
@@ -84,7 +85,7 @@ class LoginController extends Controller
         $request->session()->invalidate();
 
         // フラッシュメッセージを表示
-        session()->flash('flash_message', 'ログアウトしました');
+        session()->flash('msg_success', 'ログアウトしました');
         return redirect('/');
     }
 }

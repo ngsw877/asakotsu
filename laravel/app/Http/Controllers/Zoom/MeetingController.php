@@ -87,7 +87,7 @@ class MeetingController extends Controller
                 ->fill($body + [ 'meeting_id' => $body['id'], 'user_id' => $request->user()->id ])
                 ->save();
 
-            session()->flash('flash_message', 'ミーティングを作成しました');
+            session()->flash('msg_success', 'ミーティングを作成しました');
             return redirect()->route('meetings.index');
         }
 
@@ -106,7 +106,7 @@ class MeetingController extends Controller
         if ($response->getStatusCode() === 204) {  // 204：ミーティング削除成功のHTTPステータスコード
             $meeting->delete();
 
-            session()->flash('flash_message', 'ミーティングを削除しました');
+            session()->flash('msg_success', 'ミーティングを削除しました');
 
             return redirect()->route('meetings.index');
         }
@@ -131,7 +131,7 @@ class MeetingController extends Controller
          if ($response->getStatusCode() === 204) {  // 204：ミーティング更新成功のHTTPステータスコード
             $meeting->fill($request->validated())->save();
 
-            session()->flash('flash_message', 'ミーティングを編集しました');
+            session()->flash('msg_success', 'ミーティングを編集しました');
 
             return redirect()->route('meetings.index');
         }
