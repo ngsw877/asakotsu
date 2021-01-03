@@ -66,6 +66,8 @@ class LoginController extends Controller
             session()->flash('flash_message', 'ゲストユーザーでログインしました');
             return redirect('/');
         }
+
+        return redirect('/');
     }
 
     /**
