@@ -91,6 +91,9 @@ class MeetingController extends Controller
             return redirect()->route('meetings.index');
         }
 
+        // 二重送信対策
+        $request->session()->regenerateToken();
+
         return view('errors.meeting', ['method' => '作成']);
 
     }

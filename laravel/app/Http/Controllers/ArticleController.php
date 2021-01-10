@@ -103,6 +103,9 @@ class ArticleController extends Controller
             session()->flash('msg_success', '投稿が完了しました');
         }
 
+        // 二重送信対策
+        $request->session()->regenerateToken();
+
         return redirect()->route('articles.index');
     }
 
@@ -135,6 +138,7 @@ class ArticleController extends Controller
         });
 
         session()->flash('msg_success', '投稿を編集しました');
+        
         return redirect()->route('articles.index');
     }
 
