@@ -17,6 +17,10 @@ class CommentController extends Controller
         $comment->save();
 
         session()->flash('msg_success', 'コメントを投稿しました');
+
+        // 二重送信対策
+        $request->session()->regenerateToken();
+
         return back();
     }
 
