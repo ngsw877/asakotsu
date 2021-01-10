@@ -1,4 +1,5 @@
 import './bootstrap'
+import './disableButton'
 import './ModalWindow'
 import './InfiniteScroll'
 import './ToastrOption'
