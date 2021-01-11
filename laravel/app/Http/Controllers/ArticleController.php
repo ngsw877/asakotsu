@@ -78,6 +78,9 @@ class ArticleController extends Controller
 
     public function store(ArticleRequest $request, Article $article)
     {
+        // 二重送信対策
+        $request->session()->regenerateToken();
+        
         // 投稿をDBに保存
         $user = $request->user();
         $article = $user->articles()->create($request->validated());
@@ -102,9 +105,6 @@ class ArticleController extends Controller
         } else {
             session()->flash('msg_success', '投稿が完了しました');
         }
-
-        // 二重送信対策
-        $request->session()->regenerateToken();
 
         return redirect()->route('articles.index');
     }
@@ -138,7 +138,7 @@ class ArticleController extends Controller
         });
 
         session()->flash('msg_success', '投稿を編集しました');
-        
+
         return redirect()->route('articles.index');
     }
 
