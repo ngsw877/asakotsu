@@ -56,13 +56,9 @@ class LoginController extends Controller
     }
 
     // ゲストユーザーログイン
-    private const GUEST_USER_EMAIL = 'guest@guest.com';
-
     public function guestLogin()
     {
-        $user = User::where('email', self::GUEST_USER_EMAIL)->first();
-        if ($user) {
-            Auth::login($user);
+        if (Auth::loginUsingId(config('user.guest_user_id'))) {
             session()->flash('msg_success', 'ゲストユーザーでログインしました');
             return redirect('/');
         }

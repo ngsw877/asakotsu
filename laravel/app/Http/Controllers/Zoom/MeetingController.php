@@ -72,6 +72,9 @@ class MeetingController extends Controller
 
     public function store(MeetingRequest $request, Meeting $meeting)
     {
+        // 二重送信対策
+        $request->session()->regenerateToken();
+
         // ZoomAPIへ、ミーティング作成のリクエスト
         $path = 'users/' . config('zoom.zoom_account_email') . '/meetings';
         $response = $this->client->zoomPost($path, $request->zoomParams());
@@ -91,11 +94,8 @@ class MeetingController extends Controller
             return redirect()->route('meetings.index');
         }
 
-        // 二重送信対策
-        $request->session()->regenerateToken();
-
+        // エラーページにリダイレクト
         return view('errors.meeting', ['method' => '作成']);
-
     }
 
     public function destroy(Meeting $meeting)
@@ -114,8 +114,8 @@ class MeetingController extends Controller
             return redirect()->route('meetings.index');
         }
 
+        // エラーページにリダイレクト
         return view('errors.meeting', ['method' => '削除']);
-
     }
 
     public function edit(Meeting $meeting)
@@ -139,8 +139,8 @@ class MeetingController extends Controller
             return redirect()->route('meetings.index');
         }
 
+        // エラーページにリダイレクト
         return view('errors.meeting', ['method' => '更新']);
-
     }
 
 }

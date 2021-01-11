@@ -23,12 +23,10 @@ class UserRequest extends FormRequest
      *
      * @return array
      */
-    private const GUEST_USER_EMAIL = 'guest@guest.com';
-
     public function rules()
     {
         // ゲストユーザーログイン時に、ユーザー名とメールアドレスを変更できないよう対策
-        if(Auth::user()->email == self::GUEST_USER_EMAIL) {
+        if(Auth::user()->id == config('user.guest_user_id')) {
             return [
                 'profile_image' => 'file|mimes:jpeg,png,jpg,bmb|max:2048',
                 'self_introduction' => 'string|max:200|nullable',
@@ -74,7 +72,7 @@ class UserRequest extends FormRequest
             // アップロードした画像のフルパスを取得
             $validated['profile_image'] = $disk->url($path);
         }
-        
+
         return $validated;
     }
 }
