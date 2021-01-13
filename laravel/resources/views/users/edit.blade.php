@@ -22,11 +22,18 @@
                   <label for="profile_image">
                     <p class="mb-1">プロフィール画像</p>
                     <img class="profile-icon image-upload rounded-circle" src="{{ $user->profile_image }}" alt="プロフィールアイコン">
-                    <input type="file" name="profile_image" id="profile_image" class="d-none" accept="image/*">
+                    @if (Auth::id() != config('user.guest_user_id'))
+                      <input type="file" name="profile_image" id="profile_image" class="d-none" accept="image/*">
+                    @endif
                   </label>
                 </div>
                 @if (Auth::id() == config('user.guest_user_id'))
-                  <p class="text-danger">※ゲストユーザーは、ユーザー名とメールアドレスを編集できません。</p>
+                  <p class="text-danger">
+                  <b>※ゲストユーザーは、以下を編集できません。</b><br>
+                  ・アイコン画像<br>
+                  ・ユーザー名<br>
+                  ・メールアドレス<br>
+                  </p>
                 @endif
                 <div class="form-group">
                   <label for="name">
