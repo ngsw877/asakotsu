@@ -15,17 +15,11 @@
                     </div>
                 </div>
                 <div class="col-md-12">
+                @include('error_card_list')
                     <input type="hidden" name="article_id" value="{{ $article->id }}">
-                    <textarea class="form-control @error('comment') is-invalid @enderror" name="comment"  rows="4">
-                    @error('comment')
+                    <textarea class="form-control" name="comment"  rows="4">
                         {{ old('comment') }}
-                    @enderror
                     </textarea>
-                    @error('comment')
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $message }}</strong>
-                        </span>
-                    @enderror
                 </div>
             </div>
 
