@@ -18,8 +18,11 @@
                 <ul class="list-group card mt-3">
                     <li class="card-header sunny-morning-gradient text-white text-center">コメント</li>
                     @guest
-                    <li class="list-group-item">
-                        <p class="mb-0 text-secondary">ログインするとコメントできるようになります。</p>
+                    <li class="list-group-item text-center">
+                        <p class="mb-0">
+                        <a href="{{ route('login') }}">ログイン</a>
+                        <span class="text-muted">するとコメントできるようになります。</span>
+                        </p>
                     </li>
                     @endguest
 

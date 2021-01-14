@@ -22,7 +22,7 @@
     </div>
   </li>
   @empty
-  <li class="list-group-item ">
-    <p class="mb-0 text-secondary">コメントはまだありません。</p>
+  <li class="list-group-item text-center">
+    <p class="mb-0 text-muted">コメントはまだありません。</p>
   </li>
 @endforelse
