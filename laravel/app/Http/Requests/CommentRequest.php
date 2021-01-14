@@ -36,4 +36,11 @@ class CommentRequest extends FormRequest
             'comment' => 'コメント'
         ];
     }
+
+    public function messages()
+    {
+        return [
+            'comment.required' => 'コメントは必ず入力してください。',
+        ];
+    }
 }
