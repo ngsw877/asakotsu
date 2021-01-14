@@ -17,9 +17,7 @@
                 <div class="col-md-12">
                 @include('error_card_list')
                     <input type="hidden" name="article_id" value="{{ $article->id }}">
-                    <textarea class="form-control" name="comment"  rows="4">
-                        {{ old('comment') }}
-                    </textarea>
+                    <textarea class="form-control" name="comment" rows="4" placeholder="コメントを入力してください。">{{ old('comment') }}</textarea>
                 </div>
             </div>
 
