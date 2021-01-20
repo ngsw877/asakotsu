@@ -80,10 +80,12 @@ class ArticleController extends Controller
     {
         // 二重送信対策
         $request->session()->regenerateToken();
-        
+
         // 投稿をDBに保存
         $user = $request->user();
-        $article = $user->articles()->create($request->validated());
+        $article = $user
+                    ->articles()
+                    ->create($request->validated() + ['ip_address' => $request->ip()]);
         $request->tags->each(function ($tagName) use ($article) {
             $tag = Tag::firstOrCreate(['name' => $tagName]);
             $article->tags()->attach($tag);

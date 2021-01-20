@@ -12,6 +12,7 @@ class Article extends Model
     protected $fillable = [
         'body',
         'user_id',
+        'ip_address',
     ];
 
     public function user(): BelongsTo
