@@ -14,7 +14,7 @@ class AddIpAddressToArticlesTable extends Migration
     public function up()
     {
         Schema::table('articles', function (Blueprint $table) {
-            $table->ipAddress('ip_address')->after('user_id');
+            $table->ipAddress('ip_address')->after('user_id')->nullable()->comment('IPアドレス');
         });
     }
 
