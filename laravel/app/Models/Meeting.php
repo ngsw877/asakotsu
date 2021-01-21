@@ -14,7 +14,8 @@ class Meeting extends Model
         'start_time',
         'start_url',
         'join_url',
-        'user_id'
+        'user_id',
+        'ip_address',
     ];
 
     public function user(): BelongsTo

@@ -87,7 +87,14 @@ class MeetingController extends Controller
         // 作成したミーティング情報をDBに保存
         if ($response->getStatusCode() === 201) {  // 201：ミーティング作成成功のHTTPステータスコード
             $meeting
-                ->fill($body + [ 'meeting_id' => $body['id'], 'user_id' => $request->user()->id ])
+                ->fill(
+                    $body +
+                        [
+                            'meeting_id' => $body['id'],
+                            'user_id' => $request->user()->id,
+                            'ip_address' => $request->ip()
+                        ]
+                    )
                 ->save();
 
             session()->flash('msg_success', 'ミーティングを作成しました');

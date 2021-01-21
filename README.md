@@ -68,7 +68,7 @@ https://qiita.com/nasuB7373/items/0e507abad2017976c407
   * __Docker 19.03.12 / docker-compose 1.26.2__
   * __nginx 1.18__
   * __mysql 5.7.31__
-  * __AWS__ ( EC2, ALB, ACM, S3, RDS, CodeDeploy, SNS, Chatbot, CloudFormation, Route53, VPC, EIP, IAM )
+  * __AWS__ ( EC2, ALB, ACM, S3, RDS, CodeDeploy, SNS, Chatbot, CloudFormation, Route53, CloudWatch, VPC, EIP, IAM )
 
 * その他使用ツール
   * Visual Studio Code
