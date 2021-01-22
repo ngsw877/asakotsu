@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddIpAddressToMeetingsTable extends Migration
+class AddIpAddressToCommentsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class AddIpAddressToMeetingsTable extends Migration
      */
     public function up()
     {
-        Schema::table('meetings', function (Blueprint $table) {
-            $table->ipAddress('ip_address')->after('user_id')->nullable()->comment('IPアドレス');
+        Schema::table('comments', function (Blueprint $table) {
+            $table->ipAddress('ip_address')->after('comment')->nullable()->comment('IPアドレス');
         });
     }
 
@@ -25,7 +25,7 @@ class AddIpAddressToMeetingsTable extends Migration
      */
     public function down()
     {
-        Schema::table('meetings', function (Blueprint $table) {
+        Schema::table('comments', function (Blueprint $table) {
             $table->dropColumn('ip_address');
         });
     }

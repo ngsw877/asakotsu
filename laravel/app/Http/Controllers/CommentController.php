@@ -15,7 +15,7 @@ class CommentController extends Controller
         $request->session()->regenerateToken();
 
         $user = auth()->user();
-        $comment->fill($request->validated());
+        $comment->fill($request->validated() + ['ip_address' => $request->ip()]);
         $comment->user_id = $user->id;
         $comment->save();
 
