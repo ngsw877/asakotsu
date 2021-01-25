@@ -9,6 +9,8 @@ use App\Models\User;
 use App\Http\Requests\ArticleRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Exception;
 
 class ArticleController extends Controller
 {
@@ -81,32 +83,35 @@ class ArticleController extends Controller
         // 二重送信対策
         $request->session()->regenerateToken();
 
-        // 投稿をDBに保存
-        $user = $request->user();
-        $article = $user
-                    ->articles()
-                    ->create($request->validated() + ['ip_address' => $request->ip()]);
-        $request->tags->each(function ($tagName) use ($article) {
-            $tag = Tag::firstOrCreate(['name' => $tagName]);
-            $article->tags()->attach($tag);
-        });
+        DB::transaction(function() use ($request, $article) {
+            // 投稿をDBに保存
 
-        // 早起き成功かどうか判定し、成功の場合にその日付をDBに履歴として保存する
-        if (
-            $user->wake_up_time->copy()->subHour($user->range_of_success) <= $article->created_at
-            && $article->created_at <= $user->wakeup_time
-        ) {
-            $result = $user->achievement_days()->firstOrCreate([
-                'date' => $article->created_at->copy()->startOfDay(),
-            ]);
+            $user = $request->user();
+            $article = $user
+                        ->articles()
+                        ->create($request->validated() + ['ip_address' => $request->ip()]);
+            $request->tags->each(function ($tagName) use ($article) {
+                $tag = Tag::firstOrCreate(['name' => $tagName]);
+                $article->tags()->attach($tag);
+            });
 
-            // 本日の早起き達成記録が、レコードに記録されたかを判定。一日最大一回のみ、早起き達成メッセージを表示。
-            if ($result->wasRecentlyCreated) {
-                session()->flash('msg_achievement', '早起き達成です！');
+            // 早起き成功かどうか判定し、成功の場合にその日付をDBに履歴として保存する
+            if (
+                $user->wake_up_time->copy()->subHour($user->range_of_success) <= $article->created_at
+                && $article->created_at <= $user->wakeup_time
+            ) {
+                $result = $user->achievement_days()->firstOrCreate([
+                    'date' => $article->created_at->copy()->startOfDay(),
+                ]);
+
+                // 本日の早起き達成記録が、レコードに記録されたかを判定。一日最大一回のみ、早起き達成メッセージを表示。
+                if ($result->wasRecentlyCreated) {
+                    session()->flash('msg_achievement', '早起き達成です！');
+                }
+            } else {
+                session()->flash('msg_success', '投稿が完了しました');
             }
-        } else {
-            session()->flash('msg_success', '投稿が完了しました');
-        }
+        });
 
         return redirect()->route('articles.index');
     }
@@ -131,21 +136,23 @@ class ArticleController extends Controller
 
     public function update(ArticleRequest $request, Article $article)
     {
-        $article->fill($request->validated())->save();
+        DB::transaction(function() use ($request, $article) {
+            $article->fill($request->validated())->save();
+            $article->tags()->detach();
+            $request->tags->each(function ($tagName) use ($article) {
+                $tag = Tag::firstOrCreate(['name' => $tagName]);
+                $article->tags()->attach($tag);
+            });
 
-        $article->tags()->detach();
-        $request->tags->each(function ($tagName) use ($article) {
-            $tag = Tag::firstOrCreate(['name' => $tagName]);
-            $article->tags()->attach($tag);
+            session()->flash('msg_success', '投稿を編集しました');
         });
-
-        session()->flash('msg_success', '投稿を編集しました');
 
         return redirect()->route('articles.index');
     }
 
     public function destroy(Article $article)
     {
+        
         $article->delete();
 
         session()->flash('msg_success', '投稿を削除しました');
