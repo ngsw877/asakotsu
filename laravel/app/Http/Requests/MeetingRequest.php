@@ -46,6 +46,7 @@ class MeetingRequest extends FormRequest
             'topic' => 'ミーティング名',
             'agenda' => 'テーマ',
             'start_time' => '開始日時',
+            'now' => '現在',
         ];
     }
 
@@ -56,13 +57,6 @@ class MeetingRequest extends FormRequest
         $validated['timezone'] = config('app.timezone');
         $validated['start_time'] = $this->client->toZoomTimeFormat($validated['start_time']);
         return $validated;
-    }
-
-    public function messages()
-    {
-        return [
-            'start_time.after_or_equal' => '開始日時には、現在時刻以降の日付を指定してください。',
-        ];
     }
 
 }
