@@ -47,8 +47,9 @@ Route::get('/test', function() {
 ### ログイン状態で使用可能 ###
 Route::group(['middleware' => 'auth'], function() {
 
-  // ユーザー投稿関係(create, edit, update, destroy)
-  Route::resource('/articles', 'ArticleController')->except(['index', 'show']);
+  // ユーザー投稿関係(create, store, edit, update, destroy)
+  Route::resource('/articles', 'ArticleController')->only(['store'])->middleware('throttle:15, 1');
+  Route::resource('/articles', 'ArticleController')->only(['create', 'edit', 'update','destroy']);
 
   // いいね機能
   Route::prefix('articles')->name('articles.')->group(function () {
@@ -74,9 +75,10 @@ Route::group(['middleware' => 'auth'], function() {
   });
 
   // コメント機能
-  Route::resource('/comments', 'CommentController')->only(['store']);
+  Route::resource('/comments', 'CommentController')->only(['store'])->middleware('throttle:15, 1');
 
   // Zoomミーティング関連機能(CRUD)
-  Route::resource('/meetings', 'Zoom\MeetingController');
+  Route::resource('/meetings', 'Zoom\MeetingController')->only('store')->middleware('throttle:5, 1');
+  Route::resource('/meetings', 'Zoom\MeetingController')->except('store');
 
 });
