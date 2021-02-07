@@ -167,4 +167,9 @@ class UserController extends Controller
         return ['name' => $name];
         }
 
+        public function privacyPolicy()
+        {
+            return view('users.privacy_policy');
+        }
+
 }

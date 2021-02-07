@@ -66,6 +66,13 @@
       </li>
 
       <li>
+        <a class="waves-effect waves-light modal-link" onclick="location.href='{{ route("users.privacy_policy") }}'">
+        <i class="fas fa-user-lock"></i>
+        プライバシーポリシー
+        </a>
+      </li>
+
+      <li>
         <button form="logout-button" class="button-reset waves-effect waves-light text-white modal-link" type="submit">
           <i class="fas fa-sign-out-alt mr-1"></i>
           ログアウト
