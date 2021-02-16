@@ -50,13 +50,21 @@ class RegisterController extends Controller
      */
     protected function validator(array $data)
     {
-        return Validator::make($data, [
-            'name' => ['required', 'regex:/^(?!.*\s).+$/u', 'regex:/^(?!.*\/).*$/', 'max:15', 'unique:users'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
-            'profile_image' => ['file','mimes:jpeg,png,jpg,bmb','max:2048'],
-            'wake_up_time' => ['required', 'date_format:"H:i"'],
-        ]);
+        $messages = [
+            'regex' => ':attributeに「/」と半角スペースは使用できません。',
+        ];
+
+        return Validator::make(
+            $data,
+            [
+                'name' => ['required', 'regex:/^(?!.*\s).+$/u', 'regex:/^(?!.*\/).*$/', 'max:15', 'unique:users'],
+                'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+                'password' => ['required', 'string', 'min:8', 'confirmed'],
+                'profile_image' => ['file','mimes:jpeg,png,jpg,bmb','max:2048'],
+                'wake_up_time' => ['required', 'date_format:"H:i"'],
+            ],
+            $messages
+        );
     }
 
     /**

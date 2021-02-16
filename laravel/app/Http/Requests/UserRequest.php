@@ -56,6 +56,13 @@ class UserRequest extends FormRequest
         ];
     }
 
+    public function messages()
+    {
+        return [
+            'name.regex' => ':attributeに「/」と半角スペースは使用できません。'
+        ];
+    }
+
     public function userParams()
     {
         $validated = parent::validated();
