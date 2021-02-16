@@ -34,7 +34,7 @@ class UserRequest extends FormRequest
             ];
         } else {
             return [
-                'name' => 'required|string|max:15|' . Rule::unique('users')->ignore(Auth::id()),
+                'name' => 'required|regex:/^(?!.*\s).+$/u|regex:/^(?!.*\/).*$/u|max:15|' . Rule::unique('users')->ignore(Auth::id()),
                 'email' => 'required|string|email|max:255|' . Rule::unique('users')->ignore(Auth::id()),
                 'profile_image' => 'file|mimes:jpeg,png,jpg,bmb|max:2048',
                 'self_introduction' => 'string|max:200|nullable',
@@ -53,6 +53,13 @@ class UserRequest extends FormRequest
             'self_introduction' => '自己紹介文',
             'wake_up_time' => '目標起床時間',
 
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'name.regex' => ':attributeに「/」と半角スペースは使用できません。'
         ];
     }
 
