@@ -4,6 +4,12 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+  <meta name=”twitter:card” content=”summary“>
+  <!-- <meta name=”twitter:site” content=”ユーザーネーム“> -->
+  <meta name=”twitter:title” content=”タイトル“>
+  <meta name=”twitter:description” content=”説明文“>
+  <meta name=”twitter:image” content=”https://1.bp.blogspot.com/-aUcDO0aDnJE/VJ6XKq39VYI/AAAAAAAAqGc/Er8Qx7cAdZc/s800/time1_asa.png“>
   <title>
     @yield('title')
   </title>
