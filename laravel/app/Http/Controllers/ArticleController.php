@@ -20,6 +20,12 @@ class ArticleController extends Controller
         // 'article'...モデルのIDがセットされる、ルーティングのパラメータ名 → {article}
     }
 
+    /**
+     * 投稿一覧の表示
+     * @param Request $request
+     * @param User $user
+     * @return \Illuminate\Http\Response
+     */
     public function index(Request $request, User $user)
     {
         ### ユーザー投稿の検索機能 ###
@@ -64,6 +70,10 @@ class ArticleController extends Controller
             ]);
     }
 
+    /**
+     * 新規投稿フォームの表示
+     *  @return \Illuminate\Http\Response
+     */
     public function create()
     {
         $allTagNames = Tag::all()->map(function ($tag) {
@@ -78,6 +88,12 @@ class ArticleController extends Controller
         ]);
     }
 
+    /**
+     * 投稿の登録
+     * @param ArticleRequest $request
+     * @param Article $article
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function store(ArticleRequest $request, Article $article)
     {
         // 二重送信対策
@@ -116,6 +132,11 @@ class ArticleController extends Controller
         return redirect()->route('articles.index');
     }
 
+    /**
+     * 投稿編集フォームの表示
+     * @param Article $article
+     * @return \Illuminate\Http\Response
+     */
     public function edit(Article $article)
     {
         $tagNames = $article->tags->map(function ($tag) {
@@ -134,6 +155,12 @@ class ArticleController extends Controller
         ]);
     }
 
+    /**
+     * 投稿の更新
+     * @param ArticleRequest $request
+     * @param Article $article
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function update(ArticleRequest $request, Article $article)
     {
         DB::transaction(function() use ($request, $article) {
@@ -150,9 +177,15 @@ class ArticleController extends Controller
         return redirect()->route('articles.index');
     }
 
+    /**
+     * 投稿の削除
+     * @param Article $article
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws Exception
+     */
     public function destroy(Article $article)
     {
-        
+
         $article->delete();
 
         session()->flash('msg_success', '投稿を削除しました');
@@ -160,6 +193,12 @@ class ArticleController extends Controller
         return redirect()->route('articles.index');
     }
 
+    /**
+     * 投稿詳細画面の表示
+     * @param Article $article
+     * @param Comment $comment
+     * @return \Illuminate\Http\Response
+     */
     public function show(Article $article, Comment $comment)
     {
         $comments = $article->comments()
@@ -171,6 +210,12 @@ class ArticleController extends Controller
         ]);
     }
 
+    /**
+     * 投稿へのいいね
+     * @param Request $request
+     * @param Article $article
+     * @return array
+     */
     public function like(Request $request, Article $article)
     {
         $article->likes()->detach($request->user()->id);
@@ -182,6 +227,12 @@ class ArticleController extends Controller
         ];
     }
 
+    /**
+     * 投稿へのいいね解除
+     * @param Request $request
+     * @param Article $article
+     * @return array
+     */
     public function unlike(Request $request, Article $article)
     {
         $article->likes()->detach($request->user()->id);
