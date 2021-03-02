@@ -37,58 +37,58 @@ jobs:
           name: php test
           command: vendor/bin/phpunit
 
-  deploy:
-    docker:
-      - image: circleci/php:7.4-node-browsers
-    environment:
-      AWS_DEFAULT_REGION: ap-northeast-1
-    steps:
-      - checkout
-
-      - run: sudo composer self-update --1
-      - restore_cache:
-          key: composer-no-dev-v1-{{ checksum "laravel/composer.lock" }}
-      - run:
-          working_directory: laravel
-          command: composer install -n --no-dev --prefer-dist
-      - save_cache:
-          key: composer-no-dev-v1-{{ checksum "laravel/composer.lock" }}
-          paths:
-            - laravel/vendor
-
-      - restore_cache:
-          key: npm-v1-{{ checksum "laravel/package-lock.json" }}
-      - run:
-          working_directory: laravel
-          name: npm ci
-          command: |
-            if [ ! -d node_modules ]; then
-              npm ci
-            fi
-      - save_cache:
-          key: npm-v1-{{ checksum "laravel/package-lock.json" }}
-          paths:
-            - laravel/node_modules
-      - run:
-          working_directory: laravel
-          command: npm run prod
-      - run:
-          working_directory: laravel
-          name: archive artifacts
-          command: zip -ryq laravel.zip .
-      - aws-cli/install
-      - run:
-          working_directory: laravel
-          name: upload artifacts to s3
-          command: aws s3 cp laravel.zip s3://${AWS_S3_BUCKET_NAME}
-      - run:
-          working_directory: laravel
-          name: deploy to prod
-          command: |
-            aws deploy create-deployment \
-            --application-name laravel-ci \
-            --deployment-group-name laravel-ci \
-            --s3-location bucket=${AWS_S3_BUCKET_NAME},key=laravel.zip,bundleType=zip
+#  deploy:
+#    docker:
+#      - image: circleci/php:7.4-node-browsers
+#    environment:
+#      AWS_DEFAULT_REGION: ap-northeast-1
+#    steps:
+#      - checkout
+#
+#      - run: sudo composer self-update --1
+#      - restore_cache:
+#          key: composer-no-dev-v1-{{ checksum "laravel/composer.lock" }}
+#      - run:
+#          working_directory: laravel
+#          command: composer install -n --no-dev --prefer-dist
+#      - save_cache:
+#          key: composer-no-dev-v1-{{ checksum "laravel/composer.lock" }}
+#          paths:
+#            - laravel/vendor
+#
+#      - restore_cache:
+#          key: npm-v1-{{ checksum "laravel/package-lock.json" }}
+#      - run:
+#          working_directory: laravel
+#          name: npm ci
+#          command: |
+#            if [ ! -d node_modules ]; then
+#              npm ci
+#            fi
+#      - save_cache:
+#          key: npm-v1-{{ checksum "laravel/package-lock.json" }}
+#          paths:
+#            - laravel/node_modules
+#      - run:
+#          working_directory: laravel
+#          command: npm run prod
+#      - run:
+#          working_directory: laravel
+#          name: archive artifacts
+#          command: zip -ryq laravel.zip .
+#      - aws-cli/install
+#      - run:
+#          working_directory: laravel
+#          name: upload artifacts to s3
+#          command: aws s3 cp laravel.zip s3://${AWS_S3_BUCKET_NAME}
+#      - run:
+#          working_directory: laravel
+#          name: deploy to prod
+#          command: |
+#            aws deploy create-deployment \
+#            --application-name laravel-ci \
+#            --deployment-group-name laravel-ci \
+#            --s3-location bucket=${AWS_S3_BUCKET_NAME},key=laravel.zip,bundleType=zip
 
 orbs:
   aws-cli: circleci/aws-cli@1.0.0
@@ -98,10 +98,10 @@ workflows:
   build_deploy:
     jobs:
       - build
-      - deploy:
-          requires:
-            - build
-          filters:
-            branches:
-              only:
-                - master
+#      - deploy:
+#          requires:
+#            - build
+#          filters:
+#            branches:
+#              only:
+#                - master
