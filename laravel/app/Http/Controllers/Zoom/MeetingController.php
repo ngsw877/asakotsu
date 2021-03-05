@@ -24,6 +24,15 @@ class MeetingController extends Controller
         $this->authorizeResource(Meeting::class, 'meeting');
     }
 
+    function getListMeetings()
+    {
+        $path = 'users/' . config('zoom.zoom_account_email') . '/meetings';
+        $response = $this->client->zoomGet($path);
+        $response = (json_decode($response->getBody(), true));
+
+        return $response;
+    }
+
     public function index(Request $request)
     {
         ### ユーザー投稿の検索機能 ###

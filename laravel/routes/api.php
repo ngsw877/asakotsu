@@ -9,6 +9,8 @@ Route::get('/', function () {
     ];
 });
 
+Route::get('/meetings/list', 'Zoom\MeetingController@getListMeetings');
+
 
 
 
