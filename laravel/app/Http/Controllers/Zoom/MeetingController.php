@@ -25,7 +25,7 @@ class MeetingController extends Controller
     }
 
     /**
-     * 作成したミーティング一覧の取得
+     * 作成済みのミーティング情報を一覧で取得
      * @return array
      */
     function getListMeetings()
