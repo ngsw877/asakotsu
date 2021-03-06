@@ -11,6 +11,7 @@
 /vendor
 .env
 .env_backup
+.idea/
 .phpunit.result.cache
 Homestead.json
 Homestead.yaml
