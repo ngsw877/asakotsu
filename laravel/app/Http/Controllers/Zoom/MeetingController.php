@@ -24,9 +24,28 @@ class MeetingController extends Controller
         $this->authorizeResource(Meeting::class, 'meeting');
     }
 
+    /**
+     * 作成したミーティング一覧の取得
+     * @return array
+     */
     function getListMeetings()
     {
         $path = 'users/' . config('zoom.zoom_account_email') . '/meetings';
+        $response = $this->client->zoomGet($path);
+        $response = (json_decode($response->getBody(), true));
+
+        return $response;
+    }
+
+    /**
+     * 指定したミーティング情報の取得
+     * @param Request $request
+     * @return array
+     */
+    function getMeetings(Request  $request)
+    {
+        $id = $request->route('meeting_id');
+        $path = 'meetings/' . $id;
         $response = $this->client->zoomGet($path);
         $response = (json_decode($response->getBody(), true));
 
