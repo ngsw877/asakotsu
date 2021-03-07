@@ -60,12 +60,15 @@ class ZoomJwtClient
     }
 
     /**
-     * Zoomミーティングへのリクエスト用のフォーマットに、日付時刻を変更
+     * Zoomミーティングへのリクエスト用のフォーマットに、日付時刻を変換
+     * →　YYYY-MM-DD T HH:mm:ss
      * @param CarbonImmutable $dateTime
      * @return string
      */
-    public function toZoomTimeFormat(CarbonImmutable $dateTime): string
+    public function toZoomTimeFormat(string $dateTime): string
     {
+        $dateTime = new CarbonImmutable($dateTime);
+        // 秒まで指定しないと正しくリクエストが送られない
         return $dateTime->format('Y-m-d\TH:i:s');
     }
 

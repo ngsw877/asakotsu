@@ -54,7 +54,7 @@ class MeetingRequest extends FormRequest
         $validated = parent::validated();
         $validated['type'] = self::MEETING_TYPE_SCHEDULE;
         $validated['timezone'] = config('app.timezone');
-//        $validated['start_time'] = $this->client->toZoomTimeFormat($validated['start_time']);
+        $validated['start_time'] = $this->client->toZoomTimeFormat($validated['start_time']);
         return $validated;
     }
 
