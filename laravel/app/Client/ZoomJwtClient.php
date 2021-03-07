@@ -62,7 +62,7 @@ class ZoomJwtClient
     /**
      * Zoomミーティングへのリクエスト用のフォーマットに、日付時刻を変換
      * →　YYYY-MM-DD T HH:mm:ss
-     * @param CarbonImmutable $dateTime
+     * @param string $dateTime
      * @return string
      */
     public function toZoomTimeFormat(string $dateTime): string

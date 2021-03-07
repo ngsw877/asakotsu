@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers\Zoom;
 
+use App\Client\ZoomJwtClient;
 use App\Models\Meeting;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\MeetingRequest;
-use App\Client\ZoomJwtClient;
+use Carbon\CarbonImmutable;
 
 class MeetingController extends Controller
 {
@@ -17,39 +18,78 @@ class MeetingController extends Controller
     // const MEETING_TYPE_FIXED_RECURRING_FIXED = 8;
 
     private $client;
+    private CarbonImmutable $today;
 
-    public function __construct(ZoomJwtClient $client) {
+    public function __construct(
+        ZoomJwtClient $client) {
         $this->client = $client;
-
+        $this->today = CarbonImmutable::today();
         $this->authorizeResource(Meeting::class, 'meeting');
     }
 
     /**
-     * 作成済みのミーティング情報を一覧で取得
-     * @return array
+     * 作成済みミーティング情報を一覧で取得
      */
     function getListMeetings()
     {
         $path = 'users/' . config('zoom.zoom_account_email') . '/meetings';
         $response = $this->client->zoomGet($path);
-        $response = (json_decode($response->getBody(), true));
 
+//        dd(json_decode($response->getBody(), true));
         return $response;
     }
 
     /**
      * 指定したミーティング情報の取得
-     * @param Request $request
-     * @return array
+     * @param int $meetingId
      */
-    function getMeetings(Request  $request)
+    function getMeeting(int $meetingId)
     {
-        $id = $request->route('meeting_id');
-        $path = 'meetings/' . $id;
+        $path = 'meetings/' . $meetingId;
         $response = $this->client->zoomGet($path);
-        $response = (json_decode($response->getBody(), true));
 
+//        dd($response);
         return $response;
+    }
+
+    /**
+     * 作成済みのミーティングの、「開始日」と「ステータス」をチェックし、過去のミーティングを削除する
+     */
+    function checkStatusAndStartTimeOfMeetings()
+    {
+        // 作成済みミーティングの情報を全件取得
+        $response = $this->getListMeetings();
+        $bodies = json_decode($response->getBody(), true);
+        $meetings = $bodies['meetings'];
+
+        // 作成済みミーティングの、ミーティングIDのみを取得
+
+        foreach ($meetings as $meeting) {
+            $response = $this->getMeeting($meeting['id']);
+            $body = json_decode($response->getBody(), true);
+
+            // ミーティング開始時間を取得（timezoneはAsia/Tokyo）
+            $startTime = $this->client
+                ->changeDateTimeForTimezone
+                (
+                    $body['start_time'],
+                    $body['timezone']
+                );
+
+            // ミーティングのステータスを取得
+            $meetingStatus = $body['status'];
+
+            // 作成済みのミーティングの、「開始日」と「ステータス」をチェック
+            if ($startTime < $this->today &&
+                $meetingStatus === "waiting")
+            {
+                // ミーティングの「開始日」が「今日」より前で、かつ「ステータス」が「waiting」である
+                // 過去のミーティングを削除する
+                $meeting = new Meeting();
+                $meeting = $meeting->findByMeetingId($body['id']);
+                $this->destroy($meeting);
+            }
+        }
     }
 
     public function index(Request $request)
@@ -146,6 +186,7 @@ class MeetingController extends Controller
 
             session()->flash('msg_success', 'ミーティングを削除しました');
 
+            \Log::info("ミーティングID：{$id}のミーティングを削除しました。");
             return redirect()->route('meetings.index');
         }
 
