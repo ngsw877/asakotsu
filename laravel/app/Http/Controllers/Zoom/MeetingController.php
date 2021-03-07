@@ -101,7 +101,7 @@ class MeetingController extends Controller
     public function store(MeetingRequest $request, Meeting $meeting)
     {
         // 二重送信対策
-        $request->session()->regenerateToken();
+//        $request->session()->regenerateToken();
 
         // ZoomAPIへ、ミーティング作成のリクエスト
         $path = 'users/' . config('zoom.zoom_account_email') . '/meetings';
@@ -109,8 +109,8 @@ class MeetingController extends Controller
 
         // レスポンスのミーティング開始日時を、日本時刻に変換
         $body = json_decode($response->getBody(), true);
-        $body['start_time'] = $this->client->toUnixTimeStamp($body['start_time'], $body['timezone']);
-        $body['start_time'] = date('Y-m-d\TH:i:s', $body['start_time']);
+        $changedDateTime = $this->client->changeDateTimeForTimezone($body['start_time'], $body['timezone']);
+        $body['start_time'] = $this->client->toZoomTimeFormat($changedDateTime);
 
         // 作成したミーティング情報をDBに保存
         if ($response->getStatusCode() === 201) {  // 201：ミーティング作成成功のHTTPステータスコード
