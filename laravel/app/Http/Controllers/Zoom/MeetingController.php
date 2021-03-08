@@ -81,7 +81,7 @@ class MeetingController extends Controller
 
             // 作成済みのミーティングの、「開始日」と「ステータス」をチェック
             if ($startTime < $this->today &&
-                $meetingStatus === "waiting")
+                $meetingStatus === config('zoom.meeting_status.inactive'))
             {
                 // ミーティングの「開始日」が「今日」より前で、かつ「ステータス」が「waiting」である
                 // 過去のミーティングを削除する
