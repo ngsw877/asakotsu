@@ -55,7 +55,7 @@ class MeetingController extends Controller
     /**
      * 作成済みのミーティングの、「開始日」と「ステータス」をチェックし、過去のミーティングを削除する
      */
-    function checkStatusAndStartTimeOfMeetings()
+    function checkStartTimeAndStatusOfMeetings()
     {
         // 作成済みミーティングの情報を全件取得
         $response = $this->getListMeetings();
