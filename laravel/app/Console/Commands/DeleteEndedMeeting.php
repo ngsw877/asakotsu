@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+use App\Http\Controllers\Zoom\MeetingController;
 
 class DeleteEndedMeeting extends Command
 {
@@ -18,16 +19,19 @@ class DeleteEndedMeeting extends Command
      *
      * @var string
      */
-    protected $description = '終了したZoomミーティングを削除します';
+    protected $description = '過去のZoomミーティングを削除します';
+
+    private $meetingController;
 
     /**
      * Create a new command instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(MeetingController $meetingController)
     {
         parent::__construct();
+        $this->meetingController = $meetingController;
     }
 
     /**
@@ -37,6 +41,8 @@ class DeleteEndedMeeting extends Command
      */
     public function handle()
     {
-        //
+        // 作成済みのミーティングの、「開始日」と「ステータス」をチェックし、過去のミーティングを削除する
+        $this->meetingController->checkStartTimeAndStatusOfMeetings();
+        \Log::info('バッチ処理が終了しました。');
     }
 }
