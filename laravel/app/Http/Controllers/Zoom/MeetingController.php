@@ -83,10 +83,15 @@ class MeetingController extends Controller
                 // 過去のミーティングを削除する
                 $meeting = new Meeting();
                 $meeting = $meeting->findByMeetingId($body['id']);
-                $this->destroy($meeting);
+
+                if (isset($meeting)) {
+                    $this->destroy($meeting);
+                } else {
+                    \Log::warning('DBからミーティングIDを取得できませんでした。');
+                }
             }
         }
-        \Log::info('過去のミーティングがあるかをチェックするバッチ処理が完了しました。');
+        \Log::info('過去のミーティングがあるかをチェックするバッチ処理が正常終了しました。');
     }
 
     public function index(Request $request)
