@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Zoom;
 
 use App\Client\ZoomJwtClient;
 use App\Models\Meeting;
+use App\Services\SearchData;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\MeetingRequest;
@@ -94,28 +95,12 @@ class MeetingController extends Controller
         \Log::info('過去のミーティングがあるかをチェックするバッチ処理が正常終了しました。');
     }
 
-    public function index(Request $request)
+    public function index(Request $request, Meeting $meeting)
     {
-        ### ユーザー投稿の検索機能 ###
+        // ミーティングをキーワードで検索
         $search = $request->input('search');
 
-        $query = Meeting::query();
-
-        //もしキーワードがあったら
-        if ($search !== null){
-            //全角スペースを半角に
-            $search_split = mb_convert_kana($search,'s');
-
-            //空白で区切る
-            $search_split2 = preg_split('/[\s]+/', $search_split,-1,PREG_SPLIT_NO_EMPTY);
-
-            //単語をループで回す
-            foreach($search_split2 as $value)
-            {
-            $query->where('topic','like','%'.$value.'%')
-            ->orWhere('agenda','like','%'.$value.'%');
-            }
-        };
+        $query = SearchData::searchKeyword($search, $meeting);
 
         ### ミーティング一覧を、無限スクロールで表示 ###
         $meetings = $query->with(['user'])

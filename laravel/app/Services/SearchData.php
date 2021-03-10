@@ -4,6 +4,7 @@ namespace App\Services;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Article;
+use App\Models\Meeting;
 
 class SearchData
 {
@@ -25,11 +26,22 @@ class SearchData
             //  空白で区切る
             $keyword_split2 = preg_split('/[\s]+/', $keyword_split,-1,PREG_SPLIT_NO_EMPTY);
 
+            // ユーザー投稿をキーワードで検索
             if ($model instanceof Article) {
                 // 単語をループで回す
                 foreach($keyword_split2 as $value)
                 {
                     $query->where('body','like','%'.$value.'%');
+                }
+            }
+
+            // ミーティングをキーワードで検索
+            if ($model instanceof Meeting) {
+                // 単語をループで回す
+                foreach($keyword_split2 as $value)
+                {
+                    $query->where('topic','like','%'.$value.'%')
+                        ->orWhere('agenda','like','%'.$value.'%');
                 }
             }
         };

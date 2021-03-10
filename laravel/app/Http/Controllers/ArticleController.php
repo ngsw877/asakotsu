@@ -30,7 +30,7 @@ class ArticleController extends Controller
      */
     public function index(Request $request, User $user, Article $article)
     {
-        // ユーザー投稿を検索
+        // ユーザー投稿を検索で検索
         $search = $request->input('search');
 
         $query = SearchData::searchKeyword($search, $article);
