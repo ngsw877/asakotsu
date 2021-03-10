@@ -6,6 +6,7 @@ use App\Models\Article;
 use App\Models\Comment;
 use App\Models\Tag;
 use App\Models\User;
+use App\Services\SearchData;
 use App\Http\Requests\ArticleRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
@@ -24,29 +25,15 @@ class ArticleController extends Controller
      * 投稿一覧の表示
      * @param Request $request
      * @param User $user
+     * @param Article $article
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request, User $user)
+    public function index(Request $request, User $user, Article $article)
     {
-        ### ユーザー投稿の検索機能 ###
+        // ユーザー投稿を検索で検索
         $search = $request->input('search');
 
-        $query = Article::query();
-
-        //もしキーワードがあったら
-        if ($search !== null){
-            //全角スペースを半角に
-            $search_split = mb_convert_kana($search,'s');
-
-            //空白で区切る
-            $search_split2 = preg_split('/[\s]+/', $search_split,-1,PREG_SPLIT_NO_EMPTY);
-
-            //単語をループで回す
-            foreach($search_split2 as $value)
-            {
-            $query->where('body','like','%'.$value.'%');
-            }
-        };
+        $query = SearchData::searchKeyword($search, $article);
 
         ### 投稿一覧を無限スクロールで表示 ###
         $articles = $query->with(['user', 'likes', 'tags'])
