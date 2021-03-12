@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Search;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Article;
