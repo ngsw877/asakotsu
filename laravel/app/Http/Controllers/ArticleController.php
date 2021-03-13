@@ -6,7 +6,7 @@ use App\Models\Article;
 use App\Models\Comment;
 use App\Models\Tag;
 use App\Models\User;
-use App\Services\SearchData;
+use App\Services\Search\SearchData;
 use App\Http\Requests\ArticleRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
@@ -15,10 +15,13 @@ use Exception;
 
 class ArticleController extends Controller
 {
-    public function __construct()
+    private $client;
+
+    public function __construct(SearchData $searchData)
     {
-        $this->authorizeResource(Article::class, 'article');
+        $this->searchData = $searchData;
         // 'article'...モデルのIDがセットされる、ルーティングのパラメータ名 → {article}
+        $this->authorizeResource(Article::class, 'article');
     }
 
     /**
@@ -33,12 +36,7 @@ class ArticleController extends Controller
         // ユーザー投稿を検索で検索
         $search = $request->input('search');
 
-        $query = SearchData::searchKeyword($search, $article);
-
-        ### 投稿一覧を無限スクロールで表示 ###
-        $articles = $query->with(['user', 'likes', 'tags'])
-            ->orderBy('created_at', 'desc')
-            ->paginate(10);
+        $articles = $this->searchData->searchKeyword($search, $article, $request);
 
         if ($request->ajax()) {
             return response()->json([
