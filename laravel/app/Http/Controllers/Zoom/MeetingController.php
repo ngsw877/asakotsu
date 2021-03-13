@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Zoom;
 
 use App\Client\ZoomJwtClient;
 use App\Models\Meeting;
-use App\Services\SearchData;
+use App\Services\Search\SearchData;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\MeetingRequest;
@@ -14,11 +14,15 @@ class MeetingController extends Controller
 {
 
     private $client;
+    private  $searchData;
     private CarbonImmutable $today;
 
     public function __construct(
-        ZoomJwtClient $client) {
+        ZoomJwtClient $client,
+        SearchData $searchData
+    ) {
         $this->client = $client;
+        $this->searchData = $searchData;
         $this->today = CarbonImmutable::today();
         $this->authorizeResource(Meeting::class, 'meeting');
     }
@@ -100,12 +104,7 @@ class MeetingController extends Controller
         // ミーティングをキーワードで検索
         $search = $request->input('search');
 
-        $query = SearchData::searchKeyword($search, $meeting);
-
-        ### ミーティング一覧を、無限スクロールで表示 ###
-        $meetings = $query->with(['user'])
-        ->orderBy('created_at', 'desc')
-        ->paginate(5);
+        $meetings = $this->searchData->searchKeyword($search, $meeting, $request);
 
         if ($request->ajax()) {
             return response()->json([
