@@ -2,21 +2,28 @@
 
 namespace App\Services\Search;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Http\Request;
-
 use App\Models\Article;
 use App\Models\Meeting;
+use App\Services\Search\CheckModel;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class SearchData
 {
+    private CheckModel $checkModel;
+
+    public function __construct(CheckModel $checkModel)
+    {
+        $this->checkModel = $checkModel;
+    }
+
     /** キーワード検索
      *  検索ボックスに入力されたキーワードとマッチするデータをDBから取得する
      * @param string|null $keyword
      * @param Model $model
-     * @return mixed
+     * @return LengthAwarePaginator
      */
-    public static function  searchKeyword(string $keyword = null, Model $model, Request $request)
+    public function searchKeyword(string $keyword = null, Model $model): LengthAwarePaginator
     {
         $query = $model::query();
 
@@ -28,32 +35,13 @@ class SearchData
             //  空白で区切る
             $keywordSplit = preg_split('/[\s]+/', $keyword,-1,PREG_SPLIT_NO_EMPTY);
 
-            // ユーザー投稿をキーワードで検索
-            if ($model instanceof Article) {
-                // 単語をループで回す
-                foreach($keywordSplit as $value)
-                {
-                    $query->where('body','like','%'.$value.'%')
-                        ->with(['user', 'likes', 'tags']);
-                }
-            }
-
-            // ミーティングをキーワードで検索
-            if ($model instanceof Meeting) {
-                // 単語をループで回す
-                foreach($keywordSplit as $value)
-                {
-                    $query->where('topic','like','%'.$value.'%')
-                        ->orWhere('agenda','like','%'.$value.'%');
-                }
-            }
+            // Model別にキーワード検索
+            $qurey = $this->checkModel->checkModelForSearchKeyword($keywordSplit, $model, $query);
         }
 
-        $paginate = $query
+        return $query
             ->orderBy('created_at', 'desc')
             ->paginate(10);
-
-            return $paginate;
     }
 
 }
