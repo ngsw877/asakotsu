@@ -2,7 +2,9 @@
 
 **朝活に特化したSNSアプリです。**
 <br><br>
-**URL：** https://pf.asakotsu.com/
+※現在、公開停止中です。
+<br>
+**URL：** ~https://pf.asakotsu.com/~
 
 ## アプリ概要
 
