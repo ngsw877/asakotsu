@@ -6,7 +6,6 @@ volumes:
 services:
   # nginx
   web:
-    container_name: nginx
     image: nginx:1.18
     ports:
       - "8000:80"
@@ -18,7 +17,6 @@ services:
 
   # PHP
   app:
-    container_name: php
     build: ./docker/php
     image: php:7.4-fpm
     volumes:
@@ -32,7 +30,6 @@ services:
 
   # MySQL
   db:
-    container_name: db-host
     image: mysql:5.7
     ports:
       - "3306:3306"
@@ -47,7 +44,6 @@ services:
 
   # phpMyAdmin
   phpmyadmin:
-    container_name: phpmyadmin
     image: phpmyadmin/phpmyadmin
     environment:
     - PMA_ARBITRARY=1
