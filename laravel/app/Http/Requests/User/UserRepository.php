@@ -18,7 +18,7 @@ class UserRepository implements UserRepositoryInterface
     /**
      * {@inheritDoc}
      */
-    public function ranking(): Collection
+    public function ranking(int $count): Collection
     {
         $rankedUsers =  $this->user::withCount(['achievement_days' => function ($query) {
             $query
@@ -26,7 +26,7 @@ class UserRepository implements UserRepositoryInterface
                 ->where('date', '<=', Carbon::now()->endOfMonth()->toDateString());
         }])
             ->orderBy('achievement_days_count', 'desc')
-            ->limit(5)
+            ->limit($count)
             ->get();
 
         // 早起き達成日数ランキングの順位の数値を取得（タイ対応）

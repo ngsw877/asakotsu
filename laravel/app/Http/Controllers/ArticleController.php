@@ -36,11 +36,10 @@ class ArticleController extends Controller
     /**
      * 投稿一覧の表示
      * @param Request $request
-     * @param User $user
      * @param Article $article
      * @return Application|Factory|JsonResponse|View
      */
-    public function index(Request $request, User $user, Article $article)
+    public function index(Request $request, Article $article)
     {
         // ユーザー投稿を検索で検索
         $search = $request->input('search');
@@ -55,7 +54,7 @@ class ArticleController extends Controller
         }
 
         ### ユーザーの早起き達成日数ランキングを取得 ###
-        $rankedUsers = $this->userRepository->ranking();
+        $rankedUsers = $this->userRepository->ranking(5);
 
         return view('articles.index', [
             'articles' => $articles,
