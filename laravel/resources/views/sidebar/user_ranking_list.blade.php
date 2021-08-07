@@ -9,16 +9,16 @@
         </div>
     </div>
     <div class="card-body user-ranking-list py-3">
-        @foreach ($ranked_users as $ranked_user)
+        @foreach ($rankedUsers as $rankedUser)
         <div class="d-flex">
-            <p class="ranking-icon{{ $ranked_user->rank }} mr-3">
-                {{ $ranked_user->rank}}
+            <p class="ranking-icon{{ $rankedUser->rank }} mr-3">
+                {{ $rankedUser->rank}}
             </p>
-            <a class="mr-1" href="{{ route('users.show', ['name' => $ranked_user->name]) }}">
-                <img class="user-mini-icon rounded-circle mr-2" src="{{ $ranked_user->profile_image }}">
-                {{$ranked_user->name}}さん
+            <a class="mr-1" href="{{ route('users.show', ['name' => $rankedUser->name]) }}">
+                <img class="user-mini-icon rounded-circle mr-2" src="{{ $rankedUser->profile_image }}">
+                {{$rankedUser->name}}さん
             </a>
-            <p class="h5 ml-auto">{{ $ranked_user->achievement_days_count }} 日</p>
+            <p class="h5 ml-auto">{{ $rankedUser->achievement_days_count }} 日</p>
         </div>
         @endforeach
     </div>

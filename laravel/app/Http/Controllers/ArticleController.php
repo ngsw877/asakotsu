@@ -6,22 +6,31 @@ use App\Models\Article;
 use App\Models\Comment;
 use App\Models\Tag;
 use App\Models\User;
+use App\Repositories\User\UserRepositoryInterface;
 use App\Services\Search\SearchData;
 use App\Http\Requests\ArticleRequest;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Exception;
+use Illuminate\View\View;
 
 class ArticleController extends Controller
 {
-    private $client;
+    private UserRepositoryInterface $userRepository;
 
-    public function __construct(SearchData $searchData)
+    public function __construct(
+        SearchData $searchData,
+        UserRepositoryInterface $userRepository
+    )
     {
-        $this->searchData = $searchData;
         // 'article'...モデルのIDがセットされる、ルーティングのパラメータ名 → {article}
         $this->authorizeResource(Article::class, 'article');
+        $this->searchData = $searchData;
+        $this->userRepository = $userRepository;
     }
 
     /**
@@ -29,7 +38,7 @@ class ArticleController extends Controller
      * @param Request $request
      * @param User $user
      * @param Article $article
-     * @return \Illuminate\Http\Response
+     * @return Application|Factory|JsonResponse|View
      */
     public function index(Request $request, User $user, Article $article)
     {
@@ -46,11 +55,11 @@ class ArticleController extends Controller
         }
 
         ### ユーザーの早起き達成日数ランキングを取得 ###
-        $ranked_users = $user->ranking();
+        $rankedUsers = $this->userRepository->ranking();
 
         return view('articles.index', [
             'articles' => $articles,
-            'ranked_users' => $ranked_users,
+            'rankedUsers' => $rankedUsers,
             'search' => $search
             ]);
     }
