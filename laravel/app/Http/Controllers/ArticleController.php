@@ -13,6 +13,7 @@ use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -69,7 +70,8 @@ class ArticleController extends Controller
 
     /**
      * 新規投稿フォームの表示
-     * @return \Illuminate\Http\Response
+     *
+     * @return Application|Factory|Response|View
      */
     public function create()
     {
@@ -87,8 +89,10 @@ class ArticleController extends Controller
 
     /**
      * 投稿の登録
+     *
      * @param ArticleRequest $request
      * @return RedirectResponse
+     * @throws Exception
      */
     public function store(ArticleRequest $request): RedirectResponse
     {
@@ -130,8 +134,9 @@ class ArticleController extends Controller
 
     /**
      * 投稿編集フォームの表示
+     *
      * @param Article $article
-     * @return \Illuminate\Http\Response
+     * @return Application|Factory|Response|View
      */
     public function edit(Article $article)
     {
@@ -178,6 +183,7 @@ class ArticleController extends Controller
 
     /**
      * 投稿の削除
+     *
      * @param Article $article
      * @return RedirectResponse
      * @throws Exception
@@ -194,9 +200,10 @@ class ArticleController extends Controller
 
     /**
      * 投稿詳細画面の表示
+     *
      * @param Article $article
      * @param Comment $comment
-     * @return \Illuminate\Http\Response
+     * @return Application|Factory|Response|View
      */
     public function show(Article $article, Comment $comment)
     {
@@ -211,11 +218,12 @@ class ArticleController extends Controller
 
     /**
      * 投稿へのいいね
+     *
      * @param Request $request
      * @param Article $article
      * @return array
      */
-    public function like(Request $request, Article $article)
+    public function like(Request $request, Article $article): array
     {
         $article->likes()->detach($request->user()->id);
         $article->likes()->attach($request->user()->id);
@@ -228,11 +236,12 @@ class ArticleController extends Controller
 
     /**
      * 投稿へのいいね解除
+     *
      * @param Request $request
      * @param Article $article
      * @return array
      */
-    public function unlike(Request $request, Article $article)
+    public function unlike(Request $request, Article $article): array
     {
         $article->likes()->detach($request->user()->id);
 
