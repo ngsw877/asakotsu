@@ -188,12 +188,20 @@ class ArticleController extends Controller
      * @return RedirectResponse
      * @throws Exception
      */
-    public function destroy(Article $article)
+    public function destroy(Article $article): RedirectResponse
     {
 
-        $article->delete();
+        DB::beginTransaction();
 
-        session()->flash('msg_success', '投稿を削除しました');
+        try {
+            $this->articleRepository->delete($article);
+            DB::commit();
+
+            session()->flash('msg_success', '投稿を削除しました');
+        } catch (Exception $e) {
+            DB::rollBack();
+            throw $e;
+        }
 
         return redirect()->route('articles.index');
     }

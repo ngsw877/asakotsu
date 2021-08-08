@@ -23,4 +23,11 @@ interface ArticleRepositoryInterface
      */
     public function update(ArticleRequest $request, Article $article): void;
 
+    /**
+     * ユーザーの投稿を削除
+     *
+     * @param Article $article
+     */
+    public function delete(Article $article): void;
+
 }

@@ -52,4 +52,12 @@ class ArticleRepository implements ArticleRepositoryInterface
             $article->tags()->attach($tag);
         });
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function delete(Article $article): void
+    {
+        $article->delete();
+    }
 }
