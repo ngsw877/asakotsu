@@ -15,4 +15,12 @@ interface ArticleRepositoryInterface
      */
     public function create(ArticleRequest $request): Article;
 
+    /**
+     * ユーザーの投稿と、投稿のタグを更新
+     *
+     * @param ArticleRequest $request
+     * @param Article $article
+     */
+    public function update(ArticleRequest $request, Article $article): void;
+
 }

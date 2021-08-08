@@ -53,7 +53,7 @@ class ArticleController extends Controller
         if ($request->ajax()) {
             return response()->json([
                 'html' => view('articles.list', ['articles' => $articles])->render(),
-                'next' =>  $articles->appends($request->only('search'))->nextPageUrl()
+                'next' => $articles->appends($request->only('search'))->nextPageUrl()
             ]);
         }
 
@@ -64,12 +64,12 @@ class ArticleController extends Controller
             'articles' => $articles,
             'rankedUsers' => $rankedUsers,
             'search' => $search
-            ]);
+        ]);
     }
 
     /**
      * 新規投稿フォームの表示
-     *  @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\Response
      */
     public function create()
     {
@@ -153,22 +153,25 @@ class ArticleController extends Controller
 
     /**
      * 投稿の更新
+     *
      * @param ArticleRequest $request
      * @param Article $article
      * @return RedirectResponse
+     * @throws Exception
      */
-    public function update(ArticleRequest $request, Article $article)
+    public function update(ArticleRequest $request, Article $article): RedirectResponse
     {
-        DB::transaction(function() use ($request, $article) {
-            $article->fill($request->validated())->save();
-            $article->tags()->detach();
-            $request->tags->each(function ($tagName) use ($article) {
-                $tag = Tag::firstOrCreate(['name' => $tagName]);
-                $article->tags()->attach($tag);
-            });
+        DB::beginTransaction();
 
+        try {
+            $this->articleRepository->update($request, $article);
+
+            DB::commit();
             session()->flash('msg_success', '投稿を編集しました');
-        });
+        } catch (Exception $e) {
+            DB::rollBack();
+            throw $e;
+        }
 
         return redirect()->route('articles.index');
     }
@@ -198,8 +201,8 @@ class ArticleController extends Controller
     public function show(Article $article, Comment $comment)
     {
         $comments = $article->comments()
-        ->orderBy('created_at', 'desc')
-        ->paginate(5);
+            ->orderBy('created_at', 'desc')
+            ->paginate(5);
         return view('articles.show', [
             'article' => $article,
             'comments' => $comments

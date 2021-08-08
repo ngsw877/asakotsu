@@ -23,6 +23,7 @@ class ArticleRepository implements ArticleRepositoryInterface
         $user = $request->user();
 
         $articleRecord = $request->validated();
+
         $article = $user
             ->articles()
             ->create($articleRecord);
@@ -35,4 +36,20 @@ class ArticleRepository implements ArticleRepositoryInterface
         return $article;
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    public function update(ArticleRequest $request, Article $article): void
+    {
+        $articleRecord = $request->validated();
+
+        $article->fill($articleRecord)->save();
+
+        $article->tags()->detach();
+
+        $request->tags->each(function ($tagName) use ($article) {
+            $tag = Tag::firstOrCreate(['name' => $tagName]);
+            $article->tags()->attach($tag);
+        });
+    }
 }
