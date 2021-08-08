@@ -13,7 +13,7 @@ class UserRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         return true;
     }
@@ -23,7 +23,7 @@ class UserRequest extends FormRequest
      *
      * @return array
      */
-    public function rules()
+    public function rules(): array
     {
         // ゲストユーザーログイン時に、ユーザー名とメールアドレスを変更できないよう対策
         if(Auth::id() == config('user.guest_user_id')) {
@@ -43,7 +43,7 @@ class UserRequest extends FormRequest
         }
     }
 
-    public function attributes()
+    public function attributes(): array
     {
         return [
             'name' => 'ユーザー名',
@@ -56,14 +56,14 @@ class UserRequest extends FormRequest
         ];
     }
 
-    public function messages()
+    public function messages(): array
     {
         return [
             'name.regex' => ':attributeに「/」と半角スペースは使用できません。'
         ];
     }
 
-    public function userParams()
+    public function userParams(): array
     {
         $validated = parent::validated();
 

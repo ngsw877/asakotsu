@@ -11,7 +11,7 @@ class ArticleRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         return true;
     }
@@ -21,7 +21,7 @@ class ArticleRequest extends FormRequest
      *
      * @return array
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             'body' => 'required|max:500',
@@ -29,7 +29,7 @@ class ArticleRequest extends FormRequest
         ];
     }
 
-    public function attributes()
+    public function attributes(): array
     {
         return [
             'body' => '本文',
@@ -37,7 +37,7 @@ class ArticleRequest extends FormRequest
         ];
     }
 
-    public function messages()
+    public function messages(): array
     {
         return [
             'tags.regex' => ':attributeに「/」と半角スペースは使用できません。'
