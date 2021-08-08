@@ -13,6 +13,7 @@ use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -53,7 +54,7 @@ class ArticleController extends Controller
         if ($request->ajax()) {
             return response()->json([
                 'html' => view('articles.list', ['articles' => $articles])->render(),
-                'next' =>  $articles->appends($request->only('search'))->nextPageUrl()
+                'next' => $articles->appends($request->only('search'))->nextPageUrl()
             ]);
         }
 
@@ -64,12 +65,13 @@ class ArticleController extends Controller
             'articles' => $articles,
             'rankedUsers' => $rankedUsers,
             'search' => $search
-            ]);
+        ]);
     }
 
     /**
      * 新規投稿フォームの表示
-     *  @return \Illuminate\Http\Response
+     *
+     * @return Application|Factory|Response|View
      */
     public function create()
     {
@@ -87,8 +89,10 @@ class ArticleController extends Controller
 
     /**
      * 投稿の登録
+     *
      * @param ArticleRequest $request
      * @return RedirectResponse
+     * @throws Exception
      */
     public function store(ArticleRequest $request): RedirectResponse
     {
@@ -130,8 +134,9 @@ class ArticleController extends Controller
 
     /**
      * 投稿編集フォームの表示
+     *
      * @param Article $article
-     * @return \Illuminate\Http\Response
+     * @return Application|Factory|Response|View
      */
     public function edit(Article $article)
     {
@@ -153,53 +158,66 @@ class ArticleController extends Controller
 
     /**
      * 投稿の更新
+     *
      * @param ArticleRequest $request
      * @param Article $article
      * @return RedirectResponse
+     * @throws Exception
      */
-    public function update(ArticleRequest $request, Article $article)
+    public function update(ArticleRequest $request, Article $article): RedirectResponse
     {
-        DB::transaction(function() use ($request, $article) {
-            $article->fill($request->validated())->save();
-            $article->tags()->detach();
-            $request->tags->each(function ($tagName) use ($article) {
-                $tag = Tag::firstOrCreate(['name' => $tagName]);
-                $article->tags()->attach($tag);
-            });
+        DB::beginTransaction();
 
+        try {
+            $this->articleRepository->update($request, $article);
+
+            DB::commit();
             session()->flash('msg_success', '投稿を編集しました');
-        });
+        } catch (Exception $e) {
+            DB::rollBack();
+            throw $e;
+        }
 
         return redirect()->route('articles.index');
     }
 
     /**
      * 投稿の削除
+     *
      * @param Article $article
      * @return RedirectResponse
      * @throws Exception
      */
-    public function destroy(Article $article)
+    public function destroy(Article $article): RedirectResponse
     {
 
-        $article->delete();
+        DB::beginTransaction();
 
-        session()->flash('msg_success', '投稿を削除しました');
+        try {
+            $this->articleRepository->delete($article);
+            DB::commit();
+
+            session()->flash('msg_success', '投稿を削除しました');
+        } catch (Exception $e) {
+            DB::rollBack();
+            throw $e;
+        }
 
         return redirect()->route('articles.index');
     }
 
     /**
      * 投稿詳細画面の表示
+     *
      * @param Article $article
      * @param Comment $comment
-     * @return \Illuminate\Http\Response
+     * @return Application|Factory|Response|View
      */
     public function show(Article $article, Comment $comment)
     {
         $comments = $article->comments()
-        ->orderBy('created_at', 'desc')
-        ->paginate(5);
+            ->orderBy('created_at', 'desc')
+            ->paginate(5);
         return view('articles.show', [
             'article' => $article,
             'comments' => $comments
@@ -208,11 +226,12 @@ class ArticleController extends Controller
 
     /**
      * 投稿へのいいね
+     *
      * @param Request $request
      * @param Article $article
      * @return array
      */
-    public function like(Request $request, Article $article)
+    public function like(Request $request, Article $article): array
     {
         $article->likes()->detach($request->user()->id);
         $article->likes()->attach($request->user()->id);
@@ -225,11 +244,12 @@ class ArticleController extends Controller
 
     /**
      * 投稿へのいいね解除
+     *
      * @param Request $request
      * @param Article $article
      * @return array
      */
-    public function unlike(Request $request, Article $article)
+    public function unlike(Request $request, Article $article): array
     {
         $article->likes()->detach($request->user()->id);
 

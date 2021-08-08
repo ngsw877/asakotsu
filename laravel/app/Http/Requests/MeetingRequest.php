@@ -19,7 +19,7 @@ class MeetingRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         return true;
     }
@@ -29,7 +29,7 @@ class MeetingRequest extends FormRequest
      *
      * @return array
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             'topic' => 'required|string|max:20',
@@ -38,7 +38,7 @@ class MeetingRequest extends FormRequest
         ];
     }
 
-    public function attributes()
+    public function attributes(): array
     {
         return [
             'topic' => 'ミーティング名',
@@ -47,7 +47,7 @@ class MeetingRequest extends FormRequest
         ];
     }
 
-    public function zoomParams()
+    public function zoomParams(): array
     {
         $validated = parent::validated();
         $validated['type'] = config('zoom.meeting_type.scheduled');
@@ -56,7 +56,7 @@ class MeetingRequest extends FormRequest
         return $validated;
     }
 
-    public function messages()
+    public function messages(): array
     {
         return [
             'start_time.after_or_equal' => '開始日時には、現在時刻以降の日付を指定してください。',
