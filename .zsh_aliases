@@ -1,0 +1,59 @@
+alias c="clear"
+alias e="exit"
+alias "e?"="echo $?"
+alias h="history 1"
+alias l="ls"
+alias la="ls -a"
+alias ll="ls -l"
+alias lla="ls -al"
+
+alias zrc="vi ~/.zshrc"
+alias szrc="source ~/.zshrc"
+alias zali="vi ~/.zsh_aliases"
+
+###git command###
+alias gs='git status'
+alias gc='git commit'
+alias gd='git diff'
+alias gcm='git commit -m'
+alias gco='git checkout'
+alias gcob='git checkout -b'
+alias ga='git add'
+alias gcod='git checkout develop'
+alias gcom='git checkout master'
+alias gpo='git push origin'
+alias gpom='git push origin master'
+alias gpl='git pull'
+alias gplo='git pull origin'
+alias gplod='git pull origin develop'
+alias gplom='git pull origin master'
+alias gss='git stash -u'
+alias gssp='git stash pop'
+alias grs='git restore'
+alias grss='git restore --staged'
+alias gcl='git clean -df'
+alias grc='git restore . && git clean -df'
+alias gb='git branch'
+alias gbc='git branch --contains'
+alias gl1='git log --oneline -n'
+
+### docker  ###
+alias d='docker'
+alias dc='docker-compose'
+alias dcp='docker-compose ps'
+alias dce='docker-compose exec'
+alias dcu='docker-compose up -d && docker-compose ps'
+alias dcub='docker-compose up -d --build'
+alias dcs='docker-compose stop'
+
+### function ###
+
+# delete-maerged-branch
+PROTECT_BRANCHES='master|develop'
+
+git-delete-merged-branch() {
+    git fetch --prune
+    git branch --merged | egrep -v "\*|${PROTECT_BRANCHES}" | xargs git branch -d
+}
+
+alias gdmb='git-delete-merged-branch' 
