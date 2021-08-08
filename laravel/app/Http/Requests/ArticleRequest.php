@@ -51,5 +51,7 @@ class ArticleRequest extends FormRequest
             ->map(function ($requestTag) {
                 return $requestTag->text;
             });
+
+        $this->ip_address = $this->ip();
     }
 }

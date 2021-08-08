@@ -5,13 +5,14 @@ namespace App\Http\Controllers;
 use App\Models\Article;
 use App\Models\Comment;
 use App\Models\Tag;
-use App\Models\User;
+use App\Repositories\Article\ArticleRepositoryInterface;
 use App\Repositories\User\UserRepositoryInterface;
 use App\Services\Search\SearchData;
 use App\Http\Requests\ArticleRequest;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -20,16 +21,19 @@ use Illuminate\View\View;
 
 class ArticleController extends Controller
 {
+    private ArticleRepositoryInterface $articleRepository;
     private UserRepositoryInterface $userRepository;
 
     public function __construct(
         SearchData $searchData,
+        ArticleRepositoryInterface $articleRepository,
         UserRepositoryInterface $userRepository
     )
     {
         // 'article'...モデルのIDがセットされる、ルーティングのパラメータ名 → {article}
         $this->authorizeResource(Article::class, 'article');
         $this->searchData = $searchData;
+        $this->articleRepository = $articleRepository;
         $this->userRepository = $userRepository;
     }
 
@@ -53,7 +57,7 @@ class ArticleController extends Controller
             ]);
         }
 
-        ### ユーザーの早起き達成日数ランキングを取得 ###
+        // ユーザーの早起き達成日数ランキングを取得
         $rankedUsers = $this->userRepository->ranking(5);
 
         return view('articles.index', [
@@ -84,25 +88,19 @@ class ArticleController extends Controller
     /**
      * 投稿の登録
      * @param ArticleRequest $request
-     * @param Article $article
-     * @return \Illuminate\Http\RedirectResponse
+     * @return RedirectResponse
      */
-    public function store(ArticleRequest $request, Article $article)
+    public function store(ArticleRequest $request): RedirectResponse
     {
         // 二重送信対策
         $request->session()->regenerateToken();
 
-        DB::transaction(function() use ($request, $article) {
-            // 投稿をDBに保存
+        DB::beginTransaction();
+        try {
 
-            $user = $request->user();
-            $article = $user
-                        ->articles()
-                        ->create($request->validated() + ['ip_address' => $request->ip()]);
-            $request->tags->each(function ($tagName) use ($article) {
-                $tag = Tag::firstOrCreate(['name' => $tagName]);
-                $article->tags()->attach($tag);
-            });
+            $article = $this->articleRepository->create($request);
+
+            $user = $article->user;
 
             // 早起き成功かどうか判定し、成功の場合にその日付をDBに履歴として保存する
             if (
@@ -120,7 +118,12 @@ class ArticleController extends Controller
             } else {
                 session()->flash('msg_success', '投稿が完了しました');
             }
-        });
+
+            DB::commit();
+        } catch (Exception $e) {
+            DB::rollBack();
+            throw $e;
+        }
 
         return redirect()->route('articles.index');
     }
@@ -152,7 +155,7 @@ class ArticleController extends Controller
      * 投稿の更新
      * @param ArticleRequest $request
      * @param Article $article
-     * @return \Illuminate\Http\RedirectResponse
+     * @return RedirectResponse
      */
     public function update(ArticleRequest $request, Article $article)
     {
@@ -173,7 +176,7 @@ class ArticleController extends Controller
     /**
      * 投稿の削除
      * @param Article $article
-     * @return \Illuminate\Http\RedirectResponse
+     * @return RedirectResponse
      * @throws Exception
      */
     public function destroy(Article $article)
