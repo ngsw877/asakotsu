@@ -98,7 +98,18 @@ alias nrd='npm run dev'
 alias nrw='npm run watch'
 alias nrwp='npm run watch-poll'
 
+### function ###
 
 function mkcd() {
  mkdir $@ && cd `echo $@ | sed -e "s/-[^ \f\n\r\t]*//g"`
 }
+
+# delete-maerged-branch
+PROTECT_BRANCHES='master|develop'
+
+git-delete-merged-branch() {
+    git fetch --prune
+    git branch --merged | egrep -v "\*|${PROTECT_BRANCHES}" | xargs git branch -d
+}
+
+alias gdmb='git-delete-merged-branch'
