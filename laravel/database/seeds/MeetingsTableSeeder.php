@@ -12,6 +12,6 @@ class MeetingsTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(Meeting::class, 20)->create();
+        factory(Meeting::class, 30)->create();
     }
 }
