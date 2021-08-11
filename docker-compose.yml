@@ -21,8 +21,6 @@ services:
     image: php:7.4-fpm
     volumes:
       - .:/var/www/html
-      # ホストのエイリアスコマンドを共有
-      - ~/.bashrc:/root/.bashrc
     depends_on:
       - db
     links:
