@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Requests;
+
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
@@ -26,7 +27,7 @@ class UserRequest extends FormRequest
     public function rules(): array
     {
         // ゲストユーザーログイン時に、ユーザー名とメールアドレスを変更できないよう対策
-        if(Auth::id() == config('user.guest_user_id')) {
+        if (Auth::id() == config('user.guest_user_id')) {
             return [
                 'profile_image' => 'file|mimes:jpeg,png,jpg,bmb|max:2048',
                 'self_introduction' => 'string|max:200|nullable',
@@ -67,7 +68,7 @@ class UserRequest extends FormRequest
     {
         $validated = parent::validated();
 
-        if(isset($validated['profile_image'])) {
+        if (isset($validated['profile_image'])) {
             ### S3バケットに画像をアップロード ###
 
             // S3へアップロード開始

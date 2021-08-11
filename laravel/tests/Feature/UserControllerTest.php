@@ -14,7 +14,7 @@ class UserControllerTest extends TestCase
     ### ユーザープロフィール編集画面 表示機能のテスト ###
 
     // 未ログイン時
-    public function  testGuestEdit()
+    public function testGuestEdit()
     {
         $user = factory(User::class)->create();
 

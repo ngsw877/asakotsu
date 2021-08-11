@@ -12,9 +12,8 @@ use Carbon\CarbonImmutable;
 
 class MeetingController extends Controller
 {
-
     private $client;
-    private  $searchData;
+    private $searchData;
     private CarbonImmutable $today;
 
     public function __construct(
@@ -30,7 +29,7 @@ class MeetingController extends Controller
     /**
      * 作成済みミーティング情報を一覧で取得
      */
-    function getListMeetings()
+    public function getListMeetings()
     {
         $path = 'users/' . config('zoom.zoom_account_email') . '/meetings';
         $response = $this->client->zoomGet($path);
@@ -43,7 +42,7 @@ class MeetingController extends Controller
      * 指定したミーティング情報の取得
      * @param int $meetingId
      */
-    function getMeeting(int $meetingId)
+    public function getMeeting(int $meetingId)
     {
         $path = 'meetings/' . $meetingId;
         $response = $this->client->zoomGet($path);
@@ -56,7 +55,7 @@ class MeetingController extends Controller
      * 作成済みのミーティングの、「開始日」と「ステータス」をチェックし、過去のミーティングを削除する
      * @return void
      */
-    function checkStartTimeAndStatusOfMeetings(): void
+    public function checkStartTimeAndStatusOfMeetings(): void
     {
         // 作成済みミーティングの情報を全件取得
         $response = $this->getListMeetings();
@@ -71,8 +70,7 @@ class MeetingController extends Controller
 
             // ミーティング開始時間を取得（timezoneはAsia/Tokyo）
             $startTime = $this->client
-                ->changeDateTimeForTimezone
-                (
+                ->changeDateTimeForTimezone(
                     $body['start_time'],
                     $body['timezone']
                 );
@@ -82,8 +80,7 @@ class MeetingController extends Controller
 
             // 作成済みのミーティングの、「開始日」と「ステータス」をチェック
             if ($startTime < $this->today &&
-                $meetingStatus === config('zoom.meeting_status.inactive'))
-            {
+                $meetingStatus === config('zoom.meeting_status.inactive')) {
                 // ミーティングの「開始日」が「今日」より前で、かつ「ステータス」が「waiting」である
                 // 過去のミーティングを削除する
                 $meeting = new Meeting();
@@ -148,7 +145,7 @@ class MeetingController extends Controller
                             'user_id' => $request->user()->id,
                             'ip_address' => $request->ip()
                         ]
-                    )
+                )
                 ->save();
 
             session()->flash('msg_success', 'ミーティングを作成しました');
@@ -185,24 +182,23 @@ class MeetingController extends Controller
         return view('meetings.edit', ['meeting' => $meeting]);
     }
 
-        public function update(MeetingRequest $request, Meeting $meeting)
+    public function update(MeetingRequest $request, Meeting $meeting)
     {
         // ZoomAPIにミーティング更新のリクエスト
         $id = $meeting->meeting_id;
         $path = 'meetings/' . $id;
         $response = $this->client->zoomPatch($path, $request->zoomParams());
 
-         // DBに更新後のミーティングを保存
+        // DBに更新後のミーティングを保存
          if ($response->getStatusCode() === 204) {  // 204：ミーティング更新成功のHTTPステータスコード
             $meeting->fill($request->validated())->save();
 
-            session()->flash('msg_success', 'ミーティングを編集しました');
+             session()->flash('msg_success', 'ミーティングを編集しました');
 
-            return redirect()->route('meetings.index');
-        }
+             return redirect()->route('meetings.index');
+         }
 
         // エラーページにリダイレクト
         return view('errors.meeting', ['method' => '更新']);
     }
-
 }

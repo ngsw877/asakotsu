@@ -16,7 +16,7 @@ class CreateAchievementDaysTable extends Migration
         Schema::create('achievement_days', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('user_id')->unsigned()->comment('ユーザーID');
-                $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->date('date')->comment('早起き達成日');
             $table->timestamps();
         });

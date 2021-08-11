@@ -27,7 +27,8 @@ class RegisterControllerTest extends TestCase
         $testPasswordConfirmation = 'password123';
         $testWakeUpTime = '07:00';
 
-        $response = $this->post(route('register'),
+        $response = $this->post(
+            route('register'),
             [
                 'name' => $testUserName,
                 'email' => $testEmail,
@@ -46,8 +47,9 @@ class RegisterControllerTest extends TestCase
         ]);
 
         // DBに登録されているパスワードと、テスト送信したパスワードを比較
-        $this->assertTrue(Hash::check($testPassword,
-        User::where('name', $testUserName)->first()->password
+        $this->assertTrue(Hash::check(
+            $testPassword,
+            User::where('name', $testUserName)->first()->password
         ));
 
         $response->assertRedirect(route('articles.index'));

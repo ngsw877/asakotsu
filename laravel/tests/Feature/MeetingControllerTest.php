@@ -59,7 +59,7 @@ class MeetingControllerTest extends TestCase
     ### 投稿の編集画面 表示機能のテスト ###
 
     // 未ログイン時
-    public function  testGuestEdit()
+    public function testGuestEdit()
     {
         $meeting = factory(Meeting::class)->create();
 

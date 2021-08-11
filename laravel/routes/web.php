@@ -27,59 +27,58 @@ Route::get('/tags/{name}', 'TagController@show')->name('tags.show');
 
 # ユーザー関連機
 Route::prefix('users')->name('users.')->group(function () {
-  // プライバシーポリシー
-  Route::get('/privacy_policy', 'UserController@privacyPolicy')->name('privacy_policy');
-  // ユーザー詳細表示
-  Route::get('/{name}', 'UserController@show')->name('show');
-  // いいねした投稿一覧を表示
-  Route::get('/{name}/likes', 'UserController@likes')->name('likes');
-  // フォロー中のユーザー一覧を表示
-  Route::get('/{name}/followings', 'UserController@followings')->name('followings');
-  // フォロワー一覧を表示
-  Route::get('/{name}/followers', 'UserController@followers')->name('followers');
+    // プライバシーポリシー
+    Route::get('/privacy_policy', 'UserController@privacyPolicy')->name('privacy_policy');
+    // ユーザー詳細表示
+    Route::get('/{name}', 'UserController@show')->name('show');
+    // いいねした投稿一覧を表示
+    Route::get('/{name}/likes', 'UserController@likes')->name('likes');
+    // フォロー中のユーザー一覧を表示
+    Route::get('/{name}/followings', 'UserController@followings')->name('followings');
+    // フォロワー一覧を表示
+    Route::get('/{name}/followers', 'UserController@followers')->name('followers');
 });
 
 # テスト用ルーティング
-Route::get('/test', function() {
-  return view('test');
+Route::get('/test', function () {
+    return view('test');
 });
 
 
 ### ログイン状態で使用可能 ###
-Route::group(['middleware' => 'auth'], function() {
+Route::group(['middleware' => 'auth'], function () {
 
   // ユーザー投稿関係(create, store, edit, update, destroy)
-  Route::resource('/articles', 'ArticleController')->only(['store'])->middleware('throttle:15, 1');
-  Route::resource('/articles', 'ArticleController')->only(['create', 'edit', 'update','destroy']);
+    Route::resource('/articles', 'ArticleController')->only(['store'])->middleware('throttle:15, 1');
+    Route::resource('/articles', 'ArticleController')->only(['create', 'edit', 'update','destroy']);
 
-  // いいね機能
-  Route::prefix('articles')->name('articles.')->group(function () {
-    Route::put('/{article}/like', 'ArticleController@like')->name('like');
-    Route::delete('/{article}/like', 'ArticleController@unlike')->name('unlike');
-  });
+    // いいね機能
+    Route::prefix('articles')->name('articles.')->group(function () {
+        Route::put('/{article}/like', 'ArticleController@like')->name('like');
+        Route::delete('/{article}/like', 'ArticleController@unlike')->name('unlike');
+    });
 
-  # ユーザー関係
-  Route::prefix('users/{name}')->name('users.')->group(function () {
-    // フォロー機能
-    Route::put('/follow', 'UserController@follow')->name('follow');
-    Route::delete('/follow', 'UserController@unfollow')->name('unfollow');
+    # ユーザー関係
+    Route::prefix('users/{name}')->name('users.')->group(function () {
+        // フォロー機能
+        Route::put('/follow', 'UserController@follow')->name('follow');
+        Route::delete('/follow', 'UserController@unfollow')->name('unfollow');
 
-    // ユーザープロフィール編集画面の表示
-    Route::get('/edit', 'UserController@edit')->name('edit');
-    // ユーザープロフィール更新
-    Route::patch('/update', 'UserController@update')->name('update');
-    // パスワード変更画面の表示
-    Route::get('/edit_password', 'UserController@editPassword')->name('edit_password');
-    // パスワード変更
-    Route::patch('/update_password', 'UserController@updatePassword')->name('update_password');
-    // Route::delete('/', 'UserController@destroy')->name('destroy');
-  });
+        // ユーザープロフィール編集画面の表示
+        Route::get('/edit', 'UserController@edit')->name('edit');
+        // ユーザープロフィール更新
+        Route::patch('/update', 'UserController@update')->name('update');
+        // パスワード変更画面の表示
+        Route::get('/edit_password', 'UserController@editPassword')->name('edit_password');
+        // パスワード変更
+        Route::patch('/update_password', 'UserController@updatePassword')->name('update_password');
+        // Route::delete('/', 'UserController@destroy')->name('destroy');
+    });
 
-  // コメント機能
-  Route::resource('/comments', 'CommentController')->only(['store'])->middleware('throttle:15, 1');
+    // コメント機能
+    Route::resource('/comments', 'CommentController')->only(['store'])->middleware('throttle:15, 1');
 
-  // Zoomミーティング関連機能(CRUD)
-  Route::resource('/meetings', 'Zoom\MeetingController')->only('store')->middleware('throttle:5, 1');
-  Route::resource('/meetings', 'Zoom\MeetingController')->except('store');
-
+    // Zoomミーティング関連機能(CRUD)
+    Route::resource('/meetings', 'Zoom\MeetingController')->only('store')->middleware('throttle:5, 1');
+    Route::resource('/meetings', 'Zoom\MeetingController')->except('store');
 });

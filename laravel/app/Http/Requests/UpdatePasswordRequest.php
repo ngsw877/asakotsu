@@ -5,6 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+
 class UpdatePasswordRequest extends FormRequest
 {
     /**
@@ -52,5 +53,4 @@ class UpdatePasswordRequest extends FormRequest
             'new_password' => '新しいパスワード',
         ];
     }
-
 }

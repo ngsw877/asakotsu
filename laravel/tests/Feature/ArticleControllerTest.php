@@ -85,8 +85,9 @@ class ArticleControllerTest extends TestCase
         $user_id = $user->id;
 
         $response = $this->actingAs($user)
-        ->post(route('articles.store',
-        [
+        ->post(route(
+            'articles.store',
+            [
             'body' => $body,
             'user_id' => $user_id,
             ]
@@ -104,7 +105,7 @@ class ArticleControllerTest extends TestCase
     ### 投稿の編集画面 表示機能のテスト ###
 
     // 未ログイン時
-    public function  testGuestEdit()
+    public function testGuestEdit()
     {
         $article = factory(Article::class)->create();
 
@@ -152,4 +153,3 @@ class ArticleControllerTest extends TestCase
         $response->assertRedirect(route('articles.index'));
     }
 }
-

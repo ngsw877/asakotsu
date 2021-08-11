@@ -44,7 +44,7 @@ class UsersTableSeeder extends Seeder
             ],
         ]);
 
-        for($i=4; $i <= 10; $i++) {
+        for ($i=4; $i <= 10; $i++) {
             DB::table('users')->insert([
                 'name' => 'test_user' . $i,
                 'email' => 'test' .$i .'@test.com',
@@ -55,6 +55,5 @@ class UsersTableSeeder extends Seeder
                 'updated_at' => now(),
             ]);
         }
-
     }
 }

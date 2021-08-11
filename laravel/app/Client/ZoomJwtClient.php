@@ -27,7 +27,9 @@ class ZoomJwtClient
             'base_uri' => config('zoom.zoom_api_url'),
         ]);
 
-        $response = $client->request($method, $path,
+        $response = $client->request(
+            $method,
+            $path,
             [
                 'headers' => [
                     'authorization' => 'Bearer ' . $jwt,
@@ -35,7 +37,8 @@ class ZoomJwtClient
                 ],
                 'query' => json_encode($query),
                 'body' => json_encode($body),
-            ], );
+            ],
+        );
         return $response;
     }
 
@@ -80,9 +83,7 @@ class ZoomJwtClient
      */
     public function changeDateTimeForTimezone(string $dateTime, string $timezone): CarbonImmutable
     {
-            $dateTime = new CarbonImmutable($dateTime);
-            return  $dateTime->setTimezone($timezone);
+        $dateTime = new CarbonImmutable($dateTime);
+        return  $dateTime->setTimezone($timezone);
     }
-
-
 }

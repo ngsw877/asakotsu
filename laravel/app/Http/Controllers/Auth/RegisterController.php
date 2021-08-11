@@ -88,7 +88,7 @@ class RegisterController extends Controller
 
         ### S3バケットに画像をアップロード ###
         // ユーザーからプロフィール画像がアップロードされなければ、デフォルト画像を使用
-        if(!isset($data['profile_image'])) {
+        if (!isset($data['profile_image'])) {
             $image_path = 'https://asakotsu.s3-ap-northeast-1.amazonaws.com/images/profile/default.png';
         } else {
             // S3へアップロード開始

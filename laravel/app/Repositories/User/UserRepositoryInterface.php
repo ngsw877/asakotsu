@@ -13,5 +13,4 @@ interface UserRepositoryInterface
      * @return Collection
      */
     public function ranking(int $count): Collection;
-
 }

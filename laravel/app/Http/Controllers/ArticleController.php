@@ -29,8 +29,7 @@ class ArticleController extends Controller
         SearchData $searchData,
         ArticleRepositoryInterface $articleRepository,
         UserRepositoryInterface $userRepository
-    )
-    {
+    ) {
         // 'article'...モデルのIDがセットされる、ルーティングのパラメータ名 → {article}
         $this->authorizeResource(Article::class, 'article');
         $this->searchData = $searchData;
@@ -101,7 +100,6 @@ class ArticleController extends Controller
 
         DB::beginTransaction();
         try {
-
             $article = $this->articleRepository->create($request);
 
             $user = $article->user;
@@ -141,7 +139,6 @@ class ArticleController extends Controller
     public function edit(Article $article)
     {
         $tagNames = $article->tags->map(function ($tag) {
-
             return ['text' => $tag->name];
         });
 
@@ -190,7 +187,6 @@ class ArticleController extends Controller
      */
     public function destroy(Article $article): RedirectResponse
     {
-
         DB::beginTransaction();
 
         try {
@@ -259,4 +255,3 @@ class ArticleController extends Controller
         ];
     }
 }
-
