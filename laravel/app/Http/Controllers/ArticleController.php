@@ -8,6 +8,7 @@ use App\Models\Tag;
 use App\Repositories\Article\ArticleRepositoryInterface;
 use App\Repositories\User\UserRepositoryInterface;
 use App\Http\Requests\ArticleRequest;
+use App\Services\User\UserServiceInterface;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\JsonResponse;
@@ -24,14 +25,20 @@ class ArticleController extends Controller
     private ArticleRepositoryInterface $articleRepository;
     private UserRepositoryInterface $userRepository;
 
+    private UserServiceInterface $userService;
+
     public function __construct(
         ArticleRepositoryInterface $articleRepository,
-        UserRepositoryInterface $userRepository
+        UserRepositoryInterface $userRepository,
+        UserServiceInterface $userService
     ) {
         // 'article'...モデルのIDがセットされる、ルーティングのパラメータ名 → {article}
         $this->authorizeResource(Article::class, 'article');
+
         $this->articleRepository = $articleRepository;
         $this->userRepository = $userRepository;
+
+        $this->userService = $userService;
     }
 
     /**
@@ -56,7 +63,7 @@ class ArticleController extends Controller
         }
 
         // ユーザーの早起き達成日数ランキングを取得
-        $rankedUsers = $this->userRepository->ranking(5);
+        $rankedUsers = $this->userService->ranking(5);
 
         return view('articles.index', [
             'articles' => $articles,

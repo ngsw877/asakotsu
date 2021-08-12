@@ -26,10 +26,10 @@ interface UserRepositoryInterface
     public function delete(User $user): ?bool;
 
     /**
-     * 早起き達成日数の多いユーザーランキングを取得
+     * 今月の早起き達成日数が多い順に、UserモデルをCollectionで取得
      *
      * @param int $count
      * @return Collection
      */
-    public function ranking(int $count): Collection;
+    public function getRankedUsersThisMonth(int $count): Collection;
 }
