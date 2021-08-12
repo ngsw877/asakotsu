@@ -2,6 +2,7 @@
 
 namespace App\Services\User;
 
+use App\Models\Article;
 use App\Repositories\User\UserRepositoryInterface;
 use Carbon\CarbonImmutable as Carbon;
 use Illuminate\Database\Eloquent\Collection;
@@ -12,7 +13,8 @@ class UserService implements UserServiceInterface
 
     public function __construct(
         UserRepositoryInterface $userRepository
-    ) {
+    )
+    {
         $this->userRepository = $userRepository;
     }
 
@@ -21,7 +23,7 @@ class UserService implements UserServiceInterface
      */
     public function ranking(int $count): Collection
     {
-        $rankedUsers =  $this->userRepository->getRankedUsersThisMonth($count);
+        $rankedUsers = $this->userRepository->getRankedUsersThisMonth($count);
 
         // 早起き達成日数ランキングの順位の数値を取得（タイ対応）
         if (!$rankedUsers->isEmpty()) {
@@ -38,6 +40,19 @@ class UserService implements UserServiceInterface
             });
         }
         return $rankedUsers;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function checkIsAchievedEarlyRising(Article $article): bool
+    {
+        $user = $article->user;
+
+        $isAchievedEarlyRising = $user->wake_up_time->copy()->subHour($user->range_of_success) <= $article->created_at
+            && $article->created_at <= $user->wakeup_time;
+
+        return $isAchievedEarlyRising;
     }
 
 }

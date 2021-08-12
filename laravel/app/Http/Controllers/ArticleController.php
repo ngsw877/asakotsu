@@ -107,16 +107,11 @@ class ArticleController extends Controller
         try {
             $article = $this->articleRepository->create($request);
 
-            $user = $article->user;
+            $isAchievedEarlyRising = $this->userService->checkIsAchievedEarlyRising($article);
 
             // 早起き成功かどうか判定し、成功の場合にその日付をDBに履歴として保存する
-            if (
-                $user->wake_up_time->copy()->subHour($user->range_of_success) <= $article->created_at
-                && $article->created_at <= $user->wakeup_time
-            ) {
-                $result = $user->achievementDays()->firstOrCreate([
-                    'date' => $article->created_at->copy()->startOfDay(),
-                ]);
+            if ($isAchievedEarlyRising) {
+                $result = $this->userRepository->createAchievementDays($article);
 
                 // 本日の早起き達成記録が、レコードに記録されたかを判定。一日最大一回のみ、早起き達成メッセージを表示。
                 if ($result->wasRecentlyCreated) {

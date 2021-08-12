@@ -2,6 +2,7 @@
 
 namespace App\Repositories\User;
 
+use App\Models\Article;
 use App\Models\User;
 use Exception;
 use Illuminate\Database\Eloquent\Collection;
@@ -32,4 +33,12 @@ interface UserRepositoryInterface
      * @return Collection
      */
     public function getRankedUsersThisMonth(int $count): Collection;
+
+    /**
+     * 早起き達成日を登録する
+     *
+     * @param Article $article
+     * @return mixed
+     */
+    public function createAchievementDays(Article $article);
 }

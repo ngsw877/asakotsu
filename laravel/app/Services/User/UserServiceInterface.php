@@ -2,6 +2,7 @@
 
 namespace App\Services\User;
 
+use App\Models\Article;
 use Illuminate\Database\Eloquent\Collection;
 
 interface UserServiceInterface
@@ -13,4 +14,12 @@ interface UserServiceInterface
      * @return Collection
      */
     public function ranking(int $count): Collection;
+
+    /**
+     * 本日早起き達成できたかをチェックする
+     *
+     * @param Article $article
+     * @return bool
+     */
+    public function checkIsAchievedEarlyRising(Article $article): bool;
 }

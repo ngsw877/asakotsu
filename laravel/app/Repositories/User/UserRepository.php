@@ -2,6 +2,7 @@
 
 namespace App\Repositories\User;
 
+use App\Models\Article;
 use App\Models\User;
 use Carbon\CarbonImmutable as Carbon;
 use Illuminate\Database\Eloquent\Collection;
@@ -44,5 +45,17 @@ class UserRepository implements UserRepositoryInterface
             ->orderBy('achievement_days_count', 'desc')
             ->limit($count)
             ->get();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function createAchievementDays(Article $article)
+    {
+        $user = $article->user;
+
+        return $user->achievementDays()->firstOrCreate([
+            'date' => $article->created_at->copy()->startOfDay(),
+        ]);
     }
 }
