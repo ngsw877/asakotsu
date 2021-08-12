@@ -8,12 +8,12 @@
     @if(isset($articles))
       <form method="GET" action="{{ route('articles.index') }}" class="search-form form-inline w-25 d-none d-md-flex">
         <span></span>
-        <input class="form-control w-100" name="search" type="search" placeholder="投稿を検索" value="{{ $search ?? old('search') }}">
+        <input class="form-control w-100" name="free_word" type="search" placeholder="投稿を検索" value="{{ $freeWord ?? old('free_word') }}">
       </form>
     @elseif(isset($meetings))
       <form method="GET" action="{{ route('meetings.index') }}" class="search-form form-inline w-25 d-none d-md-flex">
         <span></span>
-        <input class="form-control w-100" name="search" type="search" placeholder="ミーテイングを検索" value="{{ $search ?? old('search') }}">
+        <input class="form-control w-100" name="free_word" type="search" placeholder="ミーテイングを検索" value="{{ $freeWord ?? old('free_word') }}">
       </form>
     @else
       <!-- 検索フォームを表示しない -->
