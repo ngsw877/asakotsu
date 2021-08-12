@@ -18,6 +18,22 @@ class UserRepository implements UserRepositoryInterface
     /**
      * {@inheritDoc}
      */
+    public function find(int $userId): User
+    {
+        return $this->user::find($userId);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function delete(User $user): ?bool
+    {
+        return $result = $user->delete();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function ranking(int $count): Collection
     {
         $rankedUsers =  $this->user::withCount(['achievementDays' => function ($query) {
