@@ -20,7 +20,7 @@ class CreateCommentsTable extends Migration
             $table->bigInteger('article_id')->unsigned()->comment('投稿ID');
             $table->foreign('article_id')->references('id')->on('articles')->onDelete('cascade');
             $table->string('comment')->comment('コメント');
-            ;
+            $table->ipAddress('ip_address')->nullable()->comment('IPアドレス');
             $table->timestamps();
         });
     }
