@@ -61,7 +61,7 @@ class User extends Authenticatable
         return $this->hasMany(Article::class);
     }
 
-    public function achievement_days(): HasMany
+    public function achievementDays(): HasMany
     {
         return $this->hasMany(AchievementDay::class);
     }
@@ -117,7 +117,7 @@ class User extends Authenticatable
     public function withCountAchievementDays(string $name)
     {
         $user = User::where('name', $name)
-        ->withCount(['achievement_days' => function ($query) {
+        ->withCount(['achievementDays' => function ($query) {
             $query
                 ->where('date', '>=', Carbon::now()->startOfMonth()->toDateString())
                 ->where('date', '<=', Carbon::now()->endOfMonth()->toDateString());

@@ -20,7 +20,7 @@ class UserRepository implements UserRepositoryInterface
      */
     public function ranking(int $count): Collection
     {
-        $rankedUsers =  $this->user::withCount(['achievement_days' => function ($query) {
+        $rankedUsers =  $this->user::withCount(['achievementDays' => function ($query) {
             $query
                 ->where('date', '>=', Carbon::now()->startOfMonth()->toDateString())
                 ->where('date', '<=', Carbon::now()->endOfMonth()->toDateString());

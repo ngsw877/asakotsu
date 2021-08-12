@@ -109,7 +109,7 @@ class ArticleController extends Controller
                 $user->wake_up_time->copy()->subHour($user->range_of_success) <= $article->created_at
                 && $article->created_at <= $user->wakeup_time
             ) {
-                $result = $user->achievement_days()->firstOrCreate([
+                $result = $user->achievementDays()->firstOrCreate([
                     'date' => $article->created_at->copy()->startOfDay(),
                 ]);
 

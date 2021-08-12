@@ -51,7 +51,7 @@ class Article extends Model
         return $this->hasMany(Comment::class);
     }
 
-    public function achievement_days()
+    public function achievementDays()
     {
         return $this->belongsToMany(AchievementDay::class, 'users');
     }
