@@ -7,7 +7,6 @@ use App\Models\Comment;
 use App\Models\Tag;
 use App\Repositories\Article\ArticleRepositoryInterface;
 use App\Repositories\User\UserRepositoryInterface;
-use App\Services\Search\SearchData;
 use App\Http\Requests\ArticleRequest;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -26,13 +25,11 @@ class ArticleController extends Controller
     private UserRepositoryInterface $userRepository;
 
     public function __construct(
-        SearchData $searchData,
         ArticleRepositoryInterface $articleRepository,
         UserRepositoryInterface $userRepository
     ) {
         // 'article'...モデルのIDがセットされる、ルーティングのパラメータ名 → {article}
         $this->authorizeResource(Article::class, 'article');
-        $this->searchData = $searchData;
         $this->articleRepository = $articleRepository;
         $this->userRepository = $userRepository;
     }
