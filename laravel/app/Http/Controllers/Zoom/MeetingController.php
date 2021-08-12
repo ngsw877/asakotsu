@@ -96,23 +96,25 @@ class MeetingController extends Controller
         \Log::info('過去のミーティングがあるかをチェックするバッチ処理が正常終了しました。');
     }
 
-    public function index(Request $request, Meeting $meeting)
+    public function index(Request $request)
     {
         // ミーティングをキーワードで検索
-        $search = $request->input('search');
+        $freeWord = $request->input('free_word');
 
-        $meetings = $this->searchData->searchKeyword($search, $meeting, $request);
+        $meetings = Meeting::searchByFreeWord($freeWord)
+            ->orderBy('created_at', 'desc')
+            ->paginate(10);
 
         if ($request->ajax()) {
             return response()->json([
                 'html' => view('meetings.list', ['meetings' => $meetings])->render(),
-                'next' => $meetings->appends($request->only('search'))->nextPageUrl()
+                'next' => $meetings->appends($request->only('free_word'))->nextPageUrl()
             ]);
         }
 
         return view('meetings.index', [
             'meetings' => $meetings,
-            'search' => $search
+            'freeWord' => $freeWord
             ]);
     }
 
