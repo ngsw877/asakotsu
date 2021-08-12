@@ -2,6 +2,7 @@
 
 namespace App\Repositories\User;
 
+use App\Models\Article;
 use App\Models\User;
 use Exception;
 use Illuminate\Database\Eloquent\Collection;
@@ -26,10 +27,18 @@ interface UserRepositoryInterface
     public function delete(User $user): ?bool;
 
     /**
-     * 早起き達成日数の多いユーザーランキングを取得
+     * 今月の早起き達成日数が多い順に、UserモデルをCollectionで取得
      *
      * @param int $count
      * @return Collection
      */
-    public function ranking(int $count): Collection;
+    public function getRankedUsersThisMonth(int $count): Collection;
+
+    /**
+     * 早起き達成日を登録する
+     *
+     * @param Article $article
+     * @return mixed
+     */
+    public function createAchievementDays(Article $article);
 }

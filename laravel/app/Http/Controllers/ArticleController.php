@@ -8,6 +8,7 @@ use App\Models\Tag;
 use App\Repositories\Article\ArticleRepositoryInterface;
 use App\Repositories\User\UserRepositoryInterface;
 use App\Http\Requests\ArticleRequest;
+use App\Services\User\UserServiceInterface;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\JsonResponse;
@@ -24,14 +25,20 @@ class ArticleController extends Controller
     private ArticleRepositoryInterface $articleRepository;
     private UserRepositoryInterface $userRepository;
 
+    private UserServiceInterface $userService;
+
     public function __construct(
         ArticleRepositoryInterface $articleRepository,
-        UserRepositoryInterface $userRepository
+        UserRepositoryInterface $userRepository,
+        UserServiceInterface $userService
     ) {
         // 'article'...モデルのIDがセットされる、ルーティングのパラメータ名 → {article}
         $this->authorizeResource(Article::class, 'article');
+
         $this->articleRepository = $articleRepository;
         $this->userRepository = $userRepository;
+
+        $this->userService = $userService;
     }
 
     /**
@@ -56,7 +63,7 @@ class ArticleController extends Controller
         }
 
         // ユーザーの早起き達成日数ランキングを取得
-        $rankedUsers = $this->userRepository->ranking(5);
+        $rankedUsers = $this->userService->ranking(5);
 
         return view('articles.index', [
             'articles' => $articles,
@@ -100,16 +107,11 @@ class ArticleController extends Controller
         try {
             $article = $this->articleRepository->create($request);
 
-            $user = $article->user;
+            $isAchievedEarlyRising = $this->userService->checkIsAchievedEarlyRising($article);
 
             // 早起き成功かどうか判定し、成功の場合にその日付をDBに履歴として保存する
-            if (
-                $user->wake_up_time->copy()->subHour($user->range_of_success) <= $article->created_at
-                && $article->created_at <= $user->wakeup_time
-            ) {
-                $result = $user->achievementDays()->firstOrCreate([
-                    'date' => $article->created_at->copy()->startOfDay(),
-                ]);
+            if ($isAchievedEarlyRising) {
+                $result = $this->userRepository->createAchievementDays($article);
 
                 // 本日の早起き達成記録が、レコードに記録されたかを判定。一日最大一回のみ、早起き達成メッセージを表示。
                 if ($result->wasRecentlyCreated) {
