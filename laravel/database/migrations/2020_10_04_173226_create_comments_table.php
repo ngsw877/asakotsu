@@ -22,6 +22,7 @@ class CreateCommentsTable extends Migration
             $table->string('comment')->comment('コメント');
             $table->ipAddress('ip_address')->nullable()->comment('IPアドレス');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

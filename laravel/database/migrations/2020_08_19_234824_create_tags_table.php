@@ -17,6 +17,7 @@ class CreateTagsTable extends Migration
             $table->bigIncrements('id');
             $table->string('name')->unique()->comment('タグ名');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

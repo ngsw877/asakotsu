@@ -26,6 +26,7 @@ class CreateArticleTagTable extends Migration
                     ->on('tags')
                     ->onDelete('cascade');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

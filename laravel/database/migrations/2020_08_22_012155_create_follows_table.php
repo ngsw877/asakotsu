@@ -28,6 +28,7 @@ class CreateFollowsTable extends Migration
                     ->on('users')
                     ->onDelete('cascade');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

@@ -19,6 +19,7 @@ class CreateAchievementDaysTable extends Migration
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->date('date')->comment('早起き達成日');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
