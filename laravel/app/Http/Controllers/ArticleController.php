@@ -40,20 +40,21 @@ class ArticleController extends Controller
     /**
      * 投稿一覧の表示
      * @param Request $request
-     * @param Article $article
      * @return Application|Factory|JsonResponse|View
      */
-    public function index(Request $request, Article $article)
+    public function index(Request $request)
     {
         // ユーザー投稿を検索で検索
-        $search = $request->input('search');
+        $freeWord = $request->input('free_word');
 
-        $articles = $this->searchData->searchKeyword($search, $article, $request);
+        $articles = Article::searchByFreeWord($freeWord)
+            ->orderBy('created_at', 'desc')
+            ->paginate(10);
 
         if ($request->ajax()) {
             return response()->json([
                 'html' => view('articles.list', ['articles' => $articles])->render(),
-                'next' => $articles->appends($request->only('search'))->nextPageUrl()
+                'next' => $articles->appends($request->only('free_word'))->nextPageUrl()
             ]);
         }
 
@@ -63,7 +64,7 @@ class ArticleController extends Controller
         return view('articles.index', [
             'articles' => $articles,
             'rankedUsers' => $rankedUsers,
-            'search' => $search
+            'freeWord' => $freeWord
         ]);
     }
 
