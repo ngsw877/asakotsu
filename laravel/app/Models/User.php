@@ -19,8 +19,9 @@ class User extends Authenticatable
 
     protected $softCascade = [
         'articles',
+        'achievementDays',
         'comments',
-        'comments',
+        'meetings',
     ];
 
     // protected $dates = [
@@ -60,8 +61,6 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-
-
     public function articles(): HasMany
     {
         return $this->hasMany(Article::class);
@@ -70,6 +69,16 @@ class User extends Authenticatable
     public function achievementDays(): HasMany
     {
         return $this->hasMany(AchievementDay::class);
+    }
+
+    public function comments(): HasMany
+    {
+        return $this->hasMany(Comment::class);
+    }
+
+    public function meetings(): HasMany
+    {
+        return $this->hasMany(Meeting::class);
     }
 
     public function followers(): BelongsToMany
