@@ -22,8 +22,10 @@ class CreateMeetingsTable extends Migration
             $table->text('start_url')->comment('ホスト用URL');
             $table->text('join_url')->comment('参加者URL');
             $table->bigInteger('user_id')->unsigned()->comment('ユーザーID');
-                $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->ipAddress('ip_address')->nullable()->comment('IPアドレス');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

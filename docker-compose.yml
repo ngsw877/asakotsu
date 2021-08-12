@@ -44,9 +44,9 @@ services:
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     environment:
-    - PMA_ARBITRARY=1
-    - PMA_HOSTS=db
-    - PMA_USER=${DB_USERNAME}
-    - PMA_PASSWORD=${DB_PASSWORD}
+      - PMA_ARBITRARY=1
+      - PMA_HOSTS=db
+      - PMA_USER=${DB_USERNAME}
+      - PMA_PASSWORD=${DB_PASSWORD}
     ports:
-    - 8080:80
+      - 8080:80

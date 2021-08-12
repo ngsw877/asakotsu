@@ -29,5 +29,4 @@ interface ArticleRepositoryInterface
      * @param Article $article
      */
     public function delete(Article $article): void;
-
 }

@@ -17,13 +17,11 @@ class SearchArticle
     {
         // ユーザー投稿をキーワードで検索
         // 単語をループで回す
-        foreach($keywordSplit as $value)
-        {
-            $query->where('body','like','%'.$value.'%')
+        foreach ($keywordSplit as $value) {
+            $query->where('body', 'like', '%'.$value.'%')
                 ->with(['user', 'likes', 'tags']);
         }
 
         return $query;
     }
-
 }

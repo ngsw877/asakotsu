@@ -17,13 +17,11 @@ class SearchMeeting
     {
         // Zoomミーティングをキーワードで検索
         // 単語をループで回す
-        foreach($keywordSplit as $value)
-        {
-            $query->where('topic','like','%'.$value.'%')
-                ->orWhere('agenda','like','%'.$value.'%');
+        foreach ($keywordSplit as $value) {
+            $query->where('topic', 'like', '%'.$value.'%')
+                ->orWhere('agenda', 'like', '%'.$value.'%');
         }
 
         return $query;
     }
-
 }

@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="PhpCSFixer">
+    <phpcsfixer_settings>
+      <PhpCSFixerConfiguration tool_path="$PROJECT_DIR$/laravel/vendor/bin/php-cs-fixer" />
+    </phpcsfixer_settings>
+  </component>
   <component name="PhpIncludePathManager">
     <include_path>
       <path value="$PROJECT_DIR$/laravel/vendor/vlucas/phpdotenv" />
@@ -33,7 +38,6 @@
       <path value="$PROJECT_DIR$/laravel/vendor/symfony/event-dispatcher-contracts" />
       <path value="$PROJECT_DIR$/laravel/vendor/symfony/polyfill-intl-idn" />
       <path value="$PROJECT_DIR$/laravel/vendor/symfony/event-dispatcher" />
-      <path value="$PROJECT_DIR$/laravel/vendor/symfony/polyfill-php70" />
       <path value="$PROJECT_DIR$/laravel/vendor/symfony/http-kernel" />
       <path value="$PROJECT_DIR$/laravel/vendor/symfony/polyfill-php73" />
       <path value="$PROJECT_DIR$/laravel/vendor/symfony/translation-contracts" />
@@ -61,7 +65,6 @@
       <path value="$PROJECT_DIR$/laravel/vendor/guzzlehttp/psr7" />
       <path value="$PROJECT_DIR$/laravel/vendor/guzzlehttp/guzzle" />
       <path value="$PROJECT_DIR$/laravel/vendor/laravel/tinker" />
-      <path value="$PROJECT_DIR$/laravel/vendor/dnoegel/php-xdg-base-dir" />
       <path value="$PROJECT_DIR$/laravel/vendor/psy/psysh" />
       <path value="$PROJECT_DIR$/laravel/vendor/mtdowling/jmespath.php" />
       <path value="$PROJECT_DIR$/laravel/vendor/aws/aws-sdk-php" />
@@ -74,7 +77,6 @@
       <path value="$PROJECT_DIR$/laravel/vendor/facade/flare-client-php" />
       <path value="$PROJECT_DIR$/laravel/vendor/facade/ignition" />
       <path value="$PROJECT_DIR$/laravel/vendor/facade/ignition-contracts" />
-      <path value="$PROJECT_DIR$/laravel/vendor/jakub-onderka/php-console-color" />
       <path value="$PROJECT_DIR$/laravel/vendor/hamcrest/hamcrest-php" />
       <path value="$PROJECT_DIR$/laravel/vendor/sebastian/recursion-context" />
       <path value="$PROJECT_DIR$/laravel/vendor/sebastian/type" />
@@ -86,7 +88,6 @@
       <path value="$PROJECT_DIR$/laravel/vendor/phpdocumentor/reflection-docblock" />
       <path value="$PROJECT_DIR$/laravel/vendor/mockery/mockery" />
       <path value="$PROJECT_DIR$/laravel/vendor/nunomaduro/collision" />
-      <path value="$PROJECT_DIR$/laravel/vendor/jakub-onderka/php-console-highlighter" />
       <path value="$PROJECT_DIR$/laravel/vendor/phpunit/php-token-stream" />
       <path value="$PROJECT_DIR$/laravel/vendor/sebastian/object-reflector" />
       <path value="$PROJECT_DIR$/laravel/vendor/sebastian/object-enumerator" />
@@ -107,6 +108,21 @@
       <path value="$PROJECT_DIR$/laravel/vendor/phpunit/php-text-template" />
       <path value="$PROJECT_DIR$/laravel/vendor/phpunit/php-code-coverage" />
       <path value="$PROJECT_DIR$/laravel/vendor/myclabs/deep-copy" />
+      <path value="$PROJECT_DIR$/laravel/vendor/league/oauth1-client" />
+      <path value="$PROJECT_DIR$/laravel/vendor/guzzle/guzzle" />
+      <path value="$PROJECT_DIR$/laravel/vendor/laravel/socialite" />
+      <path value="$PROJECT_DIR$/laravel/vendor/symfony/http-client-contracts" />
+      <path value="$PROJECT_DIR$/laravel/vendor/symfony/deprecation-contracts" />
+      <path value="$PROJECT_DIR$/laravel/vendor/doctrine/deprecations" />
+      <path value="$PROJECT_DIR$/laravel/vendor/php-parallel-lint/php-console-color" />
+      <path value="$PROJECT_DIR$/laravel/vendor/php-parallel-lint/php-console-highlighter" />
+      <path value="$PROJECT_DIR$/laravel/vendor/symfony/stopwatch" />
+      <path value="$PROJECT_DIR$/laravel/vendor/symfony/options-resolver" />
+      <path value="$PROJECT_DIR$/laravel/vendor/symfony/filesystem" />
+      <path value="$PROJECT_DIR$/laravel/vendor/doctrine/annotations" />
+      <path value="$PROJECT_DIR$/laravel/vendor/php-cs-fixer/diff" />
+      <path value="$PROJECT_DIR$/laravel/vendor/friendsofphp/php-cs-fixer" />
+      <path value="$PROJECT_DIR$/laravel/vendor/psr/cache" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="7.2">

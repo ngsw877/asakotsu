@@ -7,10 +7,10 @@ use App\Client\ZoomJwtClient;
 
 class MeetingRequest extends FormRequest
 {
-
     private $client;
 
-    public function __construct(ZoomJwtClient $client) {
+    public function __construct(ZoomJwtClient $client)
+    {
         $this->client = $client;
     }
 
@@ -62,5 +62,4 @@ class MeetingRequest extends FormRequest
             'start_time.after_or_equal' => '開始日時には、現在時刻以降の日付を指定してください。',
         ];
     }
-
 }

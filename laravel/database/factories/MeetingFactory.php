@@ -14,7 +14,7 @@ $factory->define(Meeting::class, function (Faker $faker) {
         'start_time' => $faker->dateTime,
         'start_url' => $faker->url,
         'join_url' => $faker->url,
-        'user_id' => function() {
+        'user_id' => function () {
             return factory(User::class);
         }
     ];

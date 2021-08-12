@@ -15,10 +15,3 @@ Route::get('/meetings/list', 'Zoom\MeetingController@getListMeetings')->name('me
 Route::get('/meetings/check', 'Zoom\MeetingController@checkStartTimeAndStatusOfMeetings')->name('meetings.check');
 // 指定したミーティング情報の取得
 Route::get('/meetings/{meeting_id}', 'Zoom\MeetingController@getMeeting')->name('meetings.get');
-
-
-
-
-
-
-

@@ -2,9 +2,11 @@
 
 namespace App\Models;
 
+use Askedio\SoftCascade\Traits\SoftCascadeTrait;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Carbon\CarbonImmutable as Carbon;
@@ -12,6 +14,15 @@ use Carbon\CarbonImmutable as Carbon;
 class User extends Authenticatable
 {
     use Notifiable;
+    use SoftDeletes;
+    use SoftCascadeTrait;
+
+    protected $softCascade = [
+        'articles',
+        'achievementDays',
+        'comments',
+        'meetings',
+    ];
 
     // protected $dates = [
     //     'wake_up_time'
@@ -50,16 +61,24 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-
-
     public function articles(): HasMany
     {
         return $this->hasMany(Article::class);
     }
 
-    public function achievement_days(): HasMany
+    public function achievementDays(): HasMany
     {
         return $this->hasMany(AchievementDay::class);
+    }
+
+    public function comments(): HasMany
+    {
+        return $this->hasMany(Comment::class);
+    }
+
+    public function meetings(): HasMany
+    {
+        return $this->hasMany(Meeting::class);
     }
 
     public function followers(): BelongsToMany
@@ -113,7 +132,7 @@ class User extends Authenticatable
     public function withCountAchievementDays(string $name)
     {
         $user = User::where('name', $name)
-        ->withCount(['achievement_days' => function ($query) {
+        ->withCount(['achievementDays' => function ($query) {
             $query
                 ->where('date', '>=', Carbon::now()->startOfMonth()->toDateString())
                 ->where('date', '<=', Carbon::now()->endOfMonth()->toDateString());
@@ -123,4 +142,3 @@ class User extends Authenticatable
         return $user;
     }
 }
-

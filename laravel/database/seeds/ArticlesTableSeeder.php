@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\User;
 use Illuminate\Database\Seeder;
 use App\Models\Article;
 
@@ -12,9 +13,9 @@ class ArticlesTableSeeder extends Seeder
      */
     public function run()
     {
-        for ($i = 1; $i <= 10; $i++) {
+        for ($i = 1; $i <= 60; $i++) {
             Article::create([
-                'user_id'    => $i,
+                'user_id'    => User::inRandomOrder()->first()->id,
                 'body'       => 'これはテスト投稿です' . $i,
                 'created_at' => now(),
                 'updated_at' => now()

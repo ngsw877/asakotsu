@@ -27,7 +27,7 @@
               <p class="small m-0">早起き</p>
               <p class="m-0">
                 <span class="h5 mr-1">{{
-                  $article->user->achievement_days()
+                  $article->user->achievementDays()
                   ->where('date', '>=', \Carbon\Carbon::now()->startOfMonth()->toDateString())
                   ->where('date', '<=', \Carbon\Carbon::now()->endOfMonth()->toDateString())
                   ->count()

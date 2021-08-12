@@ -12,7 +12,8 @@ class UserController extends Controller
 {
     private $user;
 
-    public function __construct(User $user) {
+    public function __construct(User $user)
+    {
         $this->user = $user;
     }
 
@@ -61,7 +62,7 @@ class UserController extends Controller
 
 
         session()->flash('msg_success', 'プロフィールを編集しました');
-        return redirect()->route('users.show',['name' => $user->name]);
+        return redirect()->route('users.show', ['name' => $user->name]);
     }
 
     public function editPassword(string $name)
@@ -85,7 +86,7 @@ class UserController extends Controller
         $user->save();
 
         session()->flash('msg_success', 'パスワードを更新しました');
-        return redirect()->route('users.show',['name' => $user->name]);
+        return redirect()->route('users.show', ['name' => $user->name]);
     }
 
     public function likes(string $name, Request $request)
@@ -127,7 +128,8 @@ class UserController extends Controller
 
     public function followers(string $name)
     {
-        $user = $this->user->withCountAchievementDays($name)->load('followers.followers');;
+        $user = $this->user->withCountAchievementDays($name)->load('followers.followers');
+        ;
         $followers = $user->followers()
         ->orderBy('created_at', 'desc')
         ->paginate(5);
@@ -142,8 +144,7 @@ class UserController extends Controller
     {
         $user = User::where('name', $name)->first();
 
-        if ($user->id === $request->user()->id)
-        {
+        if ($user->id === $request->user()->id) {
             return abort('404', 'Cannot follow yourself.');
         }
 
@@ -157,19 +158,17 @@ class UserController extends Controller
     {
         $user = User::where('name', $name)->first();
 
-        if ($user->id === $request->user()->id)
-        {
+        if ($user->id === $request->user()->id) {
             return abort('404', 'Cannot follow yourself.');
         }
 
         $request->user()->followings()->detach($user);
 
         return ['name' => $name];
-        }
+    }
 
-        public function privacyPolicy()
-        {
-            return view('users.privacy_policy');
-        }
-
+    public function privacyPolicy()
+    {
+        return view('users.privacy_policy');
+    }
 }

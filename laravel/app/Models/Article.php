@@ -2,13 +2,22 @@
 
 namespace App\Models;
 
-use App\Models\User;
+use Askedio\SoftCascade\Traits\SoftCascadeTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Article extends Model
 {
+    use SoftDeletes;
+    use SoftCascadeTrait;
+
+    protected $softCascade = [
+        'comments',
+    ];
+
     protected $fillable = [
         'body',
         'user_id',
@@ -42,13 +51,8 @@ class Article extends Model
         return $this->belongsToMany(Tag::class)->withTimestamps();
     }
 
-    public function comments()
+    public function comments(): HasMany
     {
         return $this->hasMany(Comment::class);
-    }
-
-    public function achievement_days()
-    {
-        return $this->belongsToMany(AchievementDay::class, 'users');
     }
 }

@@ -1,7 +1,7 @@
 FROM php:7.4-fpm
 
 # composerのインストール (マルチステージビルド)
-COPY --from=composer:1.10 /usr/bin/composer /usr/bin/composer
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 # npmのインストール (マルチステージビルド)
 COPY --from=node:10.22 /usr/local/bin /usr/local/bin

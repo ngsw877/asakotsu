@@ -12,6 +12,7 @@
 .env
 .env_backup
 .idea/
+.php-cs-fixer.cache
 .phpunit.result.cache
 Homestead.json
 Homestead.yaml

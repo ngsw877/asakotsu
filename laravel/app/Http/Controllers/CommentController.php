@@ -8,7 +8,6 @@ use App\Http\Requests\CommentRequest;
 
 class CommentController extends Controller
 {
-
     public function store(CommentRequest $request, Comment $comment)
     {
         // 二重送信対策
@@ -23,5 +22,4 @@ class CommentController extends Controller
 
         return back();
     }
-
 }

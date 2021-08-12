@@ -17,17 +17,18 @@ class CreateFollowsTable extends Migration
             $table->bigIncrements('id');
             $table->bigInteger('follower_id')
                 ->unsigned()->comment('フォロワーID');
-                $table->foreign('follower_id')
+            $table->foreign('follower_id')
                     ->references('id')
                     ->on('users')
                     ->onDelete('cascade');
             $table->bigInteger('followee_id')
                 ->unsigned()->comment('フォロー中のユーザーID');
-                $table->foreign('followee_id')
+            $table->foreign('followee_id')
                     ->references('id')
                     ->on('users')
                     ->onDelete('cascade');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

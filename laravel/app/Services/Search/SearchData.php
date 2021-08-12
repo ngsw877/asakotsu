@@ -30,10 +30,10 @@ class SearchData
         // もしキーワードがあったら
         if ($keyword !== null) {
             // 全角スペースを半角に
-            $keyword = mb_convert_kana($keyword,'s');
+            $keyword = mb_convert_kana($keyword, 's');
 
             //  空白で区切る
-            $keywordSplit = preg_split('/[\s]+/', $keyword,-1,PREG_SPLIT_NO_EMPTY);
+            $keywordSplit = preg_split('/[\s]+/', $keyword, -1, PREG_SPLIT_NO_EMPTY);
 
             // Model別にキーワード検索
             $qurey = $this->checkModel->checkModelForSearchKeyword($keywordSplit, $model, $query);
@@ -43,5 +43,4 @@ class SearchData
             ->orderBy('created_at', 'desc')
             ->paginate(10);
     }
-
 }

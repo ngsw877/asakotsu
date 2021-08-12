@@ -26,7 +26,7 @@
           <span class="d-inline-block">{{ date('m') }}月の早起き　</span>
           <span class="d-inline-block rounded peach-gradient text-white p-1">
             {{
-              \Auth::user()->achievement_days()
+              \Auth::user()->achievementDays()
               ->where('date', '>=', \Carbon\Carbon::now()->startOfMonth()->toDateString())
               ->where('date', '<=', \Carbon\Carbon::now()->endOfMonth()->toDateString())
               ->count()

@@ -17,8 +17,7 @@ class CheckModel
     public function __construct(
         SearchArticle $searchArticle,
         SearchMeeting $searchMeeting
-    )
-    {
+    ) {
         $this->searchArticle = $searchArticle;
         $this->searchMeeting = $searchMeeting;
     }
@@ -46,5 +45,4 @@ class CheckModel
 
         return $query;
     }
-
 }
