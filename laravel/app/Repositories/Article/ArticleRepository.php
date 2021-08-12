@@ -22,7 +22,7 @@ class ArticleRepository implements ArticleRepositoryInterface
     {
         $user = $request->user();
 
-        $articleRecord = $request->validated();
+        $articleRecord = $request->validated() + ['ip_address' => $request->ip()];
 
         $article = $user
             ->articles()
