@@ -17,6 +17,12 @@ class User extends Authenticatable
     use SoftDeletes;
     use SoftCascadeTrait;
 
+    protected $softCascade = [
+        'articles',
+        'comments',
+        'comments',
+    ];
+
     // protected $dates = [
     //     'wake_up_time'
     // ];
