@@ -2,13 +2,17 @@
 
 namespace App\Models;
 
-use App\Models\User;
+use Askedio\SoftCascade\Traits\SoftCascadeTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Article extends Model
 {
+    use SoftDeletes;
+    use SoftCascadeTrait;
+
     protected $fillable = [
         'body',
         'user_id',

@@ -2,9 +2,11 @@
 
 namespace App\Models;
 
+use Askedio\SoftCascade\Traits\SoftCascadeTrait;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Carbon\CarbonImmutable as Carbon;
@@ -12,6 +14,8 @@ use Carbon\CarbonImmutable as Carbon;
 class User extends Authenticatable
 {
     use Notifiable;
+    use SoftDeletes;
+    use SoftCascadeTrait;
 
     // protected $dates = [
     //     'wake_up_time'
