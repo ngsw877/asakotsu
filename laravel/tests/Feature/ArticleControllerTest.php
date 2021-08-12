@@ -145,7 +145,7 @@ class ArticleControllerTest extends TestCase
         $response = $this->actingAs($user)->delete(route('articles.destroy', ['article' => $article]));
 
         // テストデータがDBから削除されているかテスト
-        $this->assertDeleted('articles', [
+        $this->assertSoftDeleted('articles', [
             'body' => $body,
             'user_id' => $user_id
         ]);
