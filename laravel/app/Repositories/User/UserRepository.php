@@ -27,6 +27,14 @@ class UserRepository implements UserRepositoryInterface
     /**
      * {@inheritDoc}
      */
+    public function findByName(string $name): User
+    {
+        return $this->user::where('name', $name)->first();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function delete(User $user): ?bool
     {
         return $result = $user->delete();

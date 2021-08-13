@@ -18,6 +18,14 @@ interface UserRepositoryInterface
     public function find(int $userId): User;
 
     /**
+     * アカウント名からUserモデルを取得
+     *
+     * @param string $name
+     * @return User
+     */
+    public function findByName(string $name): User;
+
+    /**
      * 指定したアカウントを削除
      *
      * @param User $user

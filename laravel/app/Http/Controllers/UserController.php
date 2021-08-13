@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Repositories\User\UserRepositoryInterface;
 use Illuminate\Http\Request;
 use App\Http\Requests\UserRequest;
 use App\Http\Requests\UpdatePasswordRequest;
@@ -10,11 +11,16 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
-    private $user;
+    private User $user;
+    private UserRepositoryInterface $userRepository;
 
-    public function __construct(User $user)
+    public function __construct(
+        User $user,
+        UserRepositoryInterface $userRepository
+    )
     {
         $this->user = $user;
+        $this->userRepository = $userRepository;
     }
 
     public function show(string $name, Request $request)
@@ -43,17 +49,17 @@ class UserController extends Controller
 
     public function edit(string $name)
     {
-        $user = User::where('name', $name)->first();
+        $user = $this->userRepository->findByName($name);
 
         // UserPolicyのupdateメソッドでアクセス制限
         $this->authorize('update', $user);
 
-        return view('users.edit', ['user' => $user]);
+        return view('users.edit', compact('user'));
     }
 
     public function update(UserRequest $request, string $name)
     {
-        $user = User::where('name', $name)->first();
+        $user = $this->userRepository->findByName($name);
 
         // UserPolicyのupdateメソッドでアクセス制限
         $this->authorize('update', $user);
@@ -67,7 +73,7 @@ class UserController extends Controller
 
     public function editPassword(string $name)
     {
-        $user = User::where('name', $name)->first();
+        $user = $this->userRepository->findByName($name);
 
         // UserPolicyのupdateメソッドでアクセス制限
         $this->authorize('update', $user);
@@ -77,7 +83,7 @@ class UserController extends Controller
 
     public function updatePassword(UpdatePasswordRequest $request, string $name)
     {
-        $user = User::where('name', $name)->first();
+        $user = $this->userRepository->findByName($name);
 
         // UserPolicyのupdateメソッドでアクセス制限
         $this->authorize('update', $user);
@@ -142,7 +148,7 @@ class UserController extends Controller
 
     public function follow(Request $request, string $name)
     {
-        $user = User::where('name', $name)->first();
+        $user = $this->userRepository->findByName($name);
 
         if ($user->id === $request->user()->id) {
             return abort('404', 'Cannot follow yourself.');
@@ -156,7 +162,7 @@ class UserController extends Controller
 
     public function unfollow(Request $request, string $name)
     {
-        $user = User::where('name', $name)->first();
+        $user = $this->userRepository->findByName($name);
 
         if ($user->id === $request->user()->id) {
             return abort('404', 'Cannot follow yourself.');
