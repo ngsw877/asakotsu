@@ -114,7 +114,8 @@ class ArticleController extends Controller
             if ($isAchievedEarlyRising) {
                 $result = $this->userRepository->createAchievementDays($article);
 
-                // 本日の早起き達成記録が、レコードに記録されたかを判定。一日最大一回のみ、早起き達成メッセージを表示。
+                // 本日の早起き達成記録が、レコードに記録されたかを判定。
+                // 一日最大一回のみ、早起き達成メッセージを表示。
                 if ($result->wasRecentlyCreated) {
                     session()->flash('msg_achievement', '早起き達成です！');
                 }
@@ -213,14 +214,14 @@ class ArticleController extends Controller
      * 投稿詳細画面の表示
      *
      * @param Article $article
-     * @param Comment $comment
-     * @return Application|Factory|Response|View
+     * @return Application|Factory|View
      */
-    public function show(Article $article, Comment $comment)
+    public function show(Article $article)
     {
         $comments = $article->comments()
             ->orderBy('created_at', 'desc')
             ->paginate(5);
+
         return view('articles.show', [
             'article' => $article,
             'comments' => $comments

@@ -12,7 +12,6 @@ use Carbon\CarbonImmutable;
 class MeetingController extends Controller
 {
     private $client;
-    private $searchData;
     private CarbonImmutable $today;
 
     public function __construct(
