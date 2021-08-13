@@ -8,6 +8,7 @@ use App\Models\Tag;
 use App\Repositories\Article\ArticleRepositoryInterface;
 use App\Repositories\User\UserRepositoryInterface;
 use App\Http\Requests\ArticleRequest;
+use App\Services\Article\ArticleServiceInterface;
 use App\Services\User\UserServiceInterface;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -25,11 +26,13 @@ class ArticleController extends Controller
     private ArticleRepositoryInterface $articleRepository;
     private UserRepositoryInterface $userRepository;
 
+    private ArticleServiceInterface $articleService;
     private UserServiceInterface $userService;
 
     public function __construct(
         ArticleRepositoryInterface $articleRepository,
         UserRepositoryInterface $userRepository,
+        ArticleServiceInterface $articleService,
         UserServiceInterface $userService
     ) {
         // 'article'...モデルのIDがセットされる、ルーティングのパラメータ名 → {article}
@@ -38,6 +41,7 @@ class ArticleController extends Controller
         $this->articleRepository = $articleRepository;
         $this->userRepository = $userRepository;
 
+        $this->articleService = $articleService;
         $this->userService = $userService;
     }
 
@@ -106,7 +110,7 @@ class ArticleController extends Controller
 
         DB::beginTransaction();
         try {
-            $article = $this->articleRepository->create($request);
+            $article = $this->articleService->create($request);
 
             $isAchievedEarlyRising = $this->userService->checkIsAchievedEarlyRising($article);
 
