@@ -51,7 +51,7 @@ class LoginController extends Controller
     protected function authenticated(Request $request)
     {
         // フラッシュメッセージを表示
-        session()->flash('msg_success', 'ログインしました');
+        toastr()->success('ログインしました');
         return redirect('/');
     }
 
@@ -59,11 +59,11 @@ class LoginController extends Controller
     public function guestLogin()
     {
         if (Auth::loginUsingId(config('user.guest_user_id'))) {
-            session()->flash('msg_success', 'ゲストユーザーでログインしました');
+            toastr()->success('ゲストユーザーでログインしました');
             return redirect('/');
         }
 
-        session()->flash('msg_error', 'ゲストログインに失敗しました');
+        toastr()->error('ゲストログインに失敗しました');
         return redirect('/');
     }
 
@@ -81,7 +81,7 @@ class LoginController extends Controller
         $request->session()->invalidate();
 
         // フラッシュメッセージを表示
-        session()->flash('msg_success', 'ログアウトしました');
+        toastr()->success('ログアウトしました');
         return redirect('/');
     }
 }
