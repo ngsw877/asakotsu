@@ -35,4 +35,8 @@ init:
 migrate:
 	docker-compose exec app php artisan migrate
 
+.PHONY: test
+test:
+	docker-compose exec app vendor/bin/phpunit
+
 
