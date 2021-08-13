@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Models\User;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
@@ -29,7 +28,7 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = RouteServiceProvider::HOME;
+    protected string $redirectTo = RouteServiceProvider::HOME;
 
     /**
      * Create a new controller instance.
@@ -52,19 +51,21 @@ class LoginController extends Controller
     {
         // フラッシュメッセージを表示
         toastr()->success('ログインしました');
-        return redirect('/');
+        return redirect($this->redirectTo);
     }
 
     // ゲストユーザーログイン
     public function guestLogin()
     {
         if (Auth::loginUsingId(config('user.guest_user_id'))) {
+
             toastr()->success('ゲストユーザーでログインしました');
-            return redirect('/');
+
+            return redirect($this->redirectTo);
         }
 
         toastr()->error('ゲストログインに失敗しました');
-        return redirect('/');
+        return redirect($this->redirectTo);
     }
 
     /**
@@ -82,6 +83,6 @@ class LoginController extends Controller
 
         // フラッシュメッセージを表示
         toastr()->success('ログアウトしました');
-        return redirect('/');
+        return redirect($this->redirectTo);
     }
 }
