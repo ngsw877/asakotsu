@@ -2,14 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Services\User\UserServiceInterface;
 use App\Models\Tag;
-use App\Models\Article;
-use App\Models\User;
 
 class TagController extends Controller
 {
-    public function show(string $name, User $user)
+    private UserServiceInterface $userService;
+
+    public function __construct(
+        UserServiceInterface $userService
+    ) {
+        $this->userService = $userService;
+    }
+
+    public function show(string $name)
     {
         $tag = Tag::where('name', $name)->first();
 
@@ -17,8 +23,8 @@ class TagController extends Controller
         $tag->articles = $tag->articles->sortByDesc('created_at');
 
         // ユーザーの早起き達成日数ランキングを取得
-        $ranked_users = $user->ranking();
+        $rankedUsers = $this->userService->ranking(5);
 
-        return view('tags.show', ['tag' => $tag, 'ranked_users' => $ranked_users]);
+        return view('tags.show', ['tag' => $tag, 'rankedUsers' => $rankedUsers]);
     }
 }
