@@ -26,6 +26,8 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.8.11/css/mdb.min.css" rel="stylesheet">
   <!-- CSS -->
   <link href="{{ mix('css/app.css') }}" rel="stylesheet">
+    <!-- toastr -->
+    @toastr_css
 </head>
 <body>
 
@@ -49,14 +51,11 @@
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.8.11/js/mdb.min.js"></script>
 
   <!-- toastr -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+  @toastr_js
+  @toastr_render
 
   <!-- JavaScript -->
   <script src="{{ mix('js/app.js') }}"></script>
-
-  <!-- フラッシュメッセージ -->
-  @include('flash_message')
 
 </body>
 </html>

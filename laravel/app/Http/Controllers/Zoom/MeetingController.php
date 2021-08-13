@@ -147,9 +147,11 @@ class MeetingController extends Controller
                 )
                 ->save();
 
-            session()->flash('msg_success', 'ミーティングを作成しました');
+            toastr()->success('ミーティングを作成しました');
             return redirect()->route('meetings.index');
         }
+
+        toastr()->error('ミーティングの作成に失敗しました');
 
         // エラーページにリダイレクト
         return view('errors.meeting', ['method' => '作成']);
@@ -166,11 +168,13 @@ class MeetingController extends Controller
         if ($response->getStatusCode() === 204) {  // 204：ミーティング削除成功のHTTPステータスコード
             $meeting->delete();
 
-            session()->flash('msg_success', 'ミーティングを削除しました');
+            toastr()->success('ミーティングを削除しました');
 
             \Log::info("ミーティングID：{$id}のミーティングを削除しました。");
             return redirect()->route('meetings.index');
         }
+
+        toastr()->error('ミーティングの削除に失敗しました');
 
         // エラーページにリダイレクト
         return view('errors.meeting', ['method' => '削除']);
@@ -192,10 +196,12 @@ class MeetingController extends Controller
          if ($response->getStatusCode() === 204) {  // 204：ミーティング更新成功のHTTPステータスコード
             $meeting->fill($request->validated())->save();
 
-             session()->flash('msg_success', 'ミーティングを編集しました');
+             toastr()->success('ミーティングを更新しました');
 
              return redirect()->route('meetings.index');
          }
+
+        toastr()->error('ミーティングの更新に失敗しました');
 
         // エラーページにリダイレクト
         return view('errors.meeting', ['method' => '更新']);

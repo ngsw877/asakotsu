@@ -100,6 +100,7 @@ class ArticleController extends Controller
      */
     public function store(ArticleRequest $request): RedirectResponse
     {
+
         // 二重送信対策
         $request->session()->regenerateToken();
 
@@ -118,13 +119,15 @@ class ArticleController extends Controller
                     session()->flash('msg_achievement', '早起き達成です！');
                 }
             } else {
-                session()->flash('msg_success', '投稿が完了しました');
+                toastr()->success( '投稿が完了しました');
             }
 
             DB::commit();
         } catch (Exception $e) {
             DB::rollBack();
             throw $e;
+
+            toastr()->error('投稿に失敗しました');
         }
 
         return redirect()->route('articles.index');
@@ -169,10 +172,12 @@ class ArticleController extends Controller
             $this->articleRepository->update($request, $article);
 
             DB::commit();
-            session()->flash('msg_success', '投稿を編集しました');
+            toastr()->success( '投稿を更新しました');
         } catch (Exception $e) {
             DB::rollBack();
             throw $e;
+
+            toastr()->error( '投稿の更新に失敗しました');
         }
 
         return redirect()->route('articles.index');
@@ -193,10 +198,12 @@ class ArticleController extends Controller
             $this->articleRepository->delete($article);
             DB::commit();
 
-            session()->flash('msg_success', '投稿を削除しました');
+            toastr()->success('投稿を削除しました');
         } catch (Exception $e) {
             DB::rollBack();
             throw $e;
+
+            toastr()->error('投稿の削除に失敗しました');
         }
 
         return redirect()->route('articles.index');
