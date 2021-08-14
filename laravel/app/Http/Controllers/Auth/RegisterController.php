@@ -96,7 +96,7 @@ class RegisterController extends Controller
 
             $disk = Storage::disk('s3');
             // バケットの`image/profile`フォルダへアップロード
-            $path = $disk->putFile('images/profile', $image, 'public');
+            $path = $disk->putFile('uploads/images/profile', $image, 'public');
             // アップロードした画像のフルパスを取得
             $image_path = $disk->url($path);
         }
