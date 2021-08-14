@@ -174,7 +174,7 @@ class ArticleController extends Controller
         DB::beginTransaction();
 
         try {
-            $this->articleRepository->update($request, $article);
+            $this->articleService->update($request, $article);
 
             DB::commit();
             toastr()->success( '投稿を更新しました');

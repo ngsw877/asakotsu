@@ -30,10 +30,11 @@ interface ArticleRepositoryInterface
     /**
      * ユーザーの投稿と、投稿のタグを更新
      *
-     * @param ArticleRequest $request
+     * @param array $articleRecord
      * @param Article $article
+     * @return Article
      */
-    public function update(ArticleRequest $request, Article $article): void;
+    public function update(array $articleRecord, Article $article): Article;
 
     /**
      * ユーザーの投稿を削除
