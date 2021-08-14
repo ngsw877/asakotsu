@@ -68,10 +68,7 @@ class UserRepository implements UserRepositoryInterface
     }
 
     /**
-     * 今月の早起き達成日数も取得
-     *
-     * @param string $name
-     * @return User
+     * {@inheritDoc}
      */
     public function withCountAchievementDays(string $name): User
     {
@@ -84,5 +81,13 @@ class UserRepository implements UserRepositoryInterface
             ->first();
 
         return $user;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function createComment(array $commentRecord, User $user): void
+    {
+        $user->comments()->create($commentRecord);
     }
 }
