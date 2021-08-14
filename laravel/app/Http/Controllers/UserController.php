@@ -7,7 +7,10 @@ use App\Repositories\User\UserRepositoryInterface;
 use Illuminate\Http\Request;
 use App\Http\Requests\UserRequest;
 use App\Http\Requests\UpdatePasswordRequest;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
+use Mockery\Exception;
 
 class UserController extends Controller
 {
@@ -42,7 +45,7 @@ class UserController extends Controller
         }
 
         return view('users.show', [
-            'user' => $user,
+            'user'     => $user,
             'articles' => $articles,
         ]);
     }
@@ -64,10 +67,20 @@ class UserController extends Controller
         // UserPolicyのupdateメソッドでアクセス制限
         $this->authorize('update', $user);
 
-        $user->fill($request->userParams())->save();
+        DB::beginTransaction();
+        try {
+            $user->fill($request->userParams())->save();
 
+            DB::commit();
+            toastr()->success('プロフィールを更新しました');
+        } catch (Exception $e) {
+            DB::rollBack();
+            Log::error($e->getMessage());
+            toastr()->error('プロフィールの更新に失敗しました');
 
-        session()->flash('msg_success', 'プロフィールを編集しました');
+            throw $e;
+        }
+
         return redirect()->route('users.show', ['name' => $user->name]);
     }
 
@@ -89,9 +102,23 @@ class UserController extends Controller
         $this->authorize('update', $user);
 
         $user->password = Hash::make($request->input('new_password'));
-        $user->save();
 
-        session()->flash('msg_success', 'パスワードを更新しました');
+        DB::beginTransaction();
+        try {
+            $user->save();
+            DB::commit();
+
+            toastr()->success( 'パスワードを更新しました');
+
+        } catch (Exception $e) {
+            DB::rollBack();
+            Log::error($e->getMessage());
+
+            toastr()->error( 'パスワードの更新に失敗しました');
+
+            throw $e;
+        }
+
         return redirect()->route('users.show', ['name' => $user->name]);
     }
 
@@ -114,7 +141,7 @@ class UserController extends Controller
         }
 
         return view('users.likes', [
-            'user' => $user,
+            'user'     => $user,
             'articles' => $articles,
         ]);
     }
@@ -123,25 +150,24 @@ class UserController extends Controller
     {
         $user = $this->userRepository->withCountAchievementDays($name)->load('followings.followers');
         $followings = $user->followings()
-        ->orderBy('created_at', 'desc')
-        ->paginate(5);
+            ->orderBy('created_at', 'desc')
+            ->paginate(5);
 
         return view('users.followings', [
-            'user' => $user,
+            'user'       => $user,
             'followings' => $followings,
         ]);
     }
 
     public function followers(string $name)
     {
-        $user = $this->userRepository->withCountAchievementDays($name)->load('followers.followers');
-        ;
+        $user = $this->userRepository->withCountAchievementDays($name)->load('followers.followers');;
         $followers = $user->followers()
-        ->orderBy('created_at', 'desc')
-        ->paginate(5);
+            ->orderBy('created_at', 'desc')
+            ->paginate(5);
 
         return view('users.followers', [
-            'user' => $user,
+            'user'      => $user,
             'followers' => $followers,
         ]);
     }
