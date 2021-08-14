@@ -12,7 +12,7 @@
       <div class="mx-auto col-md-7">
           @include('meetings.list', compact('meetings'))
 
-          @include('meetings.sppiner')
+          @include('components.spinner', ['paginator' => $meetings])
       </div>
     </div>
 

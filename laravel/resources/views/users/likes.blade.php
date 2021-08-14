@@ -4,20 +4,20 @@
 
 @section('content')
 
-  @include('nav')
+    @include('nav')
 
-  <div class="container mt-4">
-    <div class="row justify-content-center">
-      <div class="col-md-9">
-        @include('users.user')
-        
-        @include('users.tabs', ['hasArticles' => false, 'hasLikes' => true])
+    <div class="container mt-4">
+        <div class="row justify-content-center">
+            <div class="col-md-9">
+                @include('users.user')
 
-        @include('articles.list', compact('articles'))
+                @include('users.tabs', ['hasArticles' => false, 'hasLikes' => true])
 
-        @include('articles.sppiner')
-      </div>
+                @include('articles.list', compact('articles'))
+
+                @include('components.spinner', ['paginator' => $articles])
+            </div>
+        </div>
     </div>
-  </div>
 
 @endsection
