@@ -31,6 +31,18 @@ class ArticleRepository implements ArticleRepositoryInterface
     /**
      * {@inheritDoc}
      */
+    public function update(array $articleRecord, Article $article): Article
+    {
+        $article->fill($articleRecord)->save();
+
+        $article->tags()->detach();
+
+        return $article;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function attachTags(Article $article, Collection $tags): void
     {
         $tags->each(function ($tagName) use ($article) {
@@ -39,18 +51,6 @@ class ArticleRepository implements ArticleRepositoryInterface
 
             $article->tags()->attach($tag);
         });
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function update(array $articleRecord, Article $article): Article
-    {
-        $article->fill($articleRecord)->save();
-
-        $article->tags()->detach();
-
-        return $article;
     }
 
     /**

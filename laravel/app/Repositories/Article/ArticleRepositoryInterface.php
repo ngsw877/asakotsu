@@ -19,15 +19,6 @@ interface ArticleRepositoryInterface
     public function create(array $articleRecord, User $user): Article;
 
     /**
-     * ユーザーの投稿にタグを登録する
-     * DBに未登録のタグが新規に入力されていれば、DBに保存する
-     *
-     * @param Article $article
-     * @param Collection $tags
-     */
-    public function attachTags(Article $article, Collection $tags): void;
-
-    /**
      * ユーザーの投稿と、投稿のタグを更新
      *
      * @param array $articleRecord
@@ -35,6 +26,15 @@ interface ArticleRepositoryInterface
      * @return Article
      */
     public function update(array $articleRecord, Article $article): Article;
+
+    /**
+     * ユーザーの投稿にタグを登録する
+     * DBに未登録のタグが新規に入力されていれば、DBに保存する
+     *
+     * @param Article $article
+     * @param Collection $tags
+     */
+    public function attachTags(Article $article, Collection $tags): void;
 
     /**
      * ユーザーの投稿を削除
