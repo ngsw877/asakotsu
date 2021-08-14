@@ -17,7 +17,7 @@ class UsersTableSeeder extends Seeder
         DB::table('users')->insert([
             [
             'name' => 'ゲストユーザー',
-            'email' => 'guest@guest.com',
+            'email' => 'guest@example.com',
             'password' => Hash::make(config('user.user_password_01')),
             'profile_image' => 'guest.png',
             'remember_token' => Str::random(10),
@@ -26,7 +26,7 @@ class UsersTableSeeder extends Seeder
             ],
             [
             'name' => '山田',
-            'email' => 'yamada@co.jp',
+            'email' => 'yamada@example.jp',
             'password' => Hash::make(config('user.user_password_02')),
             'profile_image' => 'sun.gif',
             'remember_token' => Str::random(10),
@@ -35,7 +35,7 @@ class UsersTableSeeder extends Seeder
             ],
             [
             'name' => 'suzuki',
-            'email' => 'suzuki@co.jp',
+            'email' => 'suzuki@example.jp',
             'password' => Hash::make(config('user.user_password_03')),
             'profile_image' => 'cat.jpg',
             'remember_token' => Str::random(10),
@@ -47,7 +47,7 @@ class UsersTableSeeder extends Seeder
         for ($i=4; $i <= 10; $i++) {
             DB::table('users')->insert([
                 'name' => 'test_user' . $i,
-                'email' => 'test' .$i .'@test.com',
+                'email' => 'test' .$i .'@example.com',
                 'password' => Hash::make(config('12345678')),
                 'profile_image' => 'default.png',
                 'remember_token' => Str::random(10),

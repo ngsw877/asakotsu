@@ -5,6 +5,8 @@ namespace App\Repositories\Article;
 use App\Http\Requests\ArticleRequest;
 use App\Models\Article;
 use App\Models\Tag;
+use App\Models\User;
+use Illuminate\Support\Collection;
 
 class ArticleRepository implements ArticleRepositoryInterface
 {
@@ -18,20 +20,10 @@ class ArticleRepository implements ArticleRepositoryInterface
     /**
      * {@inheritDoc}
      */
-    public function create(ArticleRequest $request): Article
+    public function create(array $articleRecord, User $user): Article
     {
-        $user = $request->user();
-
-        $articleRecord = $request->validated() + ['ip_address' => $request->ip()];
-
-        $article = $user
-            ->articles()
+        $article = $user->articles()
             ->create($articleRecord);
-
-        $request->tags->each(function ($tagName) use ($article) {
-            $tag = Tag::firstOrCreate(['name' => $tagName]);
-            $article->tags()->attach($tag);
-        });
 
         return $article;
     }
@@ -39,16 +31,24 @@ class ArticleRepository implements ArticleRepositoryInterface
     /**
      * {@inheritDoc}
      */
-    public function update(ArticleRequest $request, Article $article): void
+    public function update(array $articleRecord, Article $article): Article
     {
-        $articleRecord = $request->validated();
-
         $article->fill($articleRecord)->save();
 
         $article->tags()->detach();
 
-        $request->tags->each(function ($tagName) use ($article) {
+        return $article;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function attachTags(Article $article, Collection $tags): void
+    {
+        $tags->each(function ($tagName) use ($article) {
+
             $tag = Tag::firstOrCreate(['name' => $tagName]);
+
             $article->tags()->attach($tag);
         });
     }

@@ -2,23 +2,53 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Repositories\User\UserRepositoryInterface;
+use Illuminate\Http\RedirectResponse;
 use App\Models\Comment;
 use App\Http\Requests\CommentRequest;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Mockery\Exception;
 
 class CommentController extends Controller
 {
-    public function store(CommentRequest $request, Comment $comment)
+    private UserRepositoryInterface $userRepository;
+
+    public function __construct(
+        UserRepositoryInterface $userRepository
+    )
+    {
+        $this->userRepository = $userRepository;
+    }
+
+    /**
+     * ユーザーの投稿に、コメントを投稿
+     *
+     * @param CommentRequest $request
+     * @param Comment $comment
+     * @return RedirectResponse
+     */
+    public function store(CommentRequest $request, Comment $comment): RedirectResponse
     {
         // 二重送信対策
         $request->session()->regenerateToken();
 
         $user = auth()->user();
-        $comment->fill($request->validated() + ['ip_address' => $request->ip()]);
-        $comment->user_id = $user->id;
-        $comment->save();
+        $commentRecord = $request->validated() + ['ip_address' => $request->ip()];
 
-        session()->flash('msg_success', 'コメントを投稿しました');
+        DB::beginTransaction();
+        try {
+            $this->userRepository->createComment($commentRecord, $user);
+
+            DB::commit();
+            toastr()->success('コメントを投稿しました');
+        } catch (Exception $e) {
+            DB::rollBack();
+            Log::error($e->getMessage());
+            toastr()->error('コメントの投稿に失敗しました');
+
+            throw $e;
+        }
 
         return back();
     }

@@ -51,7 +51,7 @@
 
         @include('articles.list', compact('articles'))
 
-        @include('articles.sppiner')
+        @include('components.spinner', ['paginator' => $articles])
 
         @include('articles.new_post_btn')
       </main>

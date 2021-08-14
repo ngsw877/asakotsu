@@ -8,6 +8,7 @@ use App\Models\Tag;
 use App\Repositories\Article\ArticleRepositoryInterface;
 use App\Repositories\User\UserRepositoryInterface;
 use App\Http\Requests\ArticleRequest;
+use App\Services\Article\ArticleServiceInterface;
 use App\Services\User\UserServiceInterface;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -25,11 +26,13 @@ class ArticleController extends Controller
     private ArticleRepositoryInterface $articleRepository;
     private UserRepositoryInterface $userRepository;
 
+    private ArticleServiceInterface $articleService;
     private UserServiceInterface $userService;
 
     public function __construct(
         ArticleRepositoryInterface $articleRepository,
         UserRepositoryInterface $userRepository,
+        ArticleServiceInterface $articleService,
         UserServiceInterface $userService
     ) {
         // 'article'...モデルのIDがセットされる、ルーティングのパラメータ名 → {article}
@@ -38,6 +41,7 @@ class ArticleController extends Controller
         $this->articleRepository = $articleRepository;
         $this->userRepository = $userRepository;
 
+        $this->articleService = $articleService;
         $this->userService = $userService;
     }
 
@@ -106,7 +110,7 @@ class ArticleController extends Controller
 
         DB::beginTransaction();
         try {
-            $article = $this->articleRepository->create($request);
+            $article = $this->articleService->create($request);
 
             $isAchievedEarlyRising = $this->userService->checkIsAchievedEarlyRising($article);
 
@@ -114,7 +118,8 @@ class ArticleController extends Controller
             if ($isAchievedEarlyRising) {
                 $result = $this->userRepository->createAchievementDays($article);
 
-                // 本日の早起き達成記録が、レコードに記録されたかを判定。一日最大一回のみ、早起き達成メッセージを表示。
+                // 本日の早起き達成記録が、レコードに記録されたかを判定。
+                // 一日最大一回のみ、早起き達成メッセージを表示。
                 if ($result->wasRecentlyCreated) {
                     session()->flash('msg_achievement', '早起き達成です！');
                 }
@@ -169,7 +174,7 @@ class ArticleController extends Controller
         DB::beginTransaction();
 
         try {
-            $this->articleRepository->update($request, $article);
+            $this->articleService->update($request, $article);
 
             DB::commit();
             toastr()->success( '投稿を更新しました');
@@ -213,14 +218,14 @@ class ArticleController extends Controller
      * 投稿詳細画面の表示
      *
      * @param Article $article
-     * @param Comment $comment
-     * @return Application|Factory|Response|View
+     * @return Application|Factory|View
      */
-    public function show(Article $article, Comment $comment)
+    public function show(Article $article)
     {
         $comments = $article->comments()
             ->orderBy('created_at', 'desc')
             ->paginate(5);
+
         return view('articles.show', [
             'article' => $article,
             'comments' => $comments

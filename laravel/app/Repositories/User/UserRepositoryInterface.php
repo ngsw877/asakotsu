@@ -18,6 +18,14 @@ interface UserRepositoryInterface
     public function find(int $userId): User;
 
     /**
+     * アカウント名からUserモデルを取得
+     *
+     * @param string $name
+     * @return User
+     */
+    public function findByName(string $name): User;
+
+    /**
      * 指定したアカウントを削除
      *
      * @param User $user
@@ -35,10 +43,26 @@ interface UserRepositoryInterface
     public function getRankedUsersThisMonth(int $count): Collection;
 
     /**
-     * 早起き達成日を登録する
+     * 早起き達成日を登録
      *
      * @param Article $article
      * @return mixed
      */
     public function createAchievementDays(Article $article);
+
+    /**
+     * 今月の早起き達成日数も取得
+     *
+     * @param string $name
+     * @return User
+     */
+    public function withCountAchievementDays(string $name): User;
+
+    /**
+     * 投稿へのコメントを登録
+     *
+     * @param array $commentRecord
+     * @param User $user
+     */
+    public function createComment(array $commentRecord, User $user): void;
 }

@@ -27,6 +27,14 @@ class UserRepository implements UserRepositoryInterface
     /**
      * {@inheritDoc}
      */
+    public function findByName(string $name): User
+    {
+        return $this->user::where('name', $name)->first();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function delete(User $user): ?bool
     {
         return $result = $user->delete();
@@ -57,5 +65,29 @@ class UserRepository implements UserRepositoryInterface
         return $user->achievementDays()->firstOrCreate([
             'date' => $article->created_at->copy()->startOfDay(),
         ]);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function withCountAchievementDays(string $name): User
+    {
+        $user = User::where('name', $name)
+            ->withCount(['achievementDays' => function ($query) {
+                $query
+                    ->where('date', '>=', Carbon::now()->startOfMonth()->toDateString())
+                    ->where('date', '<=', Carbon::now()->endOfMonth()->toDateString());
+            }])
+            ->first();
+
+        return $user;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function createComment(array $commentRecord, User $user): void
+    {
+        $user->comments()->create($commentRecord);
     }
 }

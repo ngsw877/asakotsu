@@ -5,6 +5,8 @@ namespace App\Console\Commands\User;
 use App\Repositories\User\UserRepositoryInterface;
 use Exception;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class SoftDeleteUser extends Command
 {
@@ -47,10 +49,18 @@ class SoftDeleteUser extends Command
 
         $user = $this->userRepository->find($userId);
 
-        $result = $this->userRepository->delete($user);
+        DB::beginTransaction();
 
-        if ($result) {
+        try {
+            $this->userRepository->delete($user);
+            DB::commit();
+
             echo 'アカウント「' . $user->name . '」を論理削除しました。' . PHP_EOL;
+
+        } catch (Exception $e) {
+            DB::rollBack();
+            Log::error($e->getMessage());
+            throw $e;
         }
 
         return 0;
