@@ -128,17 +128,4 @@ class User extends Authenticatable
     {
         $this->attributes['wake_up_time'] = $value->format('H:i:s');
     }
-
-    public function withCountAchievementDays(string $name)
-    {
-        $user = User::where('name', $name)
-        ->withCount(['achievementDays' => function ($query) {
-            $query
-                ->where('date', '>=', Carbon::now()->startOfMonth()->toDateString())
-                ->where('date', '<=', Carbon::now()->endOfMonth()->toDateString());
-        }])
-        ->first();
-
-        return $user;
-    }
 }

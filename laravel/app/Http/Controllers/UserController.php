@@ -25,8 +25,8 @@ class UserController extends Controller
 
     public function show(string $name, Request $request)
     {
-        // ユーザーの早起き達成日数を表示
-        $user = $this->user->withCountAchievementDays($name);
+        // ユーザーの早起き達成日数を取得
+        $user = $this->userRepository->withCountAchievementDays($name);
 
         // ユーザー詳細ページのユーザーによる投稿一覧を10件ずつ取得
         $articles = $user->articles()
@@ -98,7 +98,7 @@ class UserController extends Controller
     public function likes(string $name, Request $request)
     {
         // ユーザーの早起き達成日数を表示
-        $user = $this->user->withCountAchievementDays($name);
+        $user = $this->userRepository->withCountAchievementDays($name);
 
         // いいねした投稿一覧を10件ずつ取得
         $articles = $user->likes()
@@ -121,7 +121,7 @@ class UserController extends Controller
 
     public function followings(string $name)
     {
-        $user = $this->user->withCountAchievementDays($name)->load('followings.followers');
+        $user = $this->userRepository->withCountAchievementDays($name)->load('followings.followers');
         $followings = $user->followings()
         ->orderBy('created_at', 'desc')
         ->paginate(5);
@@ -134,7 +134,7 @@ class UserController extends Controller
 
     public function followers(string $name)
     {
-        $user = $this->user->withCountAchievementDays($name)->load('followers.followers');
+        $user = $this->userRepository->withCountAchievementDays($name)->load('followers.followers');
         ;
         $followers = $user->followers()
         ->orderBy('created_at', 'desc')

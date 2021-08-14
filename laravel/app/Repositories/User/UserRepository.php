@@ -66,4 +66,23 @@ class UserRepository implements UserRepositoryInterface
             'date' => $article->created_at->copy()->startOfDay(),
         ]);
     }
+
+    /**
+     * 今月の早起き達成日数も取得
+     *
+     * @param string $name
+     * @return User
+     */
+    public function withCountAchievementDays(string $name): User
+    {
+        $user = User::where('name', $name)
+            ->withCount(['achievementDays' => function ($query) {
+                $query
+                    ->where('date', '>=', Carbon::now()->startOfMonth()->toDateString())
+                    ->where('date', '<=', Carbon::now()->endOfMonth()->toDateString());
+            }])
+            ->first();
+
+        return $user;
+    }
 }

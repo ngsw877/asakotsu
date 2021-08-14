@@ -49,4 +49,12 @@ interface UserRepositoryInterface
      * @return mixed
      */
     public function createAchievementDays(Article $article);
+
+    /**
+     * 今月の早起き達成日数も取得
+     *
+     * @param string $name
+     * @return User
+     */
+    public function withCountAchievementDays(string $name): User;
 }
