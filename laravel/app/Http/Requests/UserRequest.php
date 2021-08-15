@@ -76,7 +76,7 @@ class UserRequest extends FormRequest
 
             $disk = Storage::disk('s3');
             // バケットの`image/profile`フォルダへアップロード
-            $path = $disk->putFile('images/profile', $image, 'public');
+            $path = $disk->putFile('/images/profile', $image, 'public');
             // アップロードした画像のフルパスを取得
             $validated['profile_image'] = $disk->url($path);
         }
