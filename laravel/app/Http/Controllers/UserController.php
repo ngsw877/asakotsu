@@ -70,7 +70,7 @@ class UserController extends Controller
 
             // S3に画像ファイルをアップロード
             $disk = Storage::disk('s3');
-            $path = $disk->putFile('/images/profile', $image, 'public');
+            $path = $disk->putFile(config('s3.dir_name.profile'), $image, 'public');
 
             $validated['profile_image'] = $disk->url($path);
         }
