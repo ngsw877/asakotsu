@@ -6,9 +6,12 @@ use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
+use Mockery\Exception;
 
 class RegisterController extends Controller
 {
@@ -71,7 +74,7 @@ class RegisterController extends Controller
      * Create a new user instance after a valid registration.
      *
      * @param  array  $data
-     * @return \App\Models\User
+     * @return User
      */
     protected function create(array $data)
     {
@@ -101,16 +104,27 @@ class RegisterController extends Controller
             $image_path = $disk->url($path);
         }
 
-        // フラッシュメッセージ
-        session()->flash('msg_success', 'ユーザー登録が完了しました');
 
-        // ユーザー情報の登録
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
-            'profile_image' => $image_path,
-            'wake_up_time' => $data['wake_up_time'],
-        ]);
+        DB::beginTransaction();
+        try {
+            // ユーザーの新規登録
+            $user = User::create([
+                'name' => $data['name'],
+                'email' => $data['email'],
+                'password' => Hash::make($data['password']),
+                'profile_image' => $image_path,
+                'wake_up_time' => $data['wake_up_time'],
+            ]);
+
+            DB::commit();
+            toastr()->success('ユーザー登録が完了しました');
+        } catch (Exception $e) {
+            DB::rollBack();
+            Log::error($e->getMessage());
+            toastr()->error('プロフィールの登録に失敗しました');
+
+            throw $e;
+        }
+        return $user;
     }
 }
