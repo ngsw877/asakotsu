@@ -43,4 +43,8 @@ migrate:
 test:
 	docker-compose exec app vendor/bin/phpunit
 
+.PHONY: tinker
+tinker:
+	docker-compose exec app php artisan tinker
+
 
