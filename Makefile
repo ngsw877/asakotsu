@@ -10,6 +10,10 @@ app:
 db:
 	docker-compose exec db bash
 
+.PHONY: minio
+minio:
+	docker-compose exec minio bash
+
 .PHONY: format
 format:
 	docker-compose exec app ./vendor/bin/php-cs-fixer fix .
@@ -38,5 +42,9 @@ migrate:
 .PHONY: test
 test:
 	docker-compose exec app vendor/bin/phpunit
+
+.PHONY: tinker
+tinker:
+	docker-compose exec app php artisan tinker
 
 

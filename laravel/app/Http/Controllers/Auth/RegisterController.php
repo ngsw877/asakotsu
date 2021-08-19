@@ -6,9 +6,12 @@ use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
+use Mockery\Exception;
 
 class RegisterController extends Controller
 {
@@ -71,7 +74,7 @@ class RegisterController extends Controller
      * Create a new user instance after a valid registration.
      *
      * @param  array  $data
-     * @return \App\Models\User
+     * @return User
      */
     protected function create(array $data)
     {
@@ -89,28 +92,39 @@ class RegisterController extends Controller
         ### S3バケットに画像をアップロード ###
         // ユーザーからプロフィール画像がアップロードされなければ、デフォルト画像を使用
         if (!isset($data['profile_image'])) {
-            $image_path = 'https://asakotsu.s3-ap-northeast-1.amazonaws.com/images/profile/default.png';
+            $image_path = asset(config('user.profile_image_path.default'));
         } else {
             // S3へアップロード開始
             $image = $data['profile_image'];
 
             $disk = Storage::disk('s3');
             // バケットの`image/profile`フォルダへアップロード
-            $path = $disk->putFile('images/profile', $image, 'public');
+            $path = $disk->putFile(config('s3.dir_name.profile'), $image, 'public');
             // アップロードした画像のフルパスを取得
             $image_path = $disk->url($path);
         }
 
-        // フラッシュメッセージ
-        session()->flash('msg_success', 'ユーザー登録が完了しました');
 
-        // ユーザー情報の登録
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
-            'profile_image' => $image_path,
-            'wake_up_time' => $data['wake_up_time'],
-        ]);
+        DB::beginTransaction();
+        try {
+            // ユーザーの新規登録
+            $user = User::create([
+                'name' => $data['name'],
+                'email' => $data['email'],
+                'password' => Hash::make($data['password']),
+                'profile_image' => $image_path,
+                'wake_up_time' => $data['wake_up_time'],
+            ]);
+
+            DB::commit();
+            toastr()->success('ユーザー登録が完了しました');
+        } catch (Exception $e) {
+            DB::rollBack();
+            Log::error($e->getMessage());
+            toastr()->error('プロフィールの登録に失敗しました');
+
+            throw $e;
+        }
+        return $user;
     }
 }

@@ -10,6 +10,7 @@ use App\Http\Requests\UpdatePasswordRequest;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 use Mockery\Exception;
 
 class UserController extends Controller
@@ -62,6 +63,18 @@ class UserController extends Controller
 
     public function update(UserRequest $request, string $name)
     {
+        $validated = $request->validated();
+
+        if (isset($validated['profile_image'])) {
+            $image = $validated['profile_image'];
+
+            // S3に画像ファイルをアップロード
+            $disk = Storage::disk('s3');
+            $path = $disk->putFile(config('s3.dir_name.profile'), $image, 'public');
+
+            $validated['profile_image'] = $disk->url($path);
+        }
+
         $user = $this->userRepository->findByName($name);
 
         // UserPolicyのupdateメソッドでアクセス制限
@@ -69,7 +82,7 @@ class UserController extends Controller
 
         DB::beginTransaction();
         try {
-            $user->fill($request->userParams())->save();
+            $user->fill($validated)->save();
 
             DB::commit();
             toastr()->success('プロフィールを更新しました');

@@ -43,10 +43,19 @@ services:
   # phpMyAdmin
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
+    ports:
+      - 8080:80
     environment:
       - PMA_ARBITRARY=1
       - PMA_HOSTS=db
       - PMA_USER=${DB_USERNAME}
       - PMA_PASSWORD=${DB_PASSWORD}
+
+  minio:
+    image: minio/minio
     ports:
-      - 8080:80
+      - "9000:9000"
+    environment:
+      MINIO_ACCESS_KEY: ${AWS_ACCESS_KEY_ID}
+      MINIO_SECRET_KEY: ${AWS_SECRET_ACCESS_KEY}
+    command: server /export

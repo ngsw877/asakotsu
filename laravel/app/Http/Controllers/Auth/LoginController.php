@@ -57,7 +57,7 @@ class LoginController extends Controller
     // ゲストユーザーログイン
     public function guestLogin()
     {
-        if (Auth::loginUsingId(config('user.guest_user_id'))) {
+        if (Auth::loginUsingId(config('user.guest_user.id'))) {
 
             toastr()->success('ゲストユーザーでログインしました');
 
