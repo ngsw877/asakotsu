@@ -18,7 +18,7 @@ class UsersTableSeeder extends Seeder
             [
             'name' => 'ゲストユーザー',
             'email' => 'guest@example.com',
-            'password' => Hash::make(config('user.user_password_01')),
+            'password' => Hash::make(config('user.guest_user.password')),
             'profile_image' => 'guest.png',
             'remember_token' => Str::random(10),
             'created_at' => now(),
@@ -27,7 +27,7 @@ class UsersTableSeeder extends Seeder
             [
             'name' => '山田',
             'email' => 'yamada@example.jp',
-            'password' => Hash::make(config('user.user_password_02')),
+            'password' => Hash::make(config('12345678')),
             'profile_image' => 'sun.gif',
             'remember_token' => Str::random(10),
             'created_at' => now(),
@@ -36,7 +36,7 @@ class UsersTableSeeder extends Seeder
             [
             'name' => 'suzuki',
             'email' => 'suzuki@example.jp',
-            'password' => Hash::make(config('user.user_password_03')),
+            'password' => Hash::make(config('12345678')),
             'profile_image' => 'cat.jpg',
             'remember_token' => Str::random(10),
             'created_at' => now(),
