@@ -34,19 +34,8 @@ class CommentController extends Controller
         $user = auth()->user();
         $commentRecord = $request->validated() + ['ip_address' => $request->ip()];
 
-        DB::beginTransaction();
-        try {
-            $this->userRepository->createComment($commentRecord, $user);
-
-            DB::commit();
-            toastr()->success('コメントを投稿しました');
-        } catch (Exception $e) {
-            DB::rollBack();
-            Log::error($e->getMessage());
-            toastr()->error('コメントの投稿に失敗しました');
-
-            throw $e;
-        }
+        $this->userRepository->createComment($commentRecord, $user);
+        toastr()->success('コメントを投稿しました');
 
         return back();
     }
