@@ -117,8 +117,7 @@ class ArticleController extends Controller
         // 二重送信対策
         $request->session()->regenerateToken();
 
-        DB::beginTransaction();
-        try {
+        return DB::transaction(function () use ($request) {
             $article = $this->articleService->create($request);
 
             $isAchievedEarlyRising = $this->userService->checkIsAchievedEarlyRising($article);
@@ -135,16 +134,8 @@ class ArticleController extends Controller
             } else {
                 toastr()->success('投稿が完了しました');
             }
-
-            DB::commit();
-        } catch (Exception $e) {
-            DB::rollBack();
-            throw $e;
-
-            toastr()->error('投稿に失敗しました');
-        }
-
-        return redirect()->route('articles.index');
+            return redirect()->route('articles.index');
+        });
     }
 
     /**
@@ -180,21 +171,13 @@ class ArticleController extends Controller
      */
     public function update(ArticleRequest $request, Article $article): RedirectResponse
     {
-        DB::beginTransaction();
-
-        try {
+        return DB::transaction(function () use ($request, $article) {
             $this->articleService->update($request, $article);
 
-            DB::commit();
             toastr()->success('投稿を更新しました');
-        } catch (Exception $e) {
-            DB::rollBack();
-            throw $e;
 
-            toastr()->error('投稿の更新に失敗しました');
-        }
-
-        return redirect()->route('articles.index');
+            return redirect()->route('articles.index');
+        });
     }
 
     /**
@@ -206,21 +189,13 @@ class ArticleController extends Controller
      */
     public function destroy(Article $article): RedirectResponse
     {
-        DB::beginTransaction();
-
-        try {
+        return DB::transaction(function () use ($article) {
             $this->articleRepository->delete($article);
-            DB::commit();
 
             toastr()->success('投稿を削除しました');
-        } catch (Exception $e) {
-            DB::rollBack();
-            throw $e;
 
-            toastr()->error('投稿の削除に失敗しました');
-        }
-
-        return redirect()->route('articles.index');
+            return redirect()->route('articles.index');
+        });
     }
 
     /**
