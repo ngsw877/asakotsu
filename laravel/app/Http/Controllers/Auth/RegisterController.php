@@ -48,7 +48,7 @@ class RegisterController extends Controller
     /**
      * Get a validator for an incoming registration request.
      *
-     * @param  array  $data
+     * @param array $data
      * @return \Illuminate\Contracts\Validation\Validator
      */
     protected function validator(array $data)
@@ -60,11 +60,11 @@ class RegisterController extends Controller
         return Validator::make(
             $data,
             [
-                'name' => ['required', 'regex:/^(?!.*\s).+$/u', 'regex:/^(?!.*\/).*$/', 'max:15', 'unique:users'],
-                'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-                'password' => ['required', 'string', 'min:8', 'confirmed'],
-                'profile_image' => ['file','mimes:jpeg,png,jpg,bmb','max:2048'],
-                'wake_up_time' => ['required', 'date_format:"H:i"'],
+                'name'          => ['required', 'regex:/^(?!.*\s).+$/u', 'regex:/^(?!.*\/).*$/', 'max:15', 'unique:users'],
+                'email'         => ['required', 'string', 'email', 'max:255', 'unique:users'],
+                'password'      => ['required', 'string', 'min:8', 'confirmed'],
+                'profile_image' => ['file', 'mimes:jpeg,png,jpg,bmb', 'max:2048'],
+                'wake_up_time'  => ['required', 'date_format:"H:i"'],
             ],
             $messages
         );
@@ -73,7 +73,7 @@ class RegisterController extends Controller
     /**
      * Create a new user instance after a valid registration.
      *
-     * @param  array  $data
+     * @param array $data
      * @return User
      */
     protected function create(array $data)
@@ -105,26 +105,17 @@ class RegisterController extends Controller
         }
 
 
-        DB::beginTransaction();
-        try {
-            // ユーザーの新規登録
-            $user = User::create([
-                'name' => $data['name'],
-                'email' => $data['email'],
-                'password' => Hash::make($data['password']),
-                'profile_image' => $image_path,
-                'wake_up_time' => $data['wake_up_time'],
-            ]);
+        // ユーザーの新規登録
+        $user = User::create([
+            'name'          => $data['name'],
+            'email'         => $data['email'],
+            'password'      => Hash::make($data['password']),
+            'profile_image' => $image_path,
+            'wake_up_time'  => $data['wake_up_time'],
+        ]);
 
-            DB::commit();
-            toastr()->success('ユーザー登録が完了しました');
-        } catch (Exception $e) {
-            DB::rollBack();
-            Log::error($e->getMessage());
-            toastr()->error('プロフィールの登録に失敗しました');
+        toastr()->success('ユーザー登録が完了しました');
 
-            throw $e;
-        }
         return $user;
     }
 }
