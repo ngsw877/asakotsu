@@ -15,35 +15,35 @@ class TagsTableSeeder extends Seeder
         DB::table('tags')->insert([
             [
                 'id' => '1',
-                'name' => '行動宣言',
+                'name' => config('tag.main')[0],
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
 
             [
                 'id' => '2',
-                'name' => '朝コツ',
+                'name' => config('tag.main')[1],
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
 
             [
                 'id' => '3',
-                'name' => '今朝の積み上げ',
+                'name' => config('tag.main')[2],
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
 
             [
                 'id' => '4',
-                'name' => '反省・気付き',
+                'name' => config('tag.main')[3],
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
 
             [
                 'id' => '5',
-                'name' => '質問',
+                'name' => config('tag.main')[4],
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
