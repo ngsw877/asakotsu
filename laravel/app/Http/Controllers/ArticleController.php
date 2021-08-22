@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Article;
-use App\Models\Comment;
 use App\Models\Tag;
 use App\Repositories\Article\ArticleRepositoryInterface;
+use App\Repositories\Tag\TagRepositoryInterface;
 use App\Repositories\User\UserRepositoryInterface;
 use App\Http\Requests\ArticleRequest;
 use App\Services\Article\ArticleServiceInterface;
@@ -24,6 +24,7 @@ use Illuminate\View\View;
 class ArticleController extends Controller
 {
     private ArticleRepositoryInterface $articleRepository;
+    private TagRepositoryInterface $tagRepository;
     private UserRepositoryInterface $userRepository;
 
     private ArticleServiceInterface $articleService;
@@ -31,15 +32,18 @@ class ArticleController extends Controller
 
     public function __construct(
         ArticleRepositoryInterface $articleRepository,
+        TagRepositoryInterface $tagRepository,
         UserRepositoryInterface $userRepository,
         ArticleServiceInterface $articleService,
         UserServiceInterface $userService
-    ) {
+    )
+    {
         // 'article'...モデルのIDがセットされる、ルーティングのパラメータ名 → {article}
         $this->authorizeResource(Article::class, 'article');
 
         $this->articleRepository = $articleRepository;
         $this->userRepository = $userRepository;
+        $this->tagRepository = $tagRepository;
 
         $this->articleService = $articleService;
         $this->userService = $userService;
@@ -69,11 +73,16 @@ class ArticleController extends Controller
         // ユーザーの早起き達成日数ランキングを取得
         $rankedUsers = $this->userService->ranking(5);
 
-        return view('articles.index', [
-            'articles' => $articles,
-            'rankedUsers' => $rankedUsers,
-            'freeWord' => $freeWord
-        ]);
+        // メインタグを取得
+        $mainTags = $this->tagRepository->getMainTags();
+
+        return view('articles.index',
+            compact(
+                'articles',
+                'freeWord',
+                'mainTags',
+                'rankedUsers'
+            ));
     }
 
     /**
@@ -91,7 +100,7 @@ class ArticleController extends Controller
 
         return view('articles.create', [
             'allTagNames' => $allTagNames,
-            'user' => $user
+            'user'        => $user
         ]);
     }
 
@@ -108,8 +117,7 @@ class ArticleController extends Controller
         // 二重送信対策
         $request->session()->regenerateToken();
 
-        DB::beginTransaction();
-        try {
+        return DB::transaction(function () use ($request) {
             $article = $this->articleService->create($request);
 
             $isAchievedEarlyRising = $this->userService->checkIsAchievedEarlyRising($article);
@@ -124,18 +132,10 @@ class ArticleController extends Controller
                     session()->flash('msg_achievement', '早起き達成です！');
                 }
             } else {
-                toastr()->success( '投稿が完了しました');
+                toastr()->success('投稿が完了しました');
             }
-
-            DB::commit();
-        } catch (Exception $e) {
-            DB::rollBack();
-            throw $e;
-
-            toastr()->error('投稿に失敗しました');
-        }
-
-        return redirect()->route('articles.index');
+            return redirect()->route('articles.index');
+        });
     }
 
     /**
@@ -155,8 +155,8 @@ class ArticleController extends Controller
         });
 
         return view('articles.edit', [
-            'article' => $article,
-            'tagNames' => $tagNames,
+            'article'     => $article,
+            'tagNames'    => $tagNames,
             'allTagNames' => $allTagNames,
         ]);
     }
@@ -171,21 +171,13 @@ class ArticleController extends Controller
      */
     public function update(ArticleRequest $request, Article $article): RedirectResponse
     {
-        DB::beginTransaction();
-
-        try {
+        return DB::transaction(function () use ($request, $article) {
             $this->articleService->update($request, $article);
 
-            DB::commit();
-            toastr()->success( '投稿を更新しました');
-        } catch (Exception $e) {
-            DB::rollBack();
-            throw $e;
+            toastr()->success('投稿を更新しました');
 
-            toastr()->error( '投稿の更新に失敗しました');
-        }
-
-        return redirect()->route('articles.index');
+            return redirect()->route('articles.index');
+        });
     }
 
     /**
@@ -197,21 +189,13 @@ class ArticleController extends Controller
      */
     public function destroy(Article $article): RedirectResponse
     {
-        DB::beginTransaction();
-
-        try {
+        return DB::transaction(function () use ($article) {
             $this->articleRepository->delete($article);
-            DB::commit();
 
             toastr()->success('投稿を削除しました');
-        } catch (Exception $e) {
-            DB::rollBack();
-            throw $e;
 
-            toastr()->error('投稿の削除に失敗しました');
-        }
-
-        return redirect()->route('articles.index');
+            return redirect()->route('articles.index');
+        });
     }
 
     /**
@@ -227,7 +211,7 @@ class ArticleController extends Controller
             ->paginate(5);
 
         return view('articles.show', [
-            'article' => $article,
+            'article'  => $article,
             'comments' => $comments
         ]);
     }
@@ -245,7 +229,7 @@ class ArticleController extends Controller
         $article->likes()->attach($request->user()->id);
 
         return [
-            'id' => $article->id,
+            'id'         => $article->id,
             'countLikes' => $article->count_likes,
         ];
     }
@@ -262,7 +246,7 @@ class ArticleController extends Controller
         $article->likes()->detach($request->user()->id);
 
         return [
-            'id' => $article->id,
+            'id'         => $article->id,
             'countLikes' => $article->count_likes,
         ];
     }

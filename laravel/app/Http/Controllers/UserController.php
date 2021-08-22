@@ -80,19 +80,9 @@ class UserController extends Controller
         // UserPolicyのupdateメソッドでアクセス制限
         $this->authorize('update', $user);
 
-        DB::beginTransaction();
-        try {
-            $user->fill($validated)->save();
+        $user->fill($validated)->save();
 
-            DB::commit();
-            toastr()->success('プロフィールを更新しました');
-        } catch (Exception $e) {
-            DB::rollBack();
-            Log::error($e->getMessage());
-            toastr()->error('プロフィールの更新に失敗しました');
-
-            throw $e;
-        }
+        toastr()->success('プロフィールを更新しました');
 
         return redirect()->route('users.show', ['name' => $user->name]);
     }
@@ -121,13 +111,13 @@ class UserController extends Controller
             $user->save();
             DB::commit();
 
-            toastr()->success( 'パスワードを更新しました');
+            toastr()->success('パスワードを更新しました');
 
         } catch (Exception $e) {
             DB::rollBack();
             Log::error($e->getMessage());
 
-            toastr()->error( 'パスワードの更新に失敗しました');
+            toastr()->error('パスワードの更新に失敗しました');
 
             throw $e;
         }
