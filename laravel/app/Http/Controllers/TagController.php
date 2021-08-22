@@ -32,7 +32,7 @@ class TagController extends Controller
      */
     public function show(string $name)
     {
-        $tag = Tag::where('name', $name)->first();
+        $tag = $this->tagRepository->findByName($name);
 
         // 投稿日が新しい順にソート
         $tag->articles = $tag->articles->sortByDesc('created_at');

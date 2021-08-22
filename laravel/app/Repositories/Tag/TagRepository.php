@@ -17,6 +17,16 @@ class TagRepository implements TagRepositoryInterface
     /**
      * {@inheritDoc}
      */
+    public function findByName(string $tagName): Tag
+    {
+        $this->tag
+            ->where('name', $tagName)
+            ->first();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function getMainTags(): Collection
     {
         return $this->tag
