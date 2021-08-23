@@ -5,9 +5,6 @@ namespace App\Http\Controllers;
 use App\Repositories\User\UserRepositoryInterface;
 use Illuminate\Http\RedirectResponse;
 use App\Http\Requests\CommentRequest;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
-use Exception;
 
 class CommentController extends Controller
 {

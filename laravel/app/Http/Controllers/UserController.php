@@ -7,11 +7,8 @@ use App\Repositories\User\UserRepositoryInterface;
 use Illuminate\Http\Request;
 use App\Http\Requests\UserRequest;
 use App\Http\Requests\UpdatePasswordRequest;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
-use Mockery\Exception;
 
 class UserController extends Controller
 {

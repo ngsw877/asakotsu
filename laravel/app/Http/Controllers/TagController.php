@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Repositories\Tag\TagRepositoryInterface;
 use App\Services\User\UserServiceInterface;
-use App\Models\Tag;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\View\View;
