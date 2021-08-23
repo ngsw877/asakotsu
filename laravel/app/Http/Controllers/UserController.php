@@ -105,22 +105,9 @@ class UserController extends Controller
         $this->authorize('update', $user);
 
         $user->password = Hash::make($request->input('new_password'));
+        $user->save();
 
-        DB::beginTransaction();
-        try {
-            $user->save();
-            DB::commit();
-
-            toastr()->success('パスワードを更新しました');
-
-        } catch (Exception $e) {
-            DB::rollBack();
-            Log::error($e->getMessage());
-
-            toastr()->error('パスワードの更新に失敗しました');
-
-            throw $e;
-        }
+        toastr()->success('パスワードを更新しました');
 
         return redirect()->route('users.show', ['name' => $user->name]);
     }
