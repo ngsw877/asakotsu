@@ -58,7 +58,6 @@ class LoginController extends Controller
     public function guestLogin()
     {
         if (Auth::loginUsingId(config('user.guest_user.id'))) {
-
             toastr()->success('ゲストユーザーでログインしました');
 
             return redirect($this->redirectTo);

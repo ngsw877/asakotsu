@@ -46,7 +46,6 @@ class ArticleRepository implements ArticleRepositoryInterface
     public function attachTags(Article $article, Collection $tags): void
     {
         $tags->each(function ($tagName) use ($article) {
-
             $tag = Tag::firstOrCreate(['name' => $tagName]);
 
             $article->tags()->attach($tag);

@@ -21,8 +21,7 @@ class UserController extends Controller
     public function __construct(
         User $user,
         UserRepositoryInterface $userRepository
-    )
-    {
+    ) {
         $this->user = $user;
         $this->userRepository = $userRepository;
     }
@@ -151,7 +150,7 @@ class UserController extends Controller
 
     public function followers(string $name)
     {
-        $user = $this->userRepository->withCountAchievementDays($name)->load('followers.followers');;
+        $user = $this->userRepository->withCountAchievementDays($name)->load('followers.followers');
         $followers = $user->followers()
             ->orderBy('created_at', 'desc')
             ->paginate(5);

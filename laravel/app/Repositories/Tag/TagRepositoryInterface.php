@@ -7,7 +7,6 @@ use Illuminate\Support\Collection;
 
 interface TagRepositoryInterface
 {
-
     /**
      * タグ名から、Tagモデルを取得
      *
