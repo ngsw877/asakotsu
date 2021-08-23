@@ -16,8 +16,8 @@ class UsersTableSeeder extends Seeder
     {
         DB::table('users')->insert([
             [
-                'name'           => 'ゲストユーザー',
-                'email'          => 'guest@example.com',
+                'name'           => config('user.guest_user.name'),
+                'email'          => config('user.guest_user.email'),
                 'password'       => Hash::make(config('user.guest_user.password')),
                 'profile_image'  => asset(config('user.guest_user.profile_image_path')),
                 'remember_token' => Str::random(10),
