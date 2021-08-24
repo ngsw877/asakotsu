@@ -57,12 +57,4 @@ interface UserRepositoryInterface
      * @return User
      */
     public function withCountAchievementDays(string $name): User;
-
-    /**
-     * 投稿へのコメントを登録
-     *
-     * @param array $commentRecord
-     * @param User $user
-     */
-    public function createComment(array $commentRecord, User $user): void;
 }
