@@ -4,11 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Repositories\User\UserRepositoryInterface;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\Request;
 use App\Http\Requests\UserRequest;
 use App\Http\Requests\UpdatePasswordRequest;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\View\View;
 
 class UserController extends Controller
 {
@@ -185,7 +188,12 @@ class UserController extends Controller
         return ['name' => $name];
     }
 
-    public function privacyPolicy()
+    /**
+     * プライバシーポリシーを表示
+     *
+     * @return Application|Factory|View
+     */
+    public function showPrivacyPolicy()
     {
         return view('users.privacy_policy');
     }
