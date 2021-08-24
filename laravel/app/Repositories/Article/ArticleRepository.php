@@ -2,7 +2,6 @@
 
 namespace App\Repositories\Article;
 
-use App\Http\Requests\ArticleRequest;
 use App\Models\Article;
 use App\Models\Tag;
 use App\Models\User;
