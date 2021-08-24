@@ -2,16 +2,24 @@
 
 namespace App\Repositories\Comment;
 
-use App\Models\User;
+use App\Models\Comment;
 
 class CommentRepository implements CommentRepositoryInterface
 {
+    private Comment $comment;
+
+    public function __construct(
+        Comment $comment
+    ) {
+        $this->comment = $comment;
+    }
+
     /**
      * {@inheritDoc}
      */
-    public function create(array $commentRecord, User $user): void
+    public function create(array $commentRecord): void
     {
-        $user->comments()->create($commentRecord);
+        $this->comment->create($commentRecord);
     }
 
 }
