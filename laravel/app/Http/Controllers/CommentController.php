@@ -2,22 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Repositories\User\UserRepositoryInterface;
+use App\Services\Comment\CommentServiceInterface;
 use Illuminate\Http\RedirectResponse;
 use App\Http\Requests\CommentRequest;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
-use Exception;
 
 class CommentController extends Controller
 {
-    private UserRepositoryInterface $userRepository;
+    private CommentServiceInterface $commentService;
 
     public function __construct(
-        UserRepositoryInterface $userRepository
-    )
-    {
-        $this->userRepository = $userRepository;
+        CommentServiceInterface $commentService
+    ) {
+        $this->commentService = $commentService;
     }
 
     /**
@@ -34,7 +30,7 @@ class CommentController extends Controller
         $user = auth()->user();
         $commentRecord = $request->validated() + ['ip_address' => $request->ip()];
 
-        $this->userRepository->createComment($commentRecord, $user);
+        $this->commentService->create($commentRecord, $user);
         toastr()->success('コメントを投稿しました');
 
         return back();

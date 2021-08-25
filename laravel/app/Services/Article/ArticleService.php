@@ -13,8 +13,7 @@ class ArticleService implements ArticleServiceInterface
 
     public function __construct(
         ArticleRepositoryInterface $articleRepository
-    )
-    {
+    ) {
         $this->articleRepository = $articleRepository;
     }
 

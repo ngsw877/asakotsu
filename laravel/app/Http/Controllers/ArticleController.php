@@ -36,8 +36,7 @@ class ArticleController extends Controller
         UserRepositoryInterface $userRepository,
         ArticleServiceInterface $articleService,
         UserServiceInterface $userService
-    )
-    {
+    ) {
         // 'article'...モデルのIDがセットされる、ルーティングのパラメータ名 → {article}
         $this->authorizeResource(Article::class, 'article');
 
@@ -76,13 +75,15 @@ class ArticleController extends Controller
         // メインタグを取得
         $mainTags = $this->tagRepository->getMainTags();
 
-        return view('articles.index',
+        return view(
+            'articles.index',
             compact(
                 'articles',
                 'freeWord',
                 'mainTags',
                 'rankedUsers'
-            ));
+            )
+        );
     }
 
     /**

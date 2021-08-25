@@ -82,12 +82,4 @@ class UserRepository implements UserRepositoryInterface
 
         return $user;
     }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function createComment(array $commentRecord, User $user): void
-    {
-        $user->comments()->create($commentRecord);
-    }
 }

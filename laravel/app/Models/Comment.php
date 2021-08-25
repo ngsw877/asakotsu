@@ -13,6 +13,7 @@ class Comment extends Model
     use SoftCascadeTrait;
 
     protected $fillable = [
+        'user_id',
         'article_id',
         'comment',
         'ip_address',

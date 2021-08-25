@@ -2,7 +2,6 @@
 
 namespace App\Repositories\Article;
 
-use App\Http\Requests\ArticleRequest;
 use App\Models\Article;
 use App\Models\Tag;
 use App\Models\User;
@@ -46,7 +45,6 @@ class ArticleRepository implements ArticleRepositoryInterface
     public function attachTags(Article $article, Collection $tags): void
     {
         $tags->each(function ($tagName) use ($article) {
-
             $tag = Tag::firstOrCreate(['name' => $tagName]);
 
             $article->tags()->attach($tag);

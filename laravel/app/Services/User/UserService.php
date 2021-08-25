@@ -13,8 +13,7 @@ class UserService implements UserServiceInterface
 
     public function __construct(
         UserRepositoryInterface $userRepository
-    )
-    {
+    ) {
         $this->userRepository = $userRepository;
     }
 
@@ -54,5 +53,4 @@ class UserService implements UserServiceInterface
 
         return $isAchievedEarlyRising;
     }
-
 }

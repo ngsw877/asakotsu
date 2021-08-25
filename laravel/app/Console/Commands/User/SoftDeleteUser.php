@@ -56,7 +56,6 @@ class SoftDeleteUser extends Command
             DB::commit();
 
             echo 'アカウント「' . $user->name . '」を論理削除しました。' . PHP_EOL;
-
         } catch (Exception $e) {
             DB::rollBack();
             Log::error($e->getMessage());

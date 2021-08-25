@@ -4,14 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Repositories\User\UserRepositoryInterface;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\Request;
 use App\Http\Requests\UserRequest;
 use App\Http\Requests\UpdatePasswordRequest;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
-use Mockery\Exception;
+use Illuminate\View\View;
 
 class UserController extends Controller
 {
@@ -21,8 +21,7 @@ class UserController extends Controller
     public function __construct(
         User $user,
         UserRepositoryInterface $userRepository
-    )
-    {
+    ) {
         $this->user = $user;
         $this->userRepository = $userRepository;
     }
@@ -105,22 +104,9 @@ class UserController extends Controller
         $this->authorize('update', $user);
 
         $user->password = Hash::make($request->input('new_password'));
+        $user->save();
 
-        DB::beginTransaction();
-        try {
-            $user->save();
-            DB::commit();
-
-            toastr()->success('パスワードを更新しました');
-
-        } catch (Exception $e) {
-            DB::rollBack();
-            Log::error($e->getMessage());
-
-            toastr()->error('パスワードの更新に失敗しました');
-
-            throw $e;
-        }
+        toastr()->success('パスワードを更新しました');
 
         return redirect()->route('users.show', ['name' => $user->name]);
     }
@@ -164,7 +150,7 @@ class UserController extends Controller
 
     public function followers(string $name)
     {
-        $user = $this->userRepository->withCountAchievementDays($name)->load('followers.followers');;
+        $user = $this->userRepository->withCountAchievementDays($name)->load('followers.followers');
         $followers = $user->followers()
             ->orderBy('created_at', 'desc')
             ->paginate(5);
@@ -202,7 +188,12 @@ class UserController extends Controller
         return ['name' => $name];
     }
 
-    public function privacyPolicy()
+    /**
+     * プライバシーポリシーを表示
+     *
+     * @return Application|Factory|View
+     */
+    public function showPrivacyPolicy()
     {
         return view('users.privacy_policy');
     }

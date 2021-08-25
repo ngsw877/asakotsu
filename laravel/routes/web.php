@@ -28,7 +28,7 @@ Route::get('/tags/{name}', 'TagController@show')->name('tags.show');
 # ユーザー関連機
 Route::prefix('users')->name('users.')->group(function () {
     // プライバシーポリシー
-    Route::get('/privacy_policy', 'UserController@privacyPolicy')->name('privacy_policy');
+    Route::get('/privacy_policy', 'UserController@showPrivacyPolicy')->name('privacy_policy');
     // ユーザー詳細表示
     Route::get('/{name}', 'UserController@show')->name('show');
     // いいねした投稿一覧を表示

@@ -24,5 +24,4 @@ interface ArticleServiceInterface
      * @param Article $article
      */
     public function update(ArticleRequest $request, Article $article): void;
-
 }

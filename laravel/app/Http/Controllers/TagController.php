@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Repositories\Tag\TagRepositoryInterface;
 use App\Services\User\UserServiceInterface;
-use App\Models\Tag;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\View\View;
@@ -18,8 +17,7 @@ class TagController extends Controller
     public function __construct(
         TagRepositoryInterface $tagRepository,
         UserServiceInterface $userService
-    )
-    {
+    ) {
         $this->tagRepository = $tagRepository;
         $this->userService = $userService;
     }
@@ -43,11 +41,13 @@ class TagController extends Controller
         // メインタグを取得
         $mainTags = $this->tagRepository->getMainTags();
 
-        return view('tags.show',
+        return view(
+            'tags.show',
             compact(
                 'tag',
                 'mainTags',
                 'rankedUsers'
-            ));
+            )
+        );
     }
 }
