@@ -13,7 +13,7 @@ Route::namespace('Admin')->prefix('admin')->name('admin.')->group(function () {
     Route::middleware('auth:admin')->group(function () {
 
         // TOPページ
-        Route::get('home', 'HomeController@index')->name('name');
+        Route::get('home', 'HomeController@index')->name('home');
 
     });
 
