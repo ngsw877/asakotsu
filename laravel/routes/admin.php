@@ -1,6 +1,6 @@
 <?php
 
-Route::namespace('Admin')->prefix('admin')->name('admin.')->group(function () {
+Route::prefix('admin')->name('admin.')->namespace('Admin')->group(function () {
 
     // ログイン認証関連
     Auth::routes([
