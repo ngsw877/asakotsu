@@ -4,7 +4,7 @@ Route::prefix('admin')->name('admin.')->namespace('Admin')->group(function () {
 
     // ログイン認証関連
     Auth::routes([
-        'register' => true,
+        'register' => false,
         'reset'    => false,
         'verify'   => false
     ]);
