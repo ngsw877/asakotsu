@@ -15,8 +15,10 @@ class AdminsTableSeeder extends Seeder
         DB::table('admins')->insert([
             'name'              => 'admin',
             'email'             => 'admin@example.com',
-            'password'          => Hash::make('12345678'),
-            'remember_token'    => Str::random(10),
+            'password'          => Hash::make('secret'),
+            'remember_token'    => null,
+            'email_verified_at' => null,
+            'created_at'        => now(),
         ]);
     }
 }
