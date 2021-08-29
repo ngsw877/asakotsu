@@ -12,11 +12,11 @@ interface UserServiceInterface
     /**
      * アカウントを削除する（退会処理）
      *
-     * @param int $userId
+     * @param string $userName
      * @return User|null
      * @throws Exception
      */
-    public function delete(int $userId): ?User;
+    public function delete(string $userName): ?User;
 
     /**
      * 今月の早起き達成日数が多い順に、UserモデルをCollectionで取得し、順位もタイ対応させる

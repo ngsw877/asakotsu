@@ -20,9 +20,9 @@ class UserService implements UserServiceInterface
     /**
      * {@inheritDoc}
      */
-    public function delete(int $userId): ?User
+    public function delete(string $userName): ?User
     {
-        $user = $this->userRepository->find($userId);
+        $user = $this->userRepository->findByName($userName);
 
         $result = $this->userRepository->delete($user);
 
