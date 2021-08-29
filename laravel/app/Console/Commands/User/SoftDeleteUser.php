@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands\User;
 
-use App\Repositories\User\UserRepositoryInterface;
+use App\Services\User\UserServiceInterface;
 use Exception;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
@@ -24,17 +24,17 @@ class SoftDeleteUser extends Command
      */
     protected $description = '指定したアカウントを論理削除します。';
 
-    private UserRepositoryInterface $userRepository;
+    private UserServiceInterface $userService;
 
     /**
      * Create a new command instance.
      *
-     * @param UserRepositoryInterface $userRepository
+     * @param UserServiceInterface $userService
      */
-    public function __construct(UserRepositoryInterface $userRepository)
+    public function __construct(UserServiceInterface $userService)
     {
         parent::__construct();
-        $this->userRepository = $userRepository;
+        $this->userService = $userService;
     }
 
     /**
@@ -47,21 +47,13 @@ class SoftDeleteUser extends Command
     {
         $userId = $this->argument('userId');
 
-        $user = $this->userRepository->find($userId);
-
-        DB::beginTransaction();
-
-        try {
-            $this->userRepository->delete($user);
-            DB::commit();
+        return DB::transaction(function () use ($userId) {
+           $user = $this->userService->delete($userId);
 
             echo 'アカウント「' . $user->name . '」を論理削除しました。' . PHP_EOL;
-        } catch (Exception $e) {
-            DB::rollBack();
-            Log::error($e->getMessage());
-            throw $e;
-        }
 
-        return 0;
+            return 0;
+        });
+
     }
 }

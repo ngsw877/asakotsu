@@ -3,8 +3,8 @@
 namespace App\Services\User;
 
 use App\Models\Article;
+use App\Models\User;
 use App\Repositories\User\UserRepositoryInterface;
-use Carbon\CarbonImmutable as Carbon;
 use Illuminate\Database\Eloquent\Collection;
 
 class UserService implements UserServiceInterface
@@ -15,6 +15,20 @@ class UserService implements UserServiceInterface
         UserRepositoryInterface $userRepository
     ) {
         $this->userRepository = $userRepository;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function delete(int $userId): ?User
+    {
+        $user = $this->userRepository->find($userId);
+
+        $result = $this->userRepository->delete($user);
+
+        if ($result) {
+            return $user;
+        }
     }
 
     /**
