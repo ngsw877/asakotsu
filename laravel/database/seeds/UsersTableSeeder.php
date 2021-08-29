@@ -28,7 +28,7 @@ class UsersTableSeeder extends Seeder
             [
                 'name'           => '山田',
                 'email'          => 'yamada@example.jp',
-                'password'       => Hash::make(config('12345678')),
+                'password'       => Hash::make('12345678'),
                 'profile_image'  => asset(config('user.profile_image_path.boy')),
                 'remember_token' => Str::random(10),
                 'created_at'     => now(),
@@ -38,7 +38,7 @@ class UsersTableSeeder extends Seeder
             [
                 'name'           => 'suzuki',
                 'email'          => 'suzuki@example.jp',
-                'password'       => Hash::make(config('12345678')),
+                'password'       => Hash::make('12345678'),
                 'profile_image'  => asset(config('user.profile_image_path.girl')),
                 'remember_token' => Str::random(10),
                 'created_at'     => now(),
@@ -48,7 +48,7 @@ class UsersTableSeeder extends Seeder
             [
                 'name'           => 'サン',
                 'email'          => 'sun@example.jp',
-                'password'       => Hash::make(config('12345678')),
+                'password'       => Hash::make('12345678'),
                 'profile_image'  => asset(config('user.profile_image_path.sun')),
                 'remember_token' => Str::random(10),
                 'created_at'     => now(),
@@ -61,7 +61,7 @@ class UsersTableSeeder extends Seeder
             DB::table('users')->insert([
                 'name'           => 'test_user' . $i,
                 'email'          => 'test' . $i . '@example.com',
-                'password'       => Hash::make(config('12345678')),
+                'password'       => Hash::make('12345678'),
                 'profile_image'  => asset(config('user.profile_image_path.default')),
                 'remember_token' => Str::random(10),
                 'created_at'     => now(),
