@@ -10,16 +10,23 @@ class RedirectIfAuthenticated
 {
     /**
      * Handle an incoming request.
+     * 既にログイン済みのユーザーが、ログイン画面にアクセスした時のリダイレクト先を指定
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
-     * @param  string|null  $guard
+     * @param Request $request
+     * @param Closure $next
+     * @param string|null $guard
      * @return mixed
      */
     public function handle($request, Closure $next, $guard = null)
     {
-        if (Auth::guard($guard)->check()) {
+        // 一般ユーザーの場合
+        if (Auth::guard($guard)->check() && $guard === 'user') {
             return redirect(RouteServiceProvider::HOME);
+        }
+
+        // 管理者ユーザーの場合
+        if (Auth::guard($guard)->check() && $guard === 'admin') {
+            return redirect(RouteServiceProvider::ADMIN_HOME);
         }
 
         return $next($request);
