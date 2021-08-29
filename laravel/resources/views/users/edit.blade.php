@@ -95,26 +95,29 @@
 
                         </form>
 
+                    @if(Auth::id() != config('user.guest_user.id'))
                         <!-- dropdown -->
-                        <div class="d-flex justify-content-between">
-                            <button class="dropdown-item btn peach-gradient mt-2 mb-2 w-50 mx-auto"
-                                    data-toggle="modal"
-                                    data-target="#modal-delete-{{ $user->id }}"
-                            >
-                                <span class="h6">退会</span>
-                            </button>
-                        </div>
-                        <!-- dropdown -->
+                            <div class="d-flex justify-content-between">
+                                <button class="dropdown-item btn blue-gradient mt-2 mb-2 w-50 mx-auto text-center"
+                                        data-toggle="modal"
+                                        data-target="#modal-delete-{{ $user->id }}"
+                                >
+                                    <span class="h6">退会</span>
+                                </button>
+                            </div>
+                            <!-- dropdown -->
 
-                        <!-- modal -->
-                        @include('components.confirm_modal',
-                         [
-                          'id' => 'modal-delete-' . $user->id,
-                          'action' => route('users.destroy', ['name' => $user->name]),
-                          'method' => 'DELETE',
-                          'yesText' => '退会する',
-                          'message' => 'アカウントを削除します。よろしいですか？',
-                         ])
+                            <!-- modal -->
+                            @include('components.confirm_modal',
+                             [
+                              'id' => 'modal-delete-' . $user->id,
+                              'action' => route('users.destroy', ['name' => $user->name]),
+                              'method' => 'DELETE',
+                              'yesText' => '退会する',
+                              'message' => 'アカウントを削除します。よろしいですか？',
+                             ])
+                        @endif
+
                     </div>
                 </div>
             </div>
