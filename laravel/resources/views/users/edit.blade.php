@@ -82,13 +82,39 @@
                                 <textarea name="self_introduction" class="form-control"
                                           rows="8">{{ $user->self_introduction ?? old('self_introduction') }}</textarea>
                             </div>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <button class="btn peach-gradient mt-2 mb-2" type="submit">
+                            <div>
+                                <a href="{{ route('users.edit_password', ['name' => $user->name]) }}">
+                                    パスワード変更はこちら
+                                </a>
+                            </div>
+                            <div class="d-flex justify-content-between">
+                                <button class="btn peach-gradient mt-2 mb-2 w-50 mx-auto" type="submit">
                                     <span class="h6">保存</span>
                                 </button>
-                                <a href="{{ route('users.edit_password', ['name' => $user->name]) }}">パスワード変更はこちら</a>
                             </div>
+
                         </form>
+
+                        <!-- dropdown -->
+                        <div class="d-flex justify-content-between">
+                            <button class="dropdown-item btn peach-gradient mt-2 mb-2 w-50 mx-auto"
+                                    data-toggle="modal"
+                                    data-target="#modal-delete-{{ $user->id }}"
+                            >
+                                <span class="h6">退会</span>
+                            </button>
+                        </div>
+                        <!-- dropdown -->
+
+                        <!-- modal -->
+                        @include('components.confirm_modal',
+                         [
+                          'id' => 'modal-delete-' . $user->id,
+                          'action' => route('users.destroy', ['name' => $user->name]),
+                          'method' => 'DELETE',
+                          'yesText' => '退会する',
+                          'message' => 'アカウントを削除します。よろしいですか？',
+                         ])
                     </div>
                 </div>
             </div>

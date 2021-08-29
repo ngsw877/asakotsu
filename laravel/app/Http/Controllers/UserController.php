@@ -4,11 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Repositories\User\UserRepositoryInterface;
+use App\Services\User\UserServiceInterface;
+use Exception;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\Request;
 use App\Http\Requests\UserRequest;
 use App\Http\Requests\UpdatePasswordRequest;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
@@ -16,13 +19,16 @@ use Illuminate\View\View;
 class UserController extends Controller
 {
     private User $user;
+    private UserServiceInterface $userService;
     private UserRepositoryInterface $userRepository;
 
     public function __construct(
         User $user,
+        UserServiceInterface $userService,
         UserRepositoryInterface $userRepository
     ) {
         $this->user = $user;
+        $this->userService = $userService;
         $this->userRepository = $userRepository;
     }
 
@@ -58,6 +64,23 @@ class UserController extends Controller
         $this->authorize('update', $user);
 
         return view('users.edit', compact('user'));
+    }
+
+    /**
+     * アカウント削除（退会処理）
+     *
+     * @param string $name
+     * @return mixed
+     */
+    public function destroy(string $name)
+    {
+        return DB::transaction(function () use ($name) {
+            $this->userService->delete($name);
+
+            toastr()->success('退会処理が完了しました');
+
+            return redirect()->route('articles.index');
+        });
     }
 
     public function update(UserRequest $request, string $name)
