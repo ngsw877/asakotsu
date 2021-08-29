@@ -15,7 +15,7 @@ class SoftDeleteUser extends Command
      *
      * @var string
      */
-    protected $signature = 'command:soft-delete-user {userId}';
+    protected $signature = 'command:soft-delete-user {userName}';
 
     /**
      * The console command description.
@@ -45,10 +45,10 @@ class SoftDeleteUser extends Command
      */
     public function handle(): int
     {
-        $userId = $this->argument('userId');
+        $userName = $this->argument('userName');
 
-        return DB::transaction(function () use ($userId) {
-           $user = $this->userService->delete($userId);
+        return DB::transaction(function () use ($userName) {
+           $user = $this->userService->delete($userName);
 
             echo 'アカウント「' . $user->name . '」を論理削除しました。' . PHP_EOL;
 
