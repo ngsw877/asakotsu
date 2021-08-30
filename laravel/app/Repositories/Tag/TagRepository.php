@@ -29,7 +29,7 @@ class TagRepository implements TagRepositoryInterface
      */
     public function getAll(): Collection
     {
-        $this->tag->all();
+        return $this->tag->all();
     }
 
     /**
