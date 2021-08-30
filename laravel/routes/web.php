@@ -48,9 +48,9 @@ Route::get('/test', function () {
 ### ログイン状態で使用可能 ###
 Route::group(['middleware' => 'auth'], function () {
 
-  // ユーザー投稿関係(create, store, edit, update, destroy)
+    // ユーザー投稿関係(create, store, edit, update, destroy)
     Route::resource('/articles', 'ArticleController')->only(['store'])->middleware('throttle:15, 1');
-    Route::resource('/articles', 'ArticleController')->only(['create', 'edit', 'update','destroy']);
+    Route::resource('/articles', 'ArticleController')->only(['create', 'edit', 'update', 'destroy']);
 
     // いいね機能
     Route::prefix('articles')->name('articles.')->group(function () {
@@ -67,12 +67,13 @@ Route::group(['middleware' => 'auth'], function () {
         // ユーザープロフィール編集画面の表示
         Route::get('/edit', 'UserController@edit')->name('edit');
         // ユーザープロフィール更新
-        Route::patch('/update', 'UserController@update')->name('update');
+        Route::patch('/', 'UserController@update')->name('update');
+        // ユーザー削除（退会処理）
+        Route::delete('/', 'UserController@destroy')->name('destroy');
         // パスワード変更画面の表示
         Route::get('/edit_password', 'UserController@editPassword')->name('edit_password');
         // パスワード変更
         Route::patch('/update_password', 'UserController@updatePassword')->name('update_password');
-        // Route::delete('/', 'UserController@destroy')->name('destroy');
     });
 
     // コメント機能
