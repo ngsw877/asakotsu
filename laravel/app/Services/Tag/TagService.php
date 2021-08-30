@@ -2,6 +2,7 @@
 
 namespace App\Services\Tag;
 
+use App\Models\Article;
 use App\Repositories\Tag\TagRepositoryInterface;
 use Illuminate\Support\Collection;
 
@@ -24,6 +25,16 @@ class TagService implements TagServiceInterface
         $allTags = $this->tagRepository->getAll();
 
         return $allTags->map(function ($tag) {
+            return ['text' => $tag->name];
+        });
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getTagNamesOfArticle(Article $article): Collection
+    {
+        return $article->tags->map(function ($tag) {
             return ['text' => $tag->name];
         });
     }

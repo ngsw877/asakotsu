@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Article;
-use App\Models\Tag;
 use App\Repositories\Article\ArticleRepositoryInterface;
 use App\Repositories\Tag\TagRepositoryInterface;
 use App\Repositories\User\UserRepositoryInterface;
@@ -149,9 +148,7 @@ class ArticleController extends Controller
      */
     public function edit(Article $article)
     {
-        $tagNames = $article->tags->map(function ($tag) {
-            return ['text' => $tag->name];
-        });
+        $tagNames = $this->tagService->getTagNamesOfArticle($article);
 
         $allTagNames = $this->tagService->getAllTagNames();
 
