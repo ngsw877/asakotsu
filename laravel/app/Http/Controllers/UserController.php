@@ -5,8 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Repositories\User\UserRepositoryInterface;
 use App\Services\User\UserServiceInterface;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use App\Http\Requests\UserRequest;
 use App\Http\Requests\UpdatePasswordRequest;
@@ -14,6 +17,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
+use Throwable;
 
 class UserController extends Controller
 {
@@ -31,6 +35,14 @@ class UserController extends Controller
         $this->userRepository = $userRepository;
     }
 
+    /**
+     * アカウント詳細画面の表示
+     *
+     * @param string $name
+     * @param Request $request
+     * @return Application|Factory|JsonResponse|View
+     * @throws Throwable
+     */
     public function show(string $name, Request $request)
     {
         // ユーザーの早起き達成日数を取得
@@ -55,6 +67,13 @@ class UserController extends Controller
         ]);
     }
 
+    /**
+     * アカウント情報の編集画面の表示
+     *
+     * @param string $name
+     * @return Application|Factory|View
+     * @throws AuthorizationException
+     */
     public function edit(string $name)
     {
         $user = $this->userRepository->findByName($name);
@@ -66,25 +85,13 @@ class UserController extends Controller
     }
 
     /**
-     * アカウント削除（退会処理）
+     * アカウント情報の更新
      *
+     * @param UserRequest $request
      * @param string $name
-     * @return mixed
+     * @return RedirectResponse
+     * @throws AuthorizationException
      */
-    public function destroy(string $name)
-    {
-        return DB::transaction(function () use ($name) {
-            $user = $this->userService->delete($name);
-
-            // UserPolicyのdeleteメソッドでアクセス制限
-            $this->authorize('delete', $user);
-
-            toastr()->success('退会処理が完了しました');
-
-            return redirect()->route('articles.index');
-        });
-    }
-
     public function update(UserRequest $request, string $name)
     {
         $validated = $request->validated();
@@ -111,6 +118,33 @@ class UserController extends Controller
         return redirect()->route('users.show', ['name' => $user->name]);
     }
 
+    /**
+     * アカウント削除（退会処理）
+     *
+     * @param string $name
+     * @return mixed
+     */
+    public function destroy(string $name)
+    {
+        return DB::transaction(function () use ($name) {
+            $user = $this->userService->delete($name);
+
+            // UserPolicyのdeleteメソッドでアクセス制限
+            $this->authorize('delete', $user);
+
+            toastr()->success('退会処理が完了しました');
+
+            return redirect()->route('articles.index');
+        });
+    }
+
+    /**
+     * パスワード編集画面の表示
+     *
+     * @param string $name
+     * @return Application|Factory|View
+     * @throws AuthorizationException
+     */
     public function editPassword(string $name)
     {
         $user = $this->userRepository->findByName($name);
@@ -121,6 +155,14 @@ class UserController extends Controller
         return view('users.edit_password', ['user' => $user]);
     }
 
+    /**
+     * パスワード更新
+     *
+     * @param UpdatePasswordRequest $request
+     * @param string $name
+     * @return RedirectResponse
+     * @throws AuthorizationException
+     */
     public function updatePassword(UpdatePasswordRequest $request, string $name)
     {
         $user = $this->userRepository->findByName($name);
