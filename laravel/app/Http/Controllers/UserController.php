@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Repositories\User\UserRepositoryInterface;
 use App\Services\User\UserServiceInterface;
-use Exception;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\Request;
@@ -75,7 +74,10 @@ class UserController extends Controller
     public function destroy(string $name)
     {
         return DB::transaction(function () use ($name) {
-            $this->userService->delete($name);
+            $user = $this->userService->delete($name);
+
+            // UserPolicyのdeleteメソッドでアクセス制限
+            $this->authorize('delete', $user);
 
             toastr()->success('退会処理が完了しました');
 

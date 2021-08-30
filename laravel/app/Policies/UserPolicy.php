@@ -13,11 +13,23 @@ class UserPolicy
     /**
      * Determine whether the user can update the model.
      *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\User  $model
-     * @return mixed
+     * @param User $user
+     * @param User $model
+     * @return bool
      */
-    public function update(User $user, User $model)
+    public function update(User $user, User $model): bool
+    {
+        return $user->id == $model->id;
+    }
+
+    /**
+     * Determine whether the user can delete the model.
+     *
+     * @param User $user
+     * @param User $model
+     * @return bool
+     */
+    public function delete(User $user, User $model): bool
     {
         return $user->id == $model->id;
     }
