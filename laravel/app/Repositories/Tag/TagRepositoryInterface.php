@@ -16,6 +16,13 @@ interface TagRepositoryInterface
     public function findByName(string $tagName): Tag;
 
     /**
+     * 全てのタグをCollectionで取得
+     *
+     * @return Collection
+     */
+    public function getAll(): Collection;
+
+    /**
      * メインタグをCollectionで取得
      *
      * @return Collection
