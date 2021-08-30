@@ -9,6 +9,7 @@ use App\Repositories\Tag\TagRepositoryInterface;
 use App\Repositories\User\UserRepositoryInterface;
 use App\Http\Requests\ArticleRequest;
 use App\Services\Article\ArticleServiceInterface;
+use App\Services\Tag\TagServiceInterface;
 use App\Services\User\UserServiceInterface;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -28,6 +29,7 @@ class ArticleController extends Controller
     private UserRepositoryInterface $userRepository;
 
     private ArticleServiceInterface $articleService;
+    private TagServiceInterface $tagService;
     private UserServiceInterface $userService;
 
     public function __construct(
@@ -35,6 +37,7 @@ class ArticleController extends Controller
         TagRepositoryInterface $tagRepository,
         UserRepositoryInterface $userRepository,
         ArticleServiceInterface $articleService,
+        TagServiceInterface $tagService,
         UserServiceInterface $userService
     ) {
         // 'article'...モデルのIDがセットされる、ルーティングのパラメータ名 → {article}
@@ -45,6 +48,7 @@ class ArticleController extends Controller
         $this->tagRepository = $tagRepository;
 
         $this->articleService = $articleService;
+        $this->tagService =$tagService;
         $this->userService = $userService;
     }
 
@@ -93,9 +97,7 @@ class ArticleController extends Controller
      */
     public function create()
     {
-        $allTagNames = Tag::all()->map(function ($tag) {
-            return ['text' => $tag->name];
-        });
+        $allTagNames = $this->tagService->getAllTagNames();
 
         $user = Auth::user();
 
@@ -151,9 +153,7 @@ class ArticleController extends Controller
             return ['text' => $tag->name];
         });
 
-        $allTagNames = Tag::all()->map(function ($tag) {
-            return ['text' => $tag->name];
-        });
+        $allTagNames = $this->tagService->getAllTagNames();
 
         return view('articles.edit', [
             'article'     => $article,
