@@ -24,7 +24,7 @@ class ArticleRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'body' => 'required|max:500',
+            'body' => 'required|max:500|not_regex:/<\/*script>/u',
             'tags' => 'json|regex:/^(?!.*\s).+$/u|regex:/^(?!.*\/).*$/u',
         ];
     }
