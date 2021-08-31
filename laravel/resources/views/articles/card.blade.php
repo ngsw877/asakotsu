@@ -87,7 +87,7 @@
             @endforeach
             <div class="card-body pt-0">
                 <div class="px-3">
-                    {!! nl2br(e( $article->body )) !!}
+                    {!! nl2br($article->body) !!}
                 </div>
 
             </div>
