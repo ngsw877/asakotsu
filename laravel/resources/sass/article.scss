@@ -1,38 +1,44 @@
 @import "component.scss";
 
 .new-article-btn {
-  @include new-post-btn (60px);
+    @include new-post-btn(60px);
 }
 
 .article-card {
-  position: relative;
+    position: relative;
+
+    iframe {
+        position: absolute;
+        z-index: 999;
+    }
 }
 
 .full-range-link {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  text-indent:-999px;
-  z-index: 2;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    text-indent: -999px;
+    z-index: 2;
 }
 
 .in-link {
-  position: relative; /* ユーザーページへのリンクは普通に配置するため */
-  z-index: 3; /* リンク要素の重なり順を上にするため */
+    position: relative; /* ユーザーページへのリンクは普通に配置するため */
+    z-index: 3; /* リンク要素の重なり順を上にするため */
     &:hover {
-      @include link-hover;
-  }
+        @include link-hover;
+    }
 }
 
 .user-name-link {
-  position: relative; /* ユーザーページへのリンクは普通に配置するため */
-  z-index: 3; /* リンク要素の重なり順を上にするため */
-  border-bottom: 1px solid #fff;
+    position: relative; /* ユーザーページへのリンクは普通に配置するため */
+    z-index: 3; /* リンク要素の重なり順を上にするため */
+    border-bottom: 1px solid #fff;
+
     &:hover {
-      border-bottom: 1px solid #333;
-      @include link-hover;
+        border-bottom: 1px solid #333;
+        @include link-hover;
     }
 }
 
