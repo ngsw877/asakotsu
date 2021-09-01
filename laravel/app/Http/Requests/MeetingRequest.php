@@ -32,17 +32,17 @@ class MeetingRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'topic' => 'required|string|max:20',
-            'start_time' => 'required|date|after_or_equal:now',
-            'agenda' => 'string|max:20|nullable',
+            'topic'      => ['required', 'string', 'max:20'],
+            'start_time' => ['required', 'date', 'after_or_equal:now'],
+            'agenda'     => ['string', 'max:20', 'nullable'],
         ];
     }
 
     public function attributes(): array
     {
         return [
-            'topic' => 'ミーティング名',
-            'agenda' => 'テーマ',
+            'topic'      => 'ミーティング名',
+            'agenda'     => 'テーマ',
             'start_time' => '開始日時',
         ];
     }

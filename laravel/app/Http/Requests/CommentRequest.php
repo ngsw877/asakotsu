@@ -24,8 +24,8 @@ class CommentRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'article_id' => 'required|integer',
-            'comment' => 'required|string|max:250'
+            'article_id' => ['required', 'integer'],
+            'comment'    => ['required', 'string', 'max:250'],
         ];
     }
 
@@ -33,7 +33,7 @@ class CommentRequest extends FormRequest
     {
         return [
             'article_id' => '投稿ID',
-            'comment' => 'コメント'
+            'comment'    => 'コメント'
         ];
     }
 

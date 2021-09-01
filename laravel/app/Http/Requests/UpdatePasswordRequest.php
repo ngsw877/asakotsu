@@ -36,7 +36,7 @@ class UpdatePasswordRequest extends FormRequest
                     }
                 }
             ],
-            'new_password' => [
+            'new_password'     => [
                 'required',
                 'string',
                 'min:8',
@@ -50,7 +50,7 @@ class UpdatePasswordRequest extends FormRequest
     {
         return [
             'current_password' => '現在のパスワード',
-            'new_password' => '新しいパスワード',
+            'new_password'     => '新しいパスワード',
         ];
     }
 }
