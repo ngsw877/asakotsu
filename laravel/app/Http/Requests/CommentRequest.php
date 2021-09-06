@@ -49,7 +49,7 @@ class CommentRequest extends FormRequest
     protected function prepareForValidation()
     {
         $this->merge([
-            'user_id'    => auth()->user()->id,
+            'user_id'    => auth()->id(),
             'ip_address' => $this->ip(),
         ]);
     }
