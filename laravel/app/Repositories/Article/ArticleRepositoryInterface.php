@@ -12,10 +12,9 @@ interface ArticleRepositoryInterface
      * ユーザーの新規投稿と、投稿のタグをDBに保存
      *
      * @param array $articleRecord
-     * @param User $user
      * @return Article
      */
-    public function create(array $articleRecord, User $user): Article;
+    public function create(array $articleRecord): Article;
 
     /**
      * ユーザーの投稿と、投稿のタグを更新

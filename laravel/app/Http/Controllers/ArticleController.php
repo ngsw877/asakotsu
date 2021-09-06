@@ -115,12 +115,14 @@ class ArticleController extends Controller
      */
     public function store(ArticleRequest $request): RedirectResponse
     {
-
         // 二重送信対策
         $request->session()->regenerateToken();
 
-        return DB::transaction(function () use ($request) {
-            $article = $this->articleService->create($request);
+        $articleRecord = $request->validated();
+        $tags = $request->tags;
+
+        return DB::transaction(function () use ($articleRecord, $tags) {
+            $article = $this->articleService->create($articleRecord, $tags);
 
             $isAchievedEarlyRising = $this->userService->checkIsAchievedEarlyRising($article);
 

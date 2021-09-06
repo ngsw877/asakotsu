@@ -24,8 +24,10 @@ class ArticleRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'body' => ['required', 'max:500', 'not_regex:/<\/*script>/u'],
-            'tags' => ['json', 'regex:/^(?!.*\s).+$/u', 'regex:/^(?!.*\/).*$/u'],
+            'body'       => ['required', 'max:500', 'not_regex:/<\/*script>/u'],
+            'tags'       => ['json', 'regex:/^(?!.*\s).+$/u', 'regex:/^(?!.*\/).*$/u'],
+            'user_id'    => ['required', 'integer'],
+            'ip_address' => ['nullable', 'ip'],
         ];
     }
 
@@ -44,6 +46,17 @@ class ArticleRequest extends FormRequest
         ];
     }
 
+    protected function prepareForValidation()
+    {
+        $this->merge([
+            'user_id'    => auth()->user()->id,
+            'ip_address' => $this->ip(),
+        ]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function passedValidation()
     {
         $this->tags = collect(json_decode($this->tags))
