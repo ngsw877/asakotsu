@@ -13,7 +13,8 @@ class UserService implements UserServiceInterface
 
     public function __construct(
         UserRepositoryInterface $userRepository
-    ) {
+    )
+    {
         $this->userRepository = $userRepository;
     }
 
@@ -62,9 +63,7 @@ class UserService implements UserServiceInterface
     {
         $user = $article->user;
 
-        $isAchievedEarlyRising = $user->wake_up_time->copy()->subHour($user->range_of_success) <= $article->created_at
+        return $user->wake_up_time->copy()->subHour($user->range_of_success) <= $article->created_at
             && $article->created_at <= $user->wakeup_time;
-
-        return $isAchievedEarlyRising;
     }
 }

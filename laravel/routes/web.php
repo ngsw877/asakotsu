@@ -39,12 +39,6 @@ Route::prefix('users')->name('users.')->group(function () {
     Route::get('/{name}/followers', 'UserController@followers')->name('followers');
 });
 
-# テスト用ルーティング
-Route::get('/test', function () {
-    return view('test');
-});
-
-
 ### ログイン状態で使用可能 ###
 Route::group(['middleware' => 'auth'], function () {
 

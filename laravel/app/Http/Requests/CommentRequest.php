@@ -24,8 +24,10 @@ class CommentRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'article_id' => 'required|integer',
-            'comment' => 'required|string|max:250'
+            'article_id' => ['required', 'integer'],
+            'comment'    => ['required', 'string', 'max:250'],
+            'user_id'    => ['required', 'integer'],
+            'ip_address' => ['nullable', 'ip'],
         ];
     }
 
@@ -33,7 +35,7 @@ class CommentRequest extends FormRequest
     {
         return [
             'article_id' => '投稿ID',
-            'comment' => 'コメント'
+            'comment'    => 'コメント'
         ];
     }
 
@@ -42,5 +44,16 @@ class CommentRequest extends FormRequest
         return [
             'comment.required' => 'コメントは必ず入力してください。',
         ];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function prepareForValidation(): void
+    {
+        $this->merge([
+            'user_id'    => auth()->id(),
+            'ip_address' => $this->ip(),
+        ]);
     }
 }

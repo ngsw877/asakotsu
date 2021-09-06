@@ -4,8 +4,8 @@ namespace App\Services\Article;
 
 use App\Http\Requests\ArticleRequest;
 use App\Models\Article;
-use App\Models\Tag;
 use App\Repositories\Article\ArticleRepositoryInterface;
+use Illuminate\Support\Collection;
 
 class ArticleService implements ArticleServiceInterface
 {
@@ -20,14 +20,10 @@ class ArticleService implements ArticleServiceInterface
     /**
      * {@inheritDoc}
      */
-    public function create(ArticleRequest $request): Article
+    public function create(array $articleRecord, Collection $tags): Article
     {
-        $user = $request->user();
-        $articleRecord = $request->validated() + ['ip_address' => $request->ip()];
+        $article = $this->articleRepository->create($articleRecord);
 
-        $article = $this->articleRepository->create($articleRecord, $user);
-
-        $tags = $request->tags;
         $this->articleRepository->attachTags($article, $tags);
 
         return $article;

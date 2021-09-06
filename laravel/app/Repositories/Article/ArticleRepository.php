@@ -19,9 +19,9 @@ class ArticleRepository implements ArticleRepositoryInterface
     /**
      * {@inheritDoc}
      */
-    public function create(array $articleRecord, User $user): Article
+    public function create(array $articleRecord): Article
     {
-        $article = $user->articles()
+        $article = $this->article
             ->create($articleRecord);
 
         return $article;

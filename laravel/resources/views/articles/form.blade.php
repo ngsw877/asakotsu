@@ -8,5 +8,5 @@
 </div>
 <div class="form-group">
   <label></label>
-  <textarea name="body" class="form-control" rows="8" placeholder="本文">{{ $article->body ?? old('body') }}</textarea>
+  <textarea name="body" class="form-control" rows="8" placeholder="メッセージを入力してください。Youtubeの動画も埋め込めます。">{{ $article->body ?? old('body') }}</textarea>
 </div>

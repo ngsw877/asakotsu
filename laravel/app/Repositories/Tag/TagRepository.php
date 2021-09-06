@@ -27,6 +27,14 @@ class TagRepository implements TagRepositoryInterface
     /**
      * {@inheritDoc}
      */
+    public function getAll(): Collection
+    {
+        return $this->tag->all();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function getMainTags(): Collection
     {
         return $this->tag
