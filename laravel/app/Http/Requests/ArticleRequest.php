@@ -46,7 +46,10 @@ class ArticleRequest extends FormRequest
         ];
     }
 
-    protected function prepareForValidation()
+    /**
+     * {@inheritdoc}
+     */
+    protected function prepareForValidation(): void
     {
         $this->merge([
             'user_id'    => auth()->id(),
@@ -57,7 +60,7 @@ class ArticleRequest extends FormRequest
     /**
      * {@inheritdoc}
      */
-    public function passedValidation()
+    public function passedValidation(): void
     {
         $this->tags = collect(json_decode($this->tags))
             ->slice(0, 5)

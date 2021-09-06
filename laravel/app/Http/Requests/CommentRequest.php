@@ -46,7 +46,10 @@ class CommentRequest extends FormRequest
         ];
     }
 
-    protected function prepareForValidation()
+    /**
+     * {@inheritdoc}
+     */
+    protected function prepareForValidation(): void
     {
         $this->merge([
             'user_id'    => auth()->id(),
