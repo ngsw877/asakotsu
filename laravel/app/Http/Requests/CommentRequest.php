@@ -26,6 +26,8 @@ class CommentRequest extends FormRequest
         return [
             'article_id' => ['required', 'integer'],
             'comment'    => ['required', 'string', 'max:250'],
+            'user_id'    => ['required', 'integer'],
+            'ip_address' => ['nullable', 'ip'],
         ];
     }
 
@@ -42,5 +44,13 @@ class CommentRequest extends FormRequest
         return [
             'comment.required' => 'コメントは必ず入力してください。',
         ];
+    }
+
+    protected function prepareForValidation()
+    {
+        $this->merge([
+            'user_id'    => auth()->user()->id,
+            'ip_address' => $this->ip(),
+        ]);
     }
 }

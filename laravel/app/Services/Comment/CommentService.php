@@ -18,10 +18,8 @@ class CommentService implements CommentServiceInterface
     /**
      * {@inheritDoc}
      */
-    public function create(array $commentRecord, User $user): void
+    public function create(array $commentRecord): void
     {
-        $commentRecord['user_id'] = $user->id;
-
         $this->commentRepository->create($commentRecord);
     }
 }

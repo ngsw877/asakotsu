@@ -27,10 +27,9 @@ class CommentController extends Controller
         // 二重送信対策
         $request->session()->regenerateToken();
 
-        $user = auth()->user();
-        $commentRecord = $request->validated() + ['ip_address' => $request->ip()];
+        $commentRecord = $request->validated();
 
-        $this->commentService->create($commentRecord, $user);
+        $this->commentService->create($commentRecord);
         toastr()->success('コメントを投稿しました');
 
         return back();
