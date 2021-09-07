@@ -171,8 +171,11 @@ class ArticleController extends Controller
      */
     public function update(ArticleRequest $request, Article $article): RedirectResponse
     {
-        return DB::transaction(function () use ($request, $article) {
-            $this->articleService->update($request, $article);
+        $articleRecord = $request->validated();
+        $tags = $request->tags;
+
+        return DB::transaction(function () use ($article, $articleRecord, $tags) {
+            $this->articleService->update($article, $articleRecord, $tags);
 
             toastr()->success('投稿を更新しました');
 

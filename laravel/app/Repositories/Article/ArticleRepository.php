@@ -30,7 +30,7 @@ class ArticleRepository implements ArticleRepositoryInterface
     /**
      * {@inheritDoc}
      */
-    public function update(array $articleRecord, Article $article): Article
+    public function update(Article $article, array $articleRecord): Article
     {
         $article->fill($articleRecord)->save();
 

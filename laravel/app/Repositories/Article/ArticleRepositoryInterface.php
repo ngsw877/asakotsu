@@ -19,11 +19,11 @@ interface ArticleRepositoryInterface
     /**
      * ユーザーの投稿と、投稿のタグを更新
      *
-     * @param array $articleRecord
      * @param Article $article
+     * @param array $articleRecord
      * @return Article
      */
-    public function update(array $articleRecord, Article $article): Article;
+    public function update(Article $article, array $articleRecord): Article;
 
     /**
      * ユーザーの投稿にタグを登録する
