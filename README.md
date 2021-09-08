@@ -84,11 +84,15 @@ https://qiita.com/nasuB7373/items/0e507abad2017976c407
 
 ## 機能一覧
 
-* __ユーザー登録関連__
+* __一般ユーザー登録関連__
   * アカウント新規登録、プロフィール編集機能、アカウント削除（論理削除）
   * パスワード変更
   * ログイン、ログアウト機能
   * かんたんログイン機能（ゲストユーザーログイン）
+
+* __管理者ユーザー関連（実装中）__
+  * 管理者ユーザーでのログイン、ログアウト
+ 
 
 * __ZoomAPI連携__
     * 朝活Zoomミーティング機能(CRUD)
@@ -142,13 +146,14 @@ https://qiita.com/nasuB7373/items/0e507abad2017976c407
 ## DB設計
 
 ### ER図
-![AsaKotsu_ERD](https://user-images.githubusercontent.com/58071320/96544796-34a3f000-12e2-11eb-9dd6-c6a9f8ad9c9c.png)
+![AsaKotsu_ERD](https://user-images.githubusercontent.com/58071320/132526765-3cf6733f-b263-4051-86e9-de32d0000602.png)
 
 
 ### 各テーブルについて
 | テーブル名 | 説明 |
 |:-:|:-:|
-| users  | 登録ユーザー情報  |
+| users  | 一般ユーザー情報  |
+| admins  | 管理者ユーザー情報  |
 |  follows | フォロー中/フォロワーのユーザー情報  |
 | achievement_days  | ユーザーが早起き達成した日付を、履歴として管理  |
 | meetings  | ユーザーが作成したZoomミーティング情報  |
