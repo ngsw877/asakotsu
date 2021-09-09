@@ -48,12 +48,11 @@ class SoftDeleteUser extends Command
         $userName = $this->argument('userName');
 
         return DB::transaction(function () use ($userName) {
-           $user = $this->userService->delete($userName);
+            $user = $this->userService->delete($userName);
 
             echo 'アカウント「' . $user->name . '」を論理削除しました。' . PHP_EOL;
 
             return 0;
         });
-
     }
 }

@@ -10,5 +10,4 @@ interface CommentRepositoryInterface
      * @param array $commentRecord
      */
     public function create(array $commentRecord): void;
-
 }

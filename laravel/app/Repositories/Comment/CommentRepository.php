@@ -21,5 +21,4 @@ class CommentRepository implements CommentRepositoryInterface
     {
         $this->comment->create($commentRecord);
     }
-
 }

@@ -12,8 +12,7 @@ class TagService implements TagServiceInterface
 
     public function __construct(
         TagRepositoryInterface $tagRepository
-    )
-    {
+    ) {
         $this->tagRepository = $tagRepository;
     }
 
@@ -38,5 +37,4 @@ class TagService implements TagServiceInterface
             return ['text' => $tag->name];
         });
     }
-
 }

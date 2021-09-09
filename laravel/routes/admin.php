@@ -14,7 +14,5 @@ Route::prefix('admin')->name('admin.')->namespace('Admin')->group(function () {
 
         // TOPページ
         Route::get('home', 'HomeController@index')->name('home');
-
     });
-
 });
