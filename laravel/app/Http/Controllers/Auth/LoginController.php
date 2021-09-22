@@ -37,7 +37,7 @@ class LoginController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest')->except('logout');
+        $this->middleware('guest:user')->except('logout');
     }
 
     /**
@@ -83,5 +83,14 @@ class LoginController extends Controller
         // フラッシュメッセージを表示
         toastr()->success('ログアウトしました');
         return redirect($this->redirectTo);
+    }
+
+    /**
+     * Guardの認証方法を指定
+     * {@inheritdoc}
+     */
+    protected function guard()
+    {
+        return Auth::guard('user');
     }
 }
