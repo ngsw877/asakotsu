@@ -3,6 +3,7 @@
 namespace Tests\Feature\Controllers;
 
 use App\Models\User;
+use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -69,5 +70,37 @@ class LoginControllerTest extends TestCase
                 ->post($loginUrl, $postData)
                 ->assertSee('ログイン情報が登録されていません。');
         }
+    }
+
+    /**
+     * 一般ユーザーでログインできる
+     */
+    public function testLogin()
+    {
+        $this->withoutExceptionHandling();
+
+        $loginUrl = 'login';
+
+        $postData = [
+            'email'    => 'aaa@example.com',
+            'password' => 'Test1234',
+        ];
+
+        $dbData = [
+            'email'    => 'aaa@example.com',
+            'password' => bcrypt('Test1234'),
+        ];
+
+        $user = factory(User::class)->create($dbData);
+
+        // ログインに成功したら、ホーム画面に遷移すべき
+        $this->post($loginUrl, $postData)
+            ->assertRedirect(RouteServiceProvider::HOME);
+
+        $this->assertAuthenticatedAs($user);
+
+        // ログイン後にログイン画面にアクセスしようとすると、ホーム画面にリダイレクトされるべき
+        $this->get($loginUrl)
+            ->assertRedirect(RouteServiceProvider::HOME);
     }
 }
