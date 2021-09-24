@@ -32,12 +32,15 @@ class LoginControllerTest extends TestCase
         $loginUrl = 'login';
 
         $this->from($loginUrl)
-            ->post($loginUrl, [])
+            ->post($loginUrl, [
+                'email'    => '',
+                'password' => '',
+            ])
+            ->assertSessionHasErrors([
+                'email'    => 'メールアドレスは必ず指定してください。',
+                'password' => 'パスワードは必ず指定してください。',
+            ])
             ->assertRedirect($loginUrl);
-
-        $this->post($loginUrl, ['email' => ''])->assertSessionHasErrors(['email' => 'メールアドレスは必ず指定してください。']);
-        $this->post($loginUrl, ['password' => ''])->assertSessionHasErrors(['password' => 'パスワードは必ず指定してください。']);
-
 
         // DBに登録されていないメールアドレス・パスワードを入力してログインしようとすると、バリデーションエラーが発生することをテスト
         $dbData = [
