@@ -108,4 +108,30 @@ class LoginControllerTest extends TestCase
         $this->get($this->loginUrl)
             ->assertRedirect(RouteServiceProvider::HOME);
     }
+
+    /**
+     * かんたんログインできる
+     */
+    public function testGuestLogin()
+    {
+        // ゲストログイン用のユーザーを作成
+        factory(User::class)->create([
+            'id'       => config('user.guest_user.id'),
+            'name'     => config('user.guest_user.name'),
+            'email'    => config('user.guest_user.email'),
+            'password' => bcrypt(config('user.guest_user.password')),
+        ]);
+
+        // かんたんログインに成功したら、ホーム画面に遷移すべき
+        $this->get(route('guest.login'))
+            ->assertRedirect(RouteServiceProvider::HOME);
+
+        // フラッシュメッセージをチェック
+        $this->get(route('articles.index'))
+            ->assertSee('ゲストユーザーでログインしました');
+
+        // ログイン後にログイン画面にアクセスしようとすると、ホーム画面にリダイレクトされるべき
+        $this->get($this->loginUrl)
+            ->assertRedirect(RouteServiceProvider::HOME);
+    }
 }
