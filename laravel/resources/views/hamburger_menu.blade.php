@@ -26,7 +26,7 @@
     </li>
 
     <li class="bg-default rounded">
-      <a class="waves-effect waves-light modal-link" href="{{ route('login.guest') }}">
+      <a class="waves-effect waves-light modal-link" href="{{ route('guest.login') }}">
         <i class="fas fa-user-check mr-1"></i>
         かんたんログイン
       </a>

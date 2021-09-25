@@ -15,7 +15,7 @@
 Auth::routes();
 
 # ゲストユーザーログイン
-Route::get('guest', 'Auth\LoginController@guestLogin')->name('login.guest');
+Route::get('guest_login', 'Auth\LoginController@guestLogin')->name('guest.login');
 
 # ユーザー投稿関係(index, show)
 Route::get('/', 'ArticleController@index')->name('articles.index');
