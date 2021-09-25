@@ -98,6 +98,10 @@ class LoginControllerTest extends TestCase
         $this->post($this->loginUrl, $postData)
             ->assertRedirect(RouteServiceProvider::HOME);
 
+        // フラッシュメッセージをチェック
+        $this->get(route('articles.index'))
+            ->assertSee('ログインしました');
+
         $this->assertAuthenticatedAs($user);
 
         // ログイン後にログイン画面にアクセスしようとすると、ホーム画面にリダイレクトされるべき
