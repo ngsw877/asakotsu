@@ -102,6 +102,7 @@ class LoginControllerTest extends TestCase
         $this->get(route('articles.index'))
             ->assertSee('ログインしました');
 
+        // 指定したユーザーが認証されているべき
         $this->assertAuthenticatedAs($user);
 
         // ログイン後にログイン画面にアクセスしようとすると、ホーム画面にリダイレクトされるべき
@@ -150,7 +151,7 @@ class LoginControllerTest extends TestCase
         $this->get(route('articles.index'))
             ->assertSee('ログアウトしました');
 
-        // ユーザーが認証されていない
+        // ユーザーが認証されていないべき
         $this->assertGuest();
     }
 }
