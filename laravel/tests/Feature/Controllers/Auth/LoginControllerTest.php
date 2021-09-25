@@ -134,4 +134,23 @@ class LoginControllerTest extends TestCase
         $this->get($this->loginUrl)
             ->assertRedirect(RouteServiceProvider::HOME);
     }
+
+    /**
+     * ログアウトできる
+     */
+    public function testLogout()
+    {
+        $this->login();
+
+        // ログアウトに成功したら、ホーム画面に遷移すべき
+        $this->post(route('logout'))
+            ->assertRedirect(RouteServiceProvider::HOME);
+
+        // フラッシュメッセージをチェック
+        $this->get(route('articles.index'))
+            ->assertSee('ログアウトしました');
+
+        // ユーザーが認証されていない
+        $this->assertGuest();
+    }
 }
