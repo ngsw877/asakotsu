@@ -6,6 +6,7 @@ use App\Models\Article;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\Request;
 use Tests\TestCase;
 
 class ArticleControllerTest extends TestCase
@@ -94,26 +95,22 @@ class ArticleControllerTest extends TestCase
      */
     public function testStore()
     {
-        // テストデータをDBに保存
         $user = factory(User::class)->create();
 
-        $body = "テスト本文";
-        $user_id = $user->id;
+        $this->login($user);
 
-        $response = $this->actingAs($user)
-            ->post(route(
-                'articles.store',
-                [
-                    'body'    => $body,
-                    'user_id' => $user_id,
-                ]
-            ));
+        // 正常な投稿データ
+        $validData = [
+            'body'       => 'テスト投稿です',
+            'user_id'    => $user->id,
+            'ip_address' => Request::ip(),
+        ];
 
-        // テストデータがDBに登録されているかテスト
-        $this->assertDatabaseHas('articles', [
-            'body'    => $body,
-            'user_id' => $user_id
-        ]);
+        // 新規投稿
+        $response = $this->post(route('articles.store'), $validData);
+
+        // articlesテーブルに、POSTしたデータが登録されているべき
+        $this->assertDatabaseHas('articles', $validData);
 
         $response->assertRedirect(route('articles.index'));
     }
@@ -139,7 +136,6 @@ class ArticleControllerTest extends TestCase
     {
         $this->withoutExceptionHandling();
 
-        // ユーザーのテストデータを作成
         $user = factory(User::class)->create();
 
         $this->login($user);
