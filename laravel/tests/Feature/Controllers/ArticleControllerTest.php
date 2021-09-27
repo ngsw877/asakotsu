@@ -12,9 +12,40 @@ class ArticleControllerTest extends TestCase
 {
     use RefreshDatabase;
 
-    ### 投稿一覧表示機能のテスト ###
+    private string $loginUrl = 'login';
 
-    // 未ログイン時
+    /**
+     * 未ログインのユーザーはリダイレクトされるべき
+     */
+    public function testGuestRedirect()
+    {
+        $article = factory(Article::class)->create();
+
+        // 新規投稿画面の表示
+        $this->get(route('articles.create'))
+            ->assertRedirect($this->loginUrl);
+
+        // 新規投稿処理
+        $this->post(route('articles.store'))
+            ->assertRedirect($this->loginUrl);
+
+        // 編集画面の表示
+        $this->get(route('articles.edit', compact('article')))
+            ->assertRedirect($this->loginUrl);
+
+        // 投稿の更新処理
+        $this->patch(route('articles.update', compact('article')))
+            ->assertRedirect($this->loginUrl);
+
+        // 投稿の削除処理
+        $this->delete(route('articles.destroy', compact('article')))
+            ->assertRedirect($this->loginUrl);
+    }
+
+    /**
+     * 投稿一覧画面が開ける
+     * （未ログイン時用）
+     */
     public function testGuestIndex()
     {
         $response = $this->get(route('articles.index'));
@@ -26,7 +57,10 @@ class ArticleControllerTest extends TestCase
         ->assertSee('かんたんログイン');
     }
 
-    // ログイン時
+    /**
+     * 投稿一覧画面が開ける
+     * （ログイン時用）
+     */
     public function testAuthIndex()
     {
         $user = factory(User::class)->create();
@@ -41,19 +75,10 @@ class ArticleControllerTest extends TestCase
         ->assertSee('新規投稿');
     }
 
-
-    ### 投稿画面表示機能のテスト ###
-
-    // 未ログイン時
-    public function testGuestCreate()
-    {
-        $response = $this->get(route('articles.create'));
-
-        $response->assertRedirect('login');
-    }
-
-    // ログイン時
-    public function testAuthCreate()
+    /**
+     * 新規投稿画面が開ける
+     */
+    public function testCreate()
     {
         $user = factory(User::class)->create();
 
@@ -64,19 +89,10 @@ class ArticleControllerTest extends TestCase
         ->assertViewIs('articles.create');
     }
 
-
-    ### 投稿機能のテスト ###
-
-    // 未ログイン時
-    public function testGuestStore()
-    {
-        $response = $this->post(route('articles.store'));
-
-        $response->assertRedirect('login');
-    }
-
-    // ログイン時
-    public function testAuthStore()
+    /**
+     * 新規投稿ができる
+     */
+    public function testStore()
     {
         // テストデータをDBに保存
         $user = factory(User::class)->create();
@@ -102,19 +118,10 @@ class ArticleControllerTest extends TestCase
         $response->assertRedirect(route('articles.index'));
     }
 
-    ### 投稿の編集画面 表示機能のテスト ###
-
-    // 未ログイン時
-    public function testGuestEdit()
-    {
-        $article = factory(Article::class)->create();
-
-        $response = $this->get(route('articles.edit', ['article' => $article]));
-        $response->assertRedirect(route('login'));
-    }
-
-    // ログイン時
-    public function testAuthEdit()
+    /**
+     * 投稿の編集画面を開ける
+     */
+    public function testEdit()
     {
         $this->withoutExceptionHandling();
         $article = factory(Article::class)->create();
@@ -125,7 +132,9 @@ class ArticleControllerTest extends TestCase
         $response->assertStatus(200)->assertViewIs('articles.edit');
     }
 
-    ### 投稿削除機能のテスト ###
+    /**
+     * 投稿を削除できる
+     */
     public function testDestroy()
     {
         $this->withoutExceptionHandling();
