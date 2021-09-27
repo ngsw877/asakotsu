@@ -95,9 +95,7 @@ class ArticleControllerTest extends TestCase
      */
     public function testStore()
     {
-        $user = factory(User::class)->create();
-
-        $this->login($user);
+        $user = $this->login();
 
         // 正常な投稿データ
         $validData = [
@@ -136,9 +134,7 @@ class ArticleControllerTest extends TestCase
     {
         $this->withoutExceptionHandling();
 
-        $user = factory(User::class)->create();
-
-        $this->login($user);
+        $user = $this->login();
 
         // 投稿のテストデータを作成
         $article = factory(Article::class)->create([
