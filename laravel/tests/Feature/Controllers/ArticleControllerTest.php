@@ -51,10 +51,10 @@ class ArticleControllerTest extends TestCase
         $response = $this->get(route('articles.index'));
 
         $response->assertStatus(200)
-        ->assertViewIs('articles.index')
-        ->assertSee('ユーザー登録')
-        ->assertSee('ログイン')
-        ->assertSee('かんたんログイン');
+            ->assertViewIs('articles.index')
+            ->assertSee('ユーザー登録')
+            ->assertSee('ログイン')
+            ->assertSee('かんたんログイン');
     }
 
     /**
@@ -66,13 +66,13 @@ class ArticleControllerTest extends TestCase
         $user = factory(User::class)->create();
 
         $response = $this->actingAs($user)
-        ->get(route('articles.index'));
+            ->get(route('articles.index'));
 
         $response->assertStatus(200)
-        ->assertViewIs('articles.index')
-        ->assertSee('投稿する')
-        ->assertSee($user->name . 'さん')
-        ->assertSee('新規投稿');
+            ->assertViewIs('articles.index')
+            ->assertSee('投稿する')
+            ->assertSee($user->name . 'さん')
+            ->assertSee('新規投稿');
     }
 
     /**
@@ -83,10 +83,10 @@ class ArticleControllerTest extends TestCase
         $user = factory(User::class)->create();
 
         $response = $this->actingAs($user)
-        ->get(route('articles.create'));
+            ->get(route('articles.create'));
 
         $response->assertStatus(200)
-        ->assertViewIs('articles.create');
+            ->assertViewIs('articles.create');
     }
 
     /**
@@ -101,17 +101,17 @@ class ArticleControllerTest extends TestCase
         $user_id = $user->id;
 
         $response = $this->actingAs($user)
-        ->post(route(
-            'articles.store',
-            [
-            'body' => $body,
-            'user_id' => $user_id,
-            ]
-        ));
+            ->post(route(
+                'articles.store',
+                [
+                    'body'    => $body,
+                    'user_id' => $user_id,
+                ]
+            ));
 
         // テストデータがDBに登録されているかテスト
         $this->assertDatabaseHas('articles', [
-            'body' => $body,
+            'body'    => $body,
             'user_id' => $user_id
         ]);
 
@@ -139,24 +139,24 @@ class ArticleControllerTest extends TestCase
     {
         $this->withoutExceptionHandling();
 
-        // テストデータをDBに保存
+        // ユーザーのテストデータを作成
         $user = factory(User::class)->create();
 
-        $body = "テスト本文";
-        $user_id = $user->id;
+        $this->login($user);
 
-        $article = Article::create([
-            'body' => $body,
+        // 投稿のテストデータを作成
+        $article = factory(Article::class)->create([
             'user_id' => $user->id,
-            ]);
+        ]);
 
-        // DBからテストデータを削除
-        $response = $this->actingAs($user)->delete(route('articles.destroy', ['article' => $article]));
+        $response = $this->delete(route('articles.destroy', compact('article')));
 
-        // テストデータがDBから削除されているかテスト
+        // 投稿のテストデータがDBから削除(論理削除)されているべき
         $this->assertSoftDeleted('articles', [
-            'body' => $body,
-            'user_id' => $user_id
+            'id'         => $article->id,
+            'body'       => $article->body,
+            'user_id'    => $article->user_id,
+            'ip_address' => $article->ip_address,
         ]);
 
         $response->assertRedirect(route('articles.index'));
