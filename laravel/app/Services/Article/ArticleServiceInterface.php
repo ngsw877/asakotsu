@@ -22,8 +22,9 @@ interface ArticleServiceInterface
      * ユーザーの投稿を更新する
      * 投稿に登録されたタグも更新
      *
-     * @param ArticleRequest $request
      * @param Article $article
+     * @param array $articleRecord
+     * @param Collection $tags
      */
-    public function update(ArticleRequest $request, Article $article): void;
+    public function update(Article $article, array $articleRecord, Collection $tags): void;
 }

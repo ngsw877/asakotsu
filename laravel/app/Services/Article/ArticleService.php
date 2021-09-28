@@ -32,13 +32,10 @@ class ArticleService implements ArticleServiceInterface
     /**
      * {@inheritDoc}
      */
-    public function update(ArticleRequest $request, Article $article): void
+    public function update(Article $article, array $articleRecord, Collection $tags): void
     {
-        $articleRecord = $request->validated();
+        $article = $this->articleRepository->update($article, $articleRecord);
 
-        $article = $this->articleRepository->update($articleRecord, $article);
-
-        $tags = $request->tags;
         $this->articleRepository->attachTags($article, $tags);
     }
 }

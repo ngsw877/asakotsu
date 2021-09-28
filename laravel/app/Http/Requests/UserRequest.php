@@ -27,7 +27,6 @@ class UserRequest extends FormRequest
     {
         // ゲストユーザーログイン時に、ユーザー名とメールアドレスを変更できないよう対策
         if (Auth::id() == config('user.guest_user.id')) {
-
             return [
                 'profile_image'     => ['file', 'mimes:jpeg,png,jpg,bmb', 'max:2048'],
                 'self_introduction' => ['string', 'max:200', 'nullable'],

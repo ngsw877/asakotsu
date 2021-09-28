@@ -7,7 +7,6 @@ use Illuminate\Support\Collection;
 
 interface TagServiceInterface
 {
-
     /**
      * 全てのタグ名をCollectionで取得
      *

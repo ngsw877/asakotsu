@@ -36,7 +36,7 @@
                   <button class="btn peach-gradient" type="submit" text-while>
                     ログイン
                   </button>
-                  <a href="{{ route('login.guest') }}" class="btn btn-default p-3">
+                  <a href="{{ route('guest.login') }}" class="btn btn-default p-3">
                     かんたんログイン
                   </a>
                 </div>

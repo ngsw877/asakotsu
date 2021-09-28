@@ -29,7 +29,8 @@ class UserController extends Controller
         User $user,
         UserServiceInterface $userService,
         UserRepositoryInterface $userRepository
-    ) {
+    )
+    {
         $this->user = $user;
         $this->userService = $userService;
         $this->userRepository = $userRepository;
@@ -126,16 +127,16 @@ class UserController extends Controller
      */
     public function destroy(string $name)
     {
-        return DB::transaction(function () use ($name) {
+        DB::transaction(function () use ($name) {
             $user = $this->userService->delete($name);
 
             // UserPolicyのdeleteメソッドでアクセス制限
             $this->authorize('delete', $user);
-
-            toastr()->success('退会処理が完了しました');
-
-            return redirect()->route('articles.index');
         });
+
+        toastr()->success('退会処理が完了しました');
+
+        return redirect()->route('articles.index');
     }
 
     /**

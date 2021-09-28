@@ -5,9 +5,16 @@ namespace App\Http\Controllers\Zoom;
 use App\Client\ZoomJwtClient;
 use App\Models\Meeting;
 use App\Http\Controllers\Controller;
+use Exception;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use App\Http\Requests\MeetingRequest;
 use Carbon\CarbonImmutable;
+use Illuminate\View\View;
+use Throwable;
 
 class MeetingController extends Controller
 {
@@ -92,6 +99,13 @@ class MeetingController extends Controller
         \Log::info('過去のミーティングがあるかをチェックするバッチ処理が正常終了しました。');
     }
 
+    /**
+     * Zoomミーティング一覧画面を表示
+     *
+     * @param Request $request
+     * @return Application|Factory|JsonResponse|View
+     * @throws Throwable
+     */
     public function index(Request $request)
     {
         // ミーティングをキーワードで検索
@@ -114,11 +128,24 @@ class MeetingController extends Controller
             ]);
     }
 
+    /**
+     * Zoomミーティング作成画面を表示
+     *
+     * @return Application|Factory|View
+     */
     public function create()
     {
         return view('meetings.create');
     }
 
+    /**
+     * Zoomミーティングを新規作成
+     * ZoomAPIにリクエストを送ってZoomのURLを取得し、ミーティング情報をDBにも登録
+     *
+     * @param MeetingRequest $request
+     * @param Meeting $meeting
+     * @return Application|Factory|RedirectResponse|View
+     */
     public function store(MeetingRequest $request, Meeting $meeting)
     {
         // 二重送信対策
@@ -156,6 +183,14 @@ class MeetingController extends Controller
         return view('errors.meeting', ['method' => '作成']);
     }
 
+    /**
+     * Zoomミーティングを削除
+     * ZoomAPIにリクエストを送ってZoomミーティングを削除し、ミーティング情報をDBからも削除
+     *
+     * @param Meeting $meeting
+     * @return Application|Factory|RedirectResponse|View
+     * @throws Exception
+     */
     public function destroy(Meeting $meeting)
     {
         // ZoomAPIにミーティング削除のリクエスト
@@ -179,11 +214,25 @@ class MeetingController extends Controller
         return view('errors.meeting', ['method' => '削除']);
     }
 
+    /**
+     * Zoomミーティング編集画面を表示
+     *
+     * @param Meeting $meeting
+     * @return Application|Factory|View
+     */
     public function edit(Meeting $meeting)
     {
         return view('meetings.edit', ['meeting' => $meeting]);
     }
 
+    /**
+     * Zoomミーティングを更新
+     * ZoomAPIにリクエストを送ってZoomミーティングを更新し、DBのミーティング情報も更新
+     *
+     * @param MeetingRequest $request
+     * @param Meeting $meeting
+     * @return Application|Factory|RedirectResponse|View
+     */
     public function update(MeetingRequest $request, Meeting $meeting)
     {
         // ZoomAPIにミーティング更新のリクエスト
