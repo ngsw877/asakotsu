@@ -64,10 +64,9 @@ class ArticleControllerTest extends TestCase
      */
     public function testAuthIndex()
     {
-        $user = factory(User::class)->create();
+        $user = $this->login();
 
-        $response = $this->actingAs($user)
-            ->get(route('articles.index'));
+        $response = $this->get(route('articles.index'));
 
         $response->assertStatus(200)
             ->assertViewIs('articles.index')
@@ -81,10 +80,9 @@ class ArticleControllerTest extends TestCase
      */
     public function testCreate()
     {
-        $user = factory(User::class)->create();
+        $this->login();
 
-        $response = $this->actingAs($user)
-            ->get(route('articles.create'));
+        $response = $this->get(route('articles.create'));
 
         $response->assertStatus(200)
             ->assertViewIs('articles.create');
@@ -119,12 +117,19 @@ class ArticleControllerTest extends TestCase
     public function testEdit()
     {
         $this->withoutExceptionHandling();
-        $article = factory(Article::class)->create();
-        $user = $article->user;
 
-        $response = $this->actingAs($user)->get(route('articles.edit', ['article' => $article]));
+        $user = $this->login();
 
-        $response->assertStatus(200)->assertViewIs('articles.edit');
+        // 投稿のテストデータを作成
+        $article = factory(Article::class)->create([
+            'user_id' => $user->id,
+        ]);
+
+        $response = $this->get(route('articles.edit', ['article' => $article]));
+
+        $response->assertStatus(200)
+            ->assertViewIs('articles.edit')
+            ->assertSee($article->body);
     }
 
     /**
