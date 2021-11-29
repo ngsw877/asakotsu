@@ -8,7 +8,7 @@ COPY --from=node:10.22 /usr/local/bin /usr/local/bin
 COPY --from=node:10.22 /usr/local/lib /usr/local/lib
 
 #パッケージ管理ツールapt-getの更新と必要パッケージのインストール
-RUN apt-get update \
+RUN apt-get update --allow-releaseinfo-change \
 && apt-get install -y \
 git \
 zip \

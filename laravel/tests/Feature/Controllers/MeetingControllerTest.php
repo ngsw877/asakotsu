@@ -12,14 +12,26 @@ class MeetingControllerTest extends TestCase
 {
     use RefreshDatabase;
 
-    ### ミーティング一覧表示機能のテスト ###
+    private string $loginUrl = 'login';
 
-    // 未ログイン時
-    public function testGuestIndex()
+    /**
+     * 未ログインのユーザーはリダイレクトされるべき
+     */
+    public function testGuestRedirect()
     {
-        $response = $this->get(route('meetings.index'));
+        $meeting = factory(Meeting::class)->create();
 
-        $response->assertRedirect(route('login'));
+        // ミーティング一覧画面の表示
+        $this->get(route('meetings.index'))
+            ->assertRedirect($this->loginUrl);
+
+        // ミーティング作成画面の表示
+        $this->get(route('meetings.create'))
+            ->assertRedirect($this->loginUrl);
+
+        // ミーティング編集画面の表示
+        $this->get(route('meetings.edit', compact('meeting')))
+            ->assertRedirect(route($this->loginUrl));
     }
 
     // ログイン時
@@ -28,20 +40,10 @@ class MeetingControllerTest extends TestCase
         $user = factory(User::class)->create();
 
         $response = $this->actingAs($user)
-        ->get(route('meetings.index'));
+            ->get(route('meetings.index'));
 
         $response->assertStatus(200)
-        ->assertViewIs('meetings.index');
-    }
-
-    ### ミーティング投稿画面 表示機能のテスト ###
-
-    // 未ログイン時
-    public function testGuestCreate()
-    {
-        $response = $this->get(route('meetings.create'));
-
-        $response->assertRedirect(route('login'));
+            ->assertViewIs('meetings.index');
     }
 
     // ログイン時
@@ -50,21 +52,10 @@ class MeetingControllerTest extends TestCase
         $user = factory(User::class)->create();
 
         $response = $this->actingAs($user)
-        ->get(route('meetings.create'));
+            ->get(route('meetings.create'));
 
         $response->assertStatus(200)
-        ->assertViewIs('meetings.create');
-    }
-
-    ### 投稿の編集画面 表示機能のテスト ###
-
-    // 未ログイン時
-    public function testGuestEdit()
-    {
-        $meeting = factory(Meeting::class)->create();
-
-        $response = $this->get(route('meetings.edit', ['meeting' => $meeting]));
-        $response->assertRedirect(route('login'));
+            ->assertViewIs('meetings.create');
     }
 
     // ログイン時
