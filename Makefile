@@ -54,4 +54,8 @@ clear-cache:
 	docker-compose exec app php artisan view:clear
 	docker-compose exec app php artisan cache:clear
 
+.PHONY: chrome
+chrome:
+	open -a 'Google Chrome' http://localhost:8000/
+
 
